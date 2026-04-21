@@ -1,0 +1,13 @@
+name = "lunch-and-learn"
+compatibility_date = "2025-07-15"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = "dist"
+
+# Local dev + `wrangler pages dev dist` uses this binding.
+# For the deployed Pages project, bind STORYBLOK_CACHE to real KV namespaces
+# via the Cloudflare dashboard (Pages → Settings → Functions → KV bindings).
+# The ids below are only used locally when running `wrangler pages dev`.
+[[kv_namespaces]]
+binding = "STORYBLOK_CACHE"
+id = "REPLACE_WITH_PROD_KV_ID"
+preview_id = "REPLACE_WITH_PREVIEW_KV_ID"
