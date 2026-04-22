@@ -2,13 +2,36 @@ name = "lunch-and-learn"
 compatibility_date = "2025-07-15"
 pages_build_output_dir = "dist"
 
-# KV bindings for this project live in the Cloudflare dashboard:
-#   Pages project → Settings → Bindings → KV namespace
-#   Variable name: STORYBLOK_CACHE
+# ---------------------------------------------------------------------------
+# Env vars & secrets are NOT declared here.
 #
-# If you prefer config-as-code, uncomment and paste the real namespace IDs
-# (from Storage & Databases → KV → your namespace → "ID"). Cloudflare will
-# then use these instead of any dashboard binding for the same variable.
+# Because this file exists, Cloudflare manages plaintext vars from wrangler
+# config and only allows Secrets in the dashboard. We lean into that: all
+# eight runtime values are added as Secrets in the Pages dashboard
+# (Settings → Variables and Secrets). That keeps the repo free of any
+# deployment-specific values so forks can wire their own.
+#
+# Required Secrets (set for both Production and Preview):
+#   STORYBLOK_TOKEN
+#   STORYBLOK_WEBHOOK_SECRET
+#   NUXT_PUBLIC_FIREBASE_API_KEY
+#   NUXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+#   NUXT_PUBLIC_FIREBASE_PROJECT_ID
+#   NUXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+#   NUXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+#   NUXT_PUBLIC_FIREBASE_APP_ID
+#
+# Note: the NUXT_PUBLIC_FIREBASE_* values end up public in the client bundle
+# regardless — that's how Firebase web config is designed to work. "Secret"
+# here just means Cloudflare encrypts storage and hides the values in the UI.
+# ---------------------------------------------------------------------------
+
+# KV binding is managed in the Cloudflare dashboard:
+#   Pages project → Settings → Bindings → KV namespace
+#   Variable name: STORYBLOK_CACHE (for both Production and Preview)
+#
+# If a future maintainer prefers config-as-code for KV, uncomment and paste
+# the real namespace IDs (Storage & Databases → KV → namespace → "ID"):
 #
 # [[kv_namespaces]]
 # binding = "STORYBLOK_CACHE"

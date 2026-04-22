@@ -211,9 +211,11 @@ Pages project → **Settings** → **Bindings** (may be under **Functions** in s
 
 (You add this binding once; the same variable name is available in both Production and Preview environments and maps to the namespace you chose per environment.)
 
-### 6. Environment variables
+### 6. Environment variables (add as **Secrets**)
 
-Pages project → **Settings** → **Variables and Secrets**. Add each one for **both Production and Preview**:
+Pages project → **Settings** → **Variables and Secrets** → **Secrets** section (not Plaintext — because `wrangler.toml` exists in the repo, Cloudflare locks plaintext management to `wrangler.toml` and only allows Secrets in the dashboard).
+
+Add each one as a **Secret** for **both Production and Preview**:
 
 - `STORYBLOK_TOKEN`
 - `STORYBLOK_WEBHOOK_SECRET`
@@ -223,6 +225,8 @@ Pages project → **Settings** → **Variables and Secrets**. Add each one for *
 - `NUXT_PUBLIC_FIREBASE_STORAGE_BUCKET`
 - `NUXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`
 - `NUXT_PUBLIC_FIREBASE_APP_ID`
+
+The `NUXT_PUBLIC_FIREBASE_*` values will still be exposed in the client bundle (that's how Firebase web config is designed to work) — "Secret" here only means Cloudflare encrypts storage and hides the values in the UI, so nothing leaks through the repo or the dashboard.
 
 ### 7. Retry the deploy
 
