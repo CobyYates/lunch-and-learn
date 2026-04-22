@@ -50,7 +50,6 @@ The repo ships with a `wrangler.toml`, but several things still need to be done 
    - `STORYBLOK_TOKEN` — Storyblok preview token
    - `STORYBLOK_WEBHOOK_SECRET` — any random string
    - `NUXT_PUBLIC_FIREBASE_*` — values from the Firebase console
-7. **Compatibility flag**: Pages → Settings → Functions → Compatibility flags → add `nodejs_compat` for both Production and Preview.
 
 ## Storyblok — one-time setup
 
