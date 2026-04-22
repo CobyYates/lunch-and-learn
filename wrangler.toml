@@ -2,11 +2,15 @@ name = "lunch-and-learn"
 compatibility_date = "2025-07-15"
 pages_build_output_dir = "dist"
 
-# Local dev + `wrangler pages dev dist` uses this binding.
-# For the deployed Pages project, bind STORYBLOK_CACHE to real KV namespaces
-# via the Cloudflare dashboard (Pages → Settings → Functions → KV bindings).
-# The ids below are only used locally when running `wrangler pages dev`.
-[[kv_namespaces]]
-binding = "STORYBLOK_CACHE"
-id = "REPLACE_WITH_PROD_KV_ID"
-preview_id = "REPLACE_WITH_PREVIEW_KV_ID"
+# KV bindings for this project live in the Cloudflare dashboard:
+#   Pages project → Settings → Bindings → KV namespace
+#   Variable name: STORYBLOK_CACHE
+#
+# If you prefer config-as-code, uncomment and paste the real namespace IDs
+# (from Storage & Databases → KV → your namespace → "ID"). Cloudflare will
+# then use these instead of any dashboard binding for the same variable.
+#
+# [[kv_namespaces]]
+# binding = "STORYBLOK_CACHE"
+# id = "<prod KV id>"
+# preview_id = "<preview KV id>"
