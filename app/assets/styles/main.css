@@ -1,0 +1,23 @@
+/*
+ * Cascade layers — order matters (later layers override earlier ones):
+ *
+ *   tailwind-theme     — Tailwind's CSS custom properties (kept below Vuetify
+ *                        so they can't leak into Vuetify's default rendering)
+ *   vuetify            — Vuetify component styles (injected by vite-plugin-vuetify)
+ *   tailwind-utilities — Tailwind utility classes; win when explicitly applied
+ *   (unlayered)        — anything below this comment; beats all layers
+ *
+ * Tailwind's `preflight` (its global reset) is intentionally skipped so it
+ * doesn't fight Vuetify's own reset. If you ever need it, replace the two
+ * imports below with `@import "tailwindcss";`.
+ */
+@layer tailwind-theme, vuetify, tailwind-utilities;
+
+@import "tailwindcss/theme.css" layer(tailwind-theme);
+@import "tailwindcss/utilities.css" layer(tailwind-utilities);
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}

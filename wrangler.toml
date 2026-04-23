@@ -12,7 +12,9 @@ pages_build_output_dir = "dist"
 # deployment-specific values so forks can wire their own.
 #
 # Required Secrets (set for both Production and Preview):
-#   STORYBLOK_TOKEN
+#   STORYBLOK_SPACE_ID
+#   STORYBLOK_PUBLIC_TOKEN
+#   STORYBLOK_PREVIEW_TOKEN
 #   STORYBLOK_WEBHOOK_SECRET
 #   NUXT_PUBLIC_FIREBASE_API_KEY
 #   NUXT_PUBLIC_FIREBASE_AUTH_DOMAIN

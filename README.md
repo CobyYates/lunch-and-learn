@@ -1,17 +1,17 @@
 # lunch-and-learn
 
-A production-ready boilerplate for **Nuxt 4 + Vuetify 4 + Storyblok + Firebase**, deployed to **Cloudflare Pages** with KV caching for CMS content.
+A production-ready boilerplate for **Nuxt 4 + Vuetify 3 + Storyblok + Firebase**, deployed to **Cloudflare Pages** with KV caching for CMS content.
 
 ## Stack
 
-| Piece | What it does |
-| --- | --- |
-| **Nuxt 4** | App framework. SPA mode (`ssr: false`) — pages render in the browser. |
-| **Vuetify 4** | UI component library, auto-imported via `vite-plugin-vuetify`. SCSS overrides supported. |
-| **Storyblok** | CMS. Visual-editor bridge wired up for live preview. |
-| **Firebase** | Client-side Auth + Firestore. |
-| **Cloudflare Pages** | Hosting. Static assets + `server/api/*` routes as Pages Functions. |
-| **Cloudflare KV** | Caches published Storyblok stories, invalidated by webhook on publish. |
+| Piece                | What it does                                                                             |
+| -------------------- | ---------------------------------------------------------------------------------------- |
+| **Nuxt 4**           | App framework. SPA mode (`ssr: false`) — pages render in the browser.                    |
+| **Vuetify 3**        | UI component library, auto-imported via `vite-plugin-vuetify`. SCSS overrides supported. |
+| **Storyblok**        | CMS. Visual-editor bridge wired up for live preview.                                     |
+| **Firebase**         | Client-side Auth + Firestore.                                                            |
+| **Cloudflare Pages** | Hosting. Static assets + `server/api/*` routes as Pages Functions.                       |
+| **Cloudflare KV**    | Caches published Storyblok stories, invalidated by webhook on publish.                   |
 
 ---
 
@@ -46,11 +46,13 @@ cp .env.example .env
 
 Fill in the values. Where to find them:
 
-| Var | Where to get it |
-| --- | --- |
-| `STORYBLOK_TOKEN` | Storyblok space → **Settings → Access Tokens** → use the **preview** token |
-| `STORYBLOK_WEBHOOK_SECRET` | Generate any random string (e.g. `openssl rand -hex 32`). You'll paste the same string into Storyblok's webhook URL later. |
-| `NUXT_PUBLIC_FIREBASE_*` | Firebase Console → project settings → **Your apps** → the web app → **SDK setup and configuration** → copy each field |
+| Var                         | Where to get it                                                                                                                         |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `STORYBLOK_SPACE_ID`        | Storyblok space → **Settings → General → Space ID**                                                                                     |
+| `STORYBLOK_PUBLIC_TOKEN`    | Storyblok space → **Settings → Access Tokens** → **Public** token (read-only, published content only — used by the KV-cached server route) |
+| `STORYBLOK_PREVIEW_TOKEN`   | Storyblok space → **Settings → Access Tokens** → **Preview** token (reads drafts — used by the client so the visual-editor bridge works) |
+| `STORYBLOK_WEBHOOK_SECRET`  | Generate any random string (e.g. `openssl rand -hex 32`). You'll paste the same string into Storyblok's webhook URL later.              |
+| `NUXT_PUBLIC_FIREBASE_*`    | Firebase Console → project settings → **Your apps** → the web app → **SDK setup and configuration** → copy each field                   |
 
 ### 3. Run the dev server
 
@@ -79,27 +81,46 @@ Requires `wrangler login` once. KV reads/writes will hit a local-simulated KV un
 
 ### 1. Create a space
 
-Storyblok dashboard → **Create new space**. Region: **US** (matches `apiOptions.region: "us"` in `nuxt.config.ts`; if you pick EU, update that config).
+Storyblok dashboard → **Create new space**. Region: **EU** (matches `apiOptions.region: "eu"` in `nuxt.config.ts` and the `https://api.storyblok.com` base URL in `server/utils/storyblok.ts`). If you pick US, change both — `region: "us"` in the config and `api-us.storyblok.com` in the server util.
 
 ### 2. Grab the preview token
 
-**Settings → Access Tokens** → copy the **Preview** token into your `.env` as `STORYBLOK_TOKEN`.
+**Settings → Access Tokens** has both tokens you need:
 
-### 3. Set the Visual Editor preview URL
+- Copy the **Preview** token into `.env` as `STORYBLOK_PREVIEW_TOKEN`. This is what the client uses (including the visual-editor bridge, which needs to read drafts).
+- Copy the **Public** token into `.env` as `STORYBLOK_PUBLIC_TOKEN`. This is what the server-side `/api/story` route uses when populating KV — it only ever needs published content.
+- Also copy the **Space ID** (Settings → General) into `.env` as `STORYBLOK_SPACE_ID`.
+
+### 3. Set up local HTTPS (required for the visual editor iframe)
+
+Storyblok's visual editor loads your app inside an HTTPS iframe. Nuxt's dev server will serve over HTTPS automatically when it finds `localhost.pem` + `localhost-key.pem` in the project root. Generate them once with mkcert:
+
+```bash
+# macOS (Homebrew) — install mkcert if you don't have it:
+brew install mkcert
+
+# Generate and trust the cert (prompts for sudo on -install):
+npm run setup:certs
+```
+
+Under the hood that runs `mkcert -install && mkcert localhost`, which writes `localhost.pem` + `localhost-key.pem` into the repo root. Both files are gitignored — never commit them.
+
+Now `npm run dev` will boot on **`https://localhost:3000`** directly. If the cert files aren't present, Nuxt falls back to HTTP — so forks that don't care about the Storyblok editor can skip this step.
+
+### 4. Set the Visual Editor preview URL
 
 **Settings → Visual Editor → Location**:
 
 - Local dev: `https://localhost:3000/?_storyblok=1`
-  - Storyblok's visual editor requires HTTPS. The easiest fix: run `npx storyblok-cli sync` or use the [Storyblok HTTPS proxy](https://www.storyblok.com/faq/setup-dev-server-https-local-environment), or temporarily set the preview URL to your Pages deploy.
 - Production: `https://<your-project>.pages.dev/?_storyblok=1`
 
 The `?_storyblok=1` query param is what triggers `useStory` to use the bridge-aware draft fetch instead of the KV-cached endpoint.
 
-### 4. Create your first story
+### 5. Create your first story
 
 **Content → Create** → give it a name like `home` and slug `home`. Save + publish. That's the story your app will fetch.
 
-### 5. Component mappings
+### 6. Component mappings
 
 Each Storyblok block type (Page, Hero, Feature, etc.) needs a matching `.vue` file in `app/storyblok/`. The filename must match the component's **technical name** from Storyblok. Example:
 
@@ -118,7 +139,7 @@ defineProps<{ blok: { headline: string } }>();
 
 `@storyblok/nuxt` auto-registers anything in this folder.
 
-### 6. Set up the publish webhook (after first deploy)
+### 7. Set up the publish webhook (after first deploy)
 
 You'll do this **after** Cloudflare Pages is live — see Part 5.
 
@@ -141,7 +162,7 @@ const firebaseConfig = {
   projectId: "...",
   storageBucket: "...",
   messagingSenderId: "...",
-  appId: "..."
+  appId: "...",
 };
 ```
 
@@ -184,13 +205,13 @@ Cloudflare dashboard → **Workers & Pages** → **Create** → **Pages** tab �
 
 ### 3. Build settings
 
-| Field | Value |
-| --- | --- |
-| Framework preset | **None** |
-| Build command | `npm run build` |
-| Build output directory | `dist` |
-| Root directory | *(leave blank)* |
-| Node version | Auto-detected from `.nvmrc` (v22). No action needed. |
+| Field                  | Value                                                |
+| ---------------------- | ---------------------------------------------------- |
+| Framework preset       | **None**                                             |
+| Build command          | `npm run build`                                      |
+| Build output directory | `dist`                                               |
+| Root directory         | _(leave blank)_                                      |
+| Node version           | Auto-detected from `.nvmrc` (v22). No action needed. |
 
 Click **Save and Deploy**. The first deploy will likely fail — that's expected until KV + env vars are wired up. Continue to the next steps.
 
@@ -205,8 +226,8 @@ Left sidebar → **Storage & Databases** → **KV** → **Create a namespace**. 
 
 Pages project → **Settings** → **Bindings** (may be under **Functions** in some accounts) → **Add** → **KV namespace**:
 
-| Variable name | Production | Preview |
-| --- | --- | --- |
+| Variable name     | Production             | Preview                   |
+| ----------------- | ---------------------- | ------------------------- |
 | `STORYBLOK_CACHE` | `storyblok-cache-prod` | `storyblok-cache-preview` |
 
 (You add this binding once; the same variable name is available in both Production and Preview environments and maps to the namespace you chose per environment.)
@@ -217,7 +238,9 @@ Pages project → **Settings** → **Variables and Secrets** → **Secrets** sec
 
 Add each one as a **Secret** for **both Production and Preview**:
 
-- `STORYBLOK_TOKEN`
+- `STORYBLOK_SPACE_ID`
+- `STORYBLOK_PUBLIC_TOKEN`
+- `STORYBLOK_PREVIEW_TOKEN`
 - `STORYBLOK_WEBHOOK_SECRET`
 - `NUXT_PUBLIC_FIREBASE_API_KEY`
 - `NUXT_PUBLIC_FIREBASE_AUTH_DOMAIN`
@@ -247,11 +270,11 @@ Now that Pages is live, Storyblok can tell our API to invalidate stale KV entrie
 
 Storyblok → **Settings → Webhooks → Create webhook**:
 
-| Field | Value |
-| --- | --- |
-| Name | `Cloudflare KV cache invalidation` |
+| Field        | Value                                                                                      |
+| ------------ | ------------------------------------------------------------------------------------------ |
+| Name         | `Cloudflare KV cache invalidation`                                                         |
 | Endpoint URL | `https://<your-project>.pages.dev/api/storyblok/webhook?secret=<STORYBLOK_WEBHOOK_SECRET>` |
-| Events | ✅ Story published, ✅ Story unpublished, ✅ Story deleted |
+| Events       | ✅ Story published, ✅ Story unpublished, ✅ Story deleted                                 |
 
 Replace both placeholders with the real values.
 
@@ -330,23 +353,185 @@ const story = await useStory("home");
 
 ## Scripts
 
-| Script | What it does |
-| --- | --- |
-| `npm run dev` | Nuxt dev server at http://localhost:3000 |
-| `npm run build` | Cloudflare-Pages-ready build — outputs `dist/` with `_worker.js` |
-| `npm run generate` | Pure static output — **no Functions, KV/API routes won't work**. Only use for a fully-static fallback. |
-| `npm run preview` | Nitro preview server. For the full CF runtime locally, use `npx wrangler pages dev dist`. |
+| Script                 | What it does                                                                                                                                            |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run dev`          | Nuxt dev server. Serves HTTPS on https://localhost:3000 if `localhost.pem` + `localhost-key.pem` are in the repo root; otherwise falls back to HTTP.    |
+| `npm run build`        | Cloudflare-Pages-ready build — outputs `dist/` with `_worker.js`                                                                                        |
+| `npm run generate`     | Pure static output — **no Functions, KV/API routes won't work**. Only use for a fully-static fallback.                                                  |
+| `npm run preview`      | Nitro preview server. For the full CF runtime locally, use `npx wrangler pages dev dist`.                                                               |
+| `npm run setup:certs`  | One-time local HTTPS cert setup via mkcert. Runs `mkcert -install && mkcert localhost` and writes certs to the repo root (gitignored). Requires mkcert. |
 
 ---
 
-## Troubleshooting
+## Gotchas
 
-**"Invalid KV namespace ID" on deploy** — `wrangler.toml` has a `[[kv_namespaces]]` block with placeholder IDs. Either remove the block (use dashboard bindings) or paste real namespace IDs.
+Real things that bit us setting this boilerplate up. Grouped by area; click each one to expand.
 
-**Storyblok bridge doesn't update the component** — make sure (1) the URL has `?_storyblok=...` (the editor adds this automatically), (2) the component is rendered through `useStory` and not a direct fetch, (3) each blok template uses `v-editable="blok"` so the editor can highlight it.
+### Storyblok
 
-**`/api/story/<slug>` returns 500 `STORYBLOK_TOKEN is not configured`** — the env var isn't set in Pages. Double-check **Settings → Variables and Secrets** for both Production and Preview.
+<details>
+<summary><strong>The home story previews at <code>/home</code>, not <code>/</code></strong></summary>
 
-**KV entries never expire** — they do (24h TTL, set in `server/utils/storyblok.ts`), but the publish webhook also deletes them on demand. If webhook isn't firing, check Cloudflare's Function logs and verify the `?secret=` query param matches `STORYBLOK_WEBHOOK_SECRET`.
+In the Home story → **Config / Entry settings** → set **Real Path** to `/`. Storyblok then loads the preview at root instead of appending the story's slug. We also ship a `home-redirect.global.ts` middleware that redirects `/home → /` (preserving the `?_storyblok=` query) so the URL stays canonical even before Real Path is set.
+</details>
 
-**`Duplicated imports "useAppConfig"` warning** — harmless upstream noise from Nuxt 4 + Nitro 2.13. Ignore.
+<details>
+<summary><strong>404 / "Story not found" from the editor</strong></summary>
+
+Usually one of:
+- **Region mismatch.** Storyblok spaces are EU or US. If your space is EU but `nuxt.config.ts` has `region: "us"` (or vice-versa) and `server/utils/storyblok.ts` has the wrong base URL, every fetch 404s. Check Storyblok → Settings → General for the region.
+- **Missing `STORYBLOK_PREVIEW_TOKEN` in `.env`** — the client uses this for drafts. After editing `.env`, restart `npm run dev`.
+- **Story not saved once** — a story that was just created but never saved has no draft version; `version=draft` returns 404. Hit Save.
+- **Full slug doesn't match** — if the story lives in a folder, its full_slug is `folder/slug`. `starts_with` / `getStory(slug)` must use the full path.
+</details>
+
+<details>
+<summary><strong>Bridge doesn't update the component live</strong></summary>
+
+Verify all three:
+1. The URL has `?_storyblok=...` (the editor adds this automatically).
+2. The component renders via `useStory()` (which subscribes to `useStoryblokBridge`) — not a direct `storyblokApi.get` call.
+3. Each blok template uses `v-editable="blok"` so the editor can pair clicks with bloks.
+</details>
+
+<details>
+<summary><strong>"Invalid response" in the editor iframe</strong></summary>
+
+Storyblok loads your app inside an HTTPS iframe. If your local dev is HTTP, the browser rejects the connection. Fix: run `npm run setup:certs` (needs `brew install mkcert`) then restart `npm run dev` — Nuxt auto-detects `localhost.pem` in the repo root and boots on `https://localhost:3000`.
+</details>
+
+<details>
+<summary><strong><code>import { useStoryblokApi } from "@storyblok/nuxt"</code> fails the build</strong></summary>
+
+Nuxt 4 blocks direct imports from module entry points. The `@storyblok/nuxt` composables (`useStoryblokApi`, `useStoryblokBridge`, `useAsyncStoryblok`) are auto-imported globally — just use them without an import statement.
+</details>
+
+<details>
+<summary><strong>Preview token is shipped to the browser</strong></summary>
+
+Enabling the visual-editor bridge requires the preview token on the client (that's how Storyblok works). Anyone who opens devtools can grab it and read drafts. Tradeoff accepted for the editor UX — but don't confuse the preview token with the Management token, which is way more privileged and should never touch the client. The server (`/api/story`) uses the public token, not the preview token, to limit blast radius on that path.
+</details>
+
+### Cloudflare Pages
+
+<details>
+<summary><strong>"Invalid KV namespace ID" on deploy</strong></summary>
+
+`wrangler.toml` had a `[[kv_namespaces]]` block with placeholder IDs like `REPLACE_WITH_PROD_KV_ID`. Either remove the whole block (current setup — bind via dashboard) or paste real namespace IDs from Storage & Databases → KV.
+</details>
+
+<details>
+<summary><strong>Dashboard variables vanished, only Secrets are editable</strong></summary>
+
+Once a `wrangler.toml` exists in the repo, Cloudflare switches the project to "managed by wrangler.toml" mode. Plaintext env vars move out of dashboard scope (you'd have to put them in `[vars]`). We lean into that: everything goes in the dashboard as **Secrets**, including the non-sensitive `NUXT_PUBLIC_FIREBASE_*` values. "Secret" just means encrypted storage — those values still end up in the client bundle because that's how Firebase web config works.
+</details>
+
+<details>
+<summary><strong><code>nodejs_compat</code> is missing from the compat-flags dropdown</strong></summary>
+
+Cloudflare split `nodejs_compat` into granular sub-flags (`enable_nodejs_process_v2`, etc.) and/or a dedicated toggle that isn't in the generic list. For this project you can skip it entirely — our Pages Functions only do `fetch()` + KV reads, no Node APIs. The `wrangler.toml` doesn't set `compatibility_flags` either.
+</details>
+
+<details>
+<summary><strong>Env var changes don't take effect until you redeploy</strong></summary>
+
+Pages Functions only pick up env var changes on a new deployment. After editing secrets in the dashboard, **Deployments → Retry deployment** (or push a new commit).
+</details>
+
+<details>
+<summary><strong>KV cache never seems to refresh</strong></summary>
+
+It does — 24h TTL set in `server/utils/storyblok.ts` — and the `/api/storyblok/webhook` route deletes entries on publish. If webhooks aren't firing:
+- Check **Pages → Functions → Real-time Logs** for incoming POSTs.
+- Verify the webhook URL's `?secret=` matches `STORYBLOK_WEBHOOK_SECRET` exactly (any mismatch returns 401).
+- Confirm Storyblok is subscribed to Story published, unpublished, **and** deleted.
+</details>
+
+### Nuxt / dev server
+
+<details>
+<summary><strong>Router throws "No match found for location" after renaming a page</strong></summary>
+
+Nuxt's file watcher occasionally misses renames in `pages/`. Stop the dev server, `rm -rf .nuxt node_modules/.vite`, then `npm run dev` again. Cold starts always rescan the pages directory cleanly.
+</details>
+
+<details>
+<summary><strong><code>.env</code> changes don't appear to work</strong></summary>
+
+Nuxt reads env vars **once at startup**. After any edit to `.env`, stop `npm run dev` and restart. Same applies if you add a new variable to `runtimeConfig` in `nuxt.config.ts`.
+</details>
+
+<details>
+<summary><strong>Double-bracket filenames (<code>[[...slug]].vue</code>) act flaky</strong></summary>
+
+Some combination of Vite/Node's file watcher and the special characters in `[[...]]` makes renames and hot reloads less reliable than single-bracket catch-alls. We use `index.vue` + `[...slug].vue` explicitly instead of the optional-catch-all form.
+</details>
+
+<details>
+<summary><strong><code>Duplicated imports "useAppConfig"</code> warning</strong></summary>
+
+Harmless upstream noise from Nuxt 4.4 + Nitro 2.13 + `@nuxt/nitro-server` all registering the same auto-import. Ignore. Will clear on a future Nuxt patch.
+</details>
+
+<details>
+<summary><strong>Nuxt DevTools error inside the Storyblok iframe</strong></summary>
+
+`SecurityError: Blocked a frame with origin "https://localhost:3000" from accessing a cross-origin frame` — DevTools trying to inspect its parent (Storyblok's UI) and being blocked by browser same-origin policy. Harmless; DevTools still works in non-iframe windows.
+</details>
+
+### Firebase
+
+<details>
+<summary><strong>Google sign-in popup fails with "unauthorized-domain"</strong></summary>
+
+Firebase Console → **Authentication → Settings → Authorized domains** → add `localhost` **and** your Pages URL (e.g. `lunch-and-learn.pages.dev`). Google sign-in rejects popups from any domain that isn't in this list.
+</details>
+
+<details>
+<summary><strong><code>NUXT_PUBLIC_FIREBASE_*</code> values "leak" into the client bundle</strong></summary>
+
+That's the design. Firebase web config is public-safe — security is enforced by **Firebase Security Rules + App Check**, not by hiding the API key. Treat them as secrets in Cloudflare/`.env` for tidiness only, not because exposure is dangerous.
+</details>
+
+<details>
+<summary><strong>Login page keeps showing even after sign-in succeeds</strong></summary>
+
+The `auth.global.ts` middleware compares `user.value` against `to.path`. If the user-state ref isn't populated (missing plugin, Firebase config missing, etc.), the guard stays in "not signed in" mode. Check `useRuntimeConfig().public.firebase.apiKey` in devtools — if undefined, the plugin returned early in "not configured" mode.
+</details>
+
+### Styling
+
+<details>
+<summary><strong>Vuetify utility classes ≠ Tailwind utility classes</strong></summary>
+
+Two different systems in the same project. Both work side by side — use whichever reads better per line:
+
+| Vuetify | Tailwind |
+| --- | --- |
+| `pa-6` (all) / `pa-x` / `py-x` | `p-6` / `px-6` / `py-6` |
+| `d-flex` | `flex` |
+| `align-center` | `items-center` |
+| `ga-3` | `gap-3` |
+| `text-h5` / `text-caption` | `text-xl` / `text-xs` |
+| `bg-primary` | `bg-indigo-500` (or whatever) |
+</details>
+
+<details>
+<summary><strong>Tailwind classes don't work on a fresh clone</strong></summary>
+
+Tailwind 4 is wired via `@tailwindcss/vite`. After `npm install`, stop and restart `npm run dev` — Vite loads plugins at startup only, so utilities aren't compiled until the server boots with the plugin in place.
+</details>
+
+<details>
+<summary><strong>Tailwind's "preflight" would reset Vuetify's styles</strong></summary>
+
+We import Tailwind's **theme + utilities only** (skipping preflight) in `app/assets/styles/main.css` so Vuetify's own reset stays authoritative. Layer order is `tailwind-theme, vuetify, tailwind-utilities` — Tailwind theme is demoted below Vuetify (so Tailwind's CSS vars can't leak into Vuetify's defaults), while Tailwind utilities sit on top (so classes explicitly applied to a Vuetify component still win). If you ever need Tailwind's reset, replace the two selective imports with `@import "tailwindcss";`.
+</details>
+
+### Misc
+
+<details>
+<summary><strong>Console spammed with <code>ERR_BLOCKED_BY_CLIENT</code> in the editor</strong></summary>
+
+Your ad blocker is blocking Storyblok's own telemetry (Sentry, PostHog, Rudderstack). Nothing to do with our code. The editor keeps working fine.
+</details>

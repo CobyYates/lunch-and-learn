@@ -1,6 +1,6 @@
 import type { H3Event } from "h3";
 
-const STORYBLOK_API = "https://api-us.storyblok.com/v2/cdn";
+const STORYBLOK_API = "https://api.storyblok.com/v2/cdn";
 const CACHE_TTL_SECONDS = 60 * 60 * 24; // 24h — refreshed by webhook on publish
 
 export interface StoryblokStory {

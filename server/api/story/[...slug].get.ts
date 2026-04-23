@@ -1,13 +1,13 @@
 export default defineEventHandler(async (event) => {
   const slug = getRouterParam(event, "slug") ?? "home";
-  const { storyblokPreviewToken } = useRuntimeConfig(event);
+  const { storyblokPublicToken } = useRuntimeConfig(event);
 
-  if (!storyblokPreviewToken) {
+  if (!storyblokPublicToken) {
     throw createError({
       statusCode: 500,
-      statusMessage: "STORYBLOK_TOKEN is not configured",
+      statusMessage: "STORYBLOK_PUBLIC_TOKEN is not configured",
     });
   }
 
-  return getStoryCached(event, slug, storyblokPreviewToken);
+  return getStoryCached(event, slug, storyblokPublicToken);
 });
