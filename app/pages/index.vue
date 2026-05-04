@@ -7,12 +7,10 @@
         <v-avatar v-if="user.photoURL" size="32" class="mr-2">
           <v-img :src="user.photoURL" :alt="user.displayName ?? 'User'" />
         </v-avatar>
-        <span class="text-body-2 mr-3">{{
-          user.displayName || user.email
-        }}</span>
-        <v-btn variant="text" prepend-icon="mdi-logout" @click="onSignOut">
-          Sign out
-        </v-btn>
+        <span class="text-body-2 mr-3">
+          {{ user.displayName || user.email }}
+        </span>
+        <v-btn variant="text" @click="onSignOut"> Sign out </v-btn>
       </template>
     </v-app-bar>
 
@@ -119,7 +117,7 @@
 const { user, signOut } = useAuth();
 const { stories, pending, error } = await useStories({
   starts_with: "slide-shows/",
-  content_type: "Slideshow",
+  content_type: "slideshow",
 });
 
 interface SlideshowContent {

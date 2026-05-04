@@ -4,7 +4,7 @@
       <v-col cols="12" sm="8" md="6" lg="4" class="d-flex align-center">
         <v-card width="100%">
           <template v-if="isConfigured">
-            <v-tabs v-model="mode" color="primary" class="hover:bg-primary hover:text-white">
+            <v-tabs v-model="mode" color="primary">
               <v-tab value="signin">Sign in</v-tab>
               <v-tab value="signup">Sign up</v-tab>
             </v-tabs>

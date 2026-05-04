@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 nuxt dev --https --ssl-cert localhost.pem --ssl-key localhost-key.pem",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "setup:certs": "mkcert -install && mkcert localhost"
+    "setup:certs": "mkcert -install && mkcert localhost",
+    "storyblok:push": "node scripts/push-storyblok-schema.mjs"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",

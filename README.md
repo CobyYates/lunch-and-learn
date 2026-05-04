@@ -139,7 +139,39 @@ defineProps<{ blok: { headline: string } }>();
 
 `@storyblok/nuxt` auto-registers anything in this folder.
 
-### 7. Set up the publish webhook (after first deploy)
+### 7. Push the slide component schemas
+
+This repo ships a `storyblok-schema.json` with **~45 component definitions** (slideshow + 35 slide layouts + the nested "item" bloks they use). Instead of clicking through Storyblok's Block Library to build them by hand, push them with one command:
+
+```bash
+# One-time: create a Personal access token
+# Storyblok → your avatar → Account settings → Personal access tokens → Generate
+```
+
+Add the token (and your Space ID) to `.env`:
+
+```
+STORYBLOK_SPACE_ID=...
+STORYBLOK_MANAGEMENT_TOKEN=...
+```
+
+Then:
+
+```bash
+npm run storyblok:push
+```
+
+The script is **idempotent** — it updates components that already exist and creates the rest. Re-run it any time you change `storyblok-schema.json`.
+
+What it pushes:
+
+- `slideshow` — root story type with `title`, `theme` (18 options), `image`, and `Slides` (blok array).
+- `slide_title`, `slide_section`, `slide_bullets`, `slide_split`, `slide_hero`, `slide_code`, `slide_compare`, `slide_quote`, `slide_stats`, `slide_stepper`, `slide_team`, `slide_chart`, `slide_media`, `slide_table`, `slide_closing`, `slide_agenda`, `slide_bignum`, `slide_pricing`, `slide_timeline`, `slide_features`, `slide_gallery`, `slide_logos`, `slide_qa`, `slide_beforeafter`, `slide_diagram`, `slide_device`, `slide_definition`, `slide_console`, `slide_diff`, `slide_api`, `slide_tree`, `slide_techstack`, `slide_keyboard`, `slide_changelog`, `slide_dashboard` — one per layout.
+- Supporting nested bloks (`bullet_item`, `stat_item`, `pricing_tier`, `timeline_event`, etc.) that the parent slides reference.
+
+Safety: the script only edits component *definitions*, never stories. Existing content is preserved.
+
+### 8. Set up the publish webhook (after first deploy)
 
 You'll do this **after** Cloudflare Pages is live — see Part 5.
 
@@ -410,6 +442,38 @@ Nuxt 4 blocks direct imports from module entry points. The `@storyblok/nuxt` com
 <summary><strong>Preview token is shipped to the browser</strong></summary>
 
 Enabling the visual-editor bridge requires the preview token on the client (that's how Storyblok works). Anyone who opens devtools can grab it and read drafts. Tradeoff accepted for the editor UX — but don't confuse the preview token with the Management token, which is way more privileged and should never touch the client. The server (`/api/story`) uses the public token, not the preview token, to limit blast radius on that path.
+</details>
+
+<details>
+<summary><strong>Three different Storyblok tokens — which goes where?</strong></summary>
+
+| Token | Lives in | Read drafts? | Used by |
+| --- | --- | --- | --- |
+| **Public** | `STORYBLOK_PUBLIC_TOKEN` (server secret) | ✗ | `/api/story/[slug]` server route — tighter blast radius |
+| **Preview** | `STORYBLOK_PREVIEW_TOKEN` (client bundle, via `@storyblok/nuxt`) | ✓ | Visual-editor bridge + live draft rendering |
+| **Management** | `STORYBLOK_MANAGEMENT_TOKEN` (local `.env` only) | ✓ (+ write) | `npm run storyblok:push` only — never referenced at runtime |
+</details>
+
+<details>
+<summary><strong><code>npm run storyblok:push</code> fails with 401 / 403</strong></summary>
+
+Common causes:
+- Using the preview/public token instead of a **Personal access token**. Storyblok → your avatar → Account settings → Personal access tokens → Generate.
+- Token expired or was revoked. Generate a new one.
+- Wrong `STORYBLOK_SPACE_ID`. Storyblok → Settings → General → Space ID (it's numeric).
+- Script is reading stale env vars — shell env overrides `.env`, so `unset STORYBLOK_MANAGEMENT_TOKEN` first if you've set it manually in this shell.
+</details>
+
+<details>
+<summary><strong>I pushed the schema and my old stories still show the old fields</strong></summary>
+
+`npm run storyblok:push` only changes component *definitions*, never existing content. If a field was renamed/removed, existing stories keep the old data until you edit them. For safety, the script is idempotent — re-running it does nothing unless the schema file changed. To wipe and re-seed content, that's a separate content-level migration (not provided).
+</details>
+
+<details>
+<summary><strong>Slide layouts render unstyled</strong></summary>
+
+The slide CSS lives in `app/assets/styles/slides.css` (extracted from `slide-design-system.html`) and is loaded via `nuxt.config.ts` `css` array. If a slide appears with no theme/typography, check that `<div data-theme="…">` is set on the parent `slideshow` component — all 2500 lines of theme-specific CSS target `[data-theme="…"]` selectors, so missing the attribute = inherit from the default only.
 </details>
 
 ### Cloudflare Pages
