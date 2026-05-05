@@ -1,3 +1,4 @@
+import tailwindcss from "@tailwindcss/vite";
 import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 
 export default defineNuxtConfig({
@@ -11,32 +12,26 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
 
-  modules: ["@nuxt/image", "@storyblok/nuxt"],
-
-  css: ["@mdi/font/css/materialdesignicons.css", "~/assets/styles/main.scss"],
-
-  storyblok: {
-    accessToken: process.env.STORYBLOK_TOKEN,
-    bridge: true,
-    apiOptions: {
-      region: "us",
+  modules: [
+    "@nuxt/image",
+    // Vuetify's official Nuxt install recipe. `vite-plugin-vuetify` must be
+    // registered via `vite:extendConfig` so it sits *after* Nuxt's own Vite
+    // plugins — registering it inline via `vite.plugins` can cause its
+    // virtual-SCSS module resolver to get shadowed and component SASS files
+    // start 404-ing.
+    (_options, nuxt) => {
+      nuxt.hooks.hook("vite:extendConfig", (config) => {
+        // @ts-expect-error vite plugin types narrow stricter than Nuxt's forwarded type
+        config.plugins.push(vuetify({ autoImport: true }));
+      });
     },
-  },
+  ],
 
-  runtimeConfig: {
-    storyblokPreviewToken: process.env.STORYBLOK_TOKEN,
-    storyblokWebhookSecret: process.env.STORYBLOK_WEBHOOK_SECRET,
-    public: {
-      firebase: {
-        apiKey: process.env.NUXT_PUBLIC_FIREBASE_API_KEY,
-        authDomain: process.env.NUXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-        projectId: process.env.NUXT_PUBLIC_FIREBASE_PROJECT_ID,
-        storageBucket: process.env.NUXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-        messagingSenderId: process.env.NUXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-        appId: process.env.NUXT_PUBLIC_FIREBASE_APP_ID,
-      },
-    },
-  },
+  css: [
+    "@mdi/font/css/materialdesignicons.css",
+    "~/assets/styles/main.css",
+    "vuetify/styles",
+  ],
 
   nitro: {
     preset: "cloudflare-pages",
@@ -63,15 +58,7 @@ export default defineNuxtConfig({
         transformAssetUrls,
       },
     },
-    plugins: [
-      vuetify({
-        autoImport: true,
-        styles: { configFile: "assets/styles/settings.scss" },
-      }),
-    ],
-    optimizeDeps: {
-      include: ["@storyblok/vue", "@vue/devtools-core", "@vue/devtools-kit"],
-    },
+    plugins: [tailwindcss()],
   },
 
   app: {

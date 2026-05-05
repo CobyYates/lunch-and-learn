@@ -22,3 +22,6 @@ logs
 .env
 .env.*
 !.env.example
+
+# Local dev TLS certs (mkcert, etc.)
+*.pem
