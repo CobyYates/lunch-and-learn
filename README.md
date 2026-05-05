@@ -82,9 +82,9 @@ Click **Save and Deploy**.
 
 ### 4. Environment variables (when needed)
 
-`main` itself has no required env vars. If a feature branch adds them (API tokens, secrets), add them in the Pages dashboard under **Settings → Variables and Secrets** as **Secrets** for both Production and Preview.
+`main` itself has no required env vars. If a feature branch adds them, configure them in the Pages dashboard under **Settings → Variables and Secrets** for both Production and Preview. Each value can be added as a plain **Variable** (plaintext, exposed at build *and* runtime) or as a **Secret** (runtime-only, encrypted at rest).
 
-> Because `wrangler.toml` exists in the repo, Cloudflare locks plaintext-var management to that file and only allows Secrets in the dashboard. That keeps the repo free of deployment-specific values so forks can wire their own.
+> Heads up — Secrets aren't exposed during the build, so anything read at build time (e.g. `process.env.X` in `nuxt.config.ts`) needs to come from a Variable, *or* be exposed via Nuxt's [runtime-config env override](https://nuxt.com/docs/guide/going-further/runtime-config#environment-variables) (Secrets named `NUXT_…` get applied to `runtimeConfig` at request time). Feature-branch READMEs document the exact names.
 
 ---
 
@@ -106,7 +106,6 @@ Click **Save and Deploy**.
 ├── .env.example                   # Template for .env (none required on main)
 ├── .nvmrc                         # Node 22
 ├── nuxt.config.ts
-├── wrangler.toml                  # Cloudflare Pages config
 └── package.json
 ```
 
