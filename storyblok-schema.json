@@ -1,0 +1,746 @@
+{
+  "$comment": "Storyblok component definitions for the 35 slide layouts + slideshow container. Push with scripts/push-storyblok-schema.mjs (requires STORYBLOK_SPACE_ID and STORYBLOK_MANAGEMENT_TOKEN). Field 'pos' values space components alphabetically in the Storyblok UI; adjust as desired.",
+
+  "theme_options": [
+    { "name": "Atelier", "value": "atelier" },
+    { "name": "Midnight", "value": "midnight" },
+    { "name": "Brutalist", "value": "brutalist" },
+    { "name": "Sage", "value": "sage" },
+    { "name": "Monarch", "value": "monarch" },
+    { "name": "Nebula", "value": "nebula" },
+    { "name": "Paper", "value": "paper" },
+    { "name": "Terminal", "value": "terminal" },
+    { "name": "Blossom", "value": "blossom" },
+    { "name": "Steel", "value": "steel" },
+    { "name": "Dracula", "value": "dracula" },
+    { "name": "Monokai", "value": "monokai" },
+    { "name": "Solarized", "value": "solarized" },
+    { "name": "Tokyo Night", "value": "tokyo" },
+    { "name": "Nord", "value": "nord" },
+    { "name": "Gruvbox", "value": "gruvbox" },
+    { "name": "Catppuccin", "value": "catppuccin" },
+    { "name": "GitHub Dark", "value": "github" }
+  ],
+
+  "components": [
+    {
+      "name": "Slideshow",
+      "display_name": "Slideshow",
+      "is_root": true,
+      "is_nestable": false,
+      "schema": {
+        "title": { "type": "text", "pos": 0, "required": true, "translatable": true },
+        "theme": {
+          "type": "option",
+          "pos": 1,
+          "required": true,
+          "default_value": "atelier",
+          "options": "__THEME_OPTIONS__"
+        },
+        "image": { "type": "asset", "filetypes": ["images"], "pos": 2 },
+        "Slides": {
+          "type": "bloks",
+          "pos": 3,
+          "restrict_components": true,
+          "component_whitelist": [
+            "slide_title",
+            "slide_section",
+            "slide_bullets",
+            "slide_split",
+            "slide_hero",
+            "slide_code",
+            "slide_compare",
+            "slide_quote",
+            "slide_stats",
+            "slide_stepper",
+            "slide_team",
+            "slide_chart",
+            "slide_media",
+            "slide_table",
+            "slide_closing",
+            "slide_agenda",
+            "slide_bignum",
+            "slide_pricing",
+            "slide_timeline",
+            "slide_features",
+            "slide_gallery",
+            "slide_logos",
+            "slide_qa",
+            "slide_beforeafter",
+            "slide_diagram",
+            "slide_device",
+            "slide_definition",
+            "slide_console",
+            "slide_diff",
+            "slide_api",
+            "slide_tree",
+            "slide_techstack",
+            "slide_keyboard",
+            "slide_changelog",
+            "slide_dashboard"
+          ]
+        }
+      }
+    },
+
+    {
+      "name": "slide_title",
+      "display_name": "Slide — Title / Cover",
+      "is_nestable": true,
+      "schema": {
+        "meta_left": { "type": "text", "pos": 0 },
+        "meta_right": { "type": "text", "pos": 1 },
+        "title": { "type": "text", "pos": 2, "required": true, "translatable": true },
+        "title_accent": { "type": "text", "pos": 3, "translatable": true, "description": "Word(s) rendered in accent color / italic" },
+        "presenter_name": { "type": "text", "pos": 4 },
+        "presenter_role": { "type": "text", "pos": 5 },
+        "date_label": { "type": "text", "pos": 6 },
+        "date_sub": { "type": "text", "pos": 7 }
+      }
+    },
+
+    {
+      "name": "slide_section",
+      "display_name": "Slide — Section Divider",
+      "is_nestable": true,
+      "schema": {
+        "number_label": { "type": "text", "pos": 0, "default_value": "01" },
+        "eyebrow": { "type": "text", "pos": 1, "translatable": true },
+        "title": { "type": "text", "pos": 2, "required": true, "translatable": true },
+        "description": { "type": "textarea", "pos": 3, "translatable": true }
+      }
+    },
+
+    {
+      "name": "bullet_item",
+      "display_name": "Bullet item",
+      "is_nestable": true,
+      "schema": {
+        "lead": { "type": "text", "pos": 0, "translatable": true, "description": "Bold leading phrase" },
+        "text": { "type": "text", "pos": 1, "translatable": true, "description": "Rest of the bullet" }
+      }
+    },
+
+    {
+      "name": "slide_bullets",
+      "display_name": "Slide — Bullets",
+      "is_nestable": true,
+      "schema": {
+        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "subtitle": { "type": "textarea", "pos": 2, "translatable": true },
+        "items": {
+          "type": "bloks",
+          "pos": 3,
+          "restrict_components": true,
+          "component_whitelist": ["bullet_item"],
+          "maximum": 6
+        }
+      }
+    },
+
+    {
+      "name": "slide_split",
+      "display_name": "Slide — Image + Text Split",
+      "is_nestable": true,
+      "schema": {
+        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "body": { "type": "textarea", "pos": 2, "translatable": true },
+        "body_muted": { "type": "textarea", "pos": 3, "translatable": true },
+        "image": { "type": "asset", "filetypes": ["images"], "pos": 4 }
+      }
+    },
+
+    {
+      "name": "slide_hero",
+      "display_name": "Slide — Full-bleed Hero",
+      "is_nestable": true,
+      "schema": {
+        "tag": { "type": "text", "pos": 0, "translatable": true },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "subtitle": { "type": "textarea", "pos": 2, "translatable": true },
+        "image": { "type": "asset", "filetypes": ["images"], "pos": 3 }
+      }
+    },
+
+    {
+      "name": "slide_code",
+      "display_name": "Slide — Code Snippet",
+      "is_nestable": true,
+      "schema": {
+        "title": { "type": "text", "pos": 0, "translatable": true },
+        "language": { "type": "text", "pos": 1, "default_value": "typescript" },
+        "code": { "type": "textarea", "pos": 2, "required": true, "description": "Raw source. Theme provides syntax highlighting via CSS variables." }
+      }
+    },
+
+    {
+      "name": "compare_column",
+      "display_name": "Compare column",
+      "is_nestable": true,
+      "schema": {
+        "heading": { "type": "text", "pos": 0, "required": true, "translatable": true },
+        "description": { "type": "text", "pos": 1, "translatable": true },
+        "featured": { "type": "boolean", "pos": 2 },
+        "tag": { "type": "text", "pos": 3, "translatable": true, "description": "Shown when featured" },
+        "items": { "type": "options", "pos": 4, "source": "internal", "options": [] }
+      }
+    },
+
+    {
+      "name": "slide_compare",
+      "display_name": "Slide — Comparison",
+      "is_nestable": true,
+      "schema": {
+        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "divider_label": { "type": "text", "pos": 2, "default_value": "vs" },
+        "left": { "type": "bloks", "pos": 3, "restrict_components": true, "component_whitelist": ["compare_column"], "maximum": 1 },
+        "right": { "type": "bloks", "pos": 4, "restrict_components": true, "component_whitelist": ["compare_column"], "maximum": 1 }
+      }
+    },
+
+    {
+      "name": "slide_quote",
+      "display_name": "Slide — Pull Quote",
+      "is_nestable": true,
+      "schema": {
+        "quote": { "type": "textarea", "pos": 0, "required": true, "translatable": true },
+        "author_name": { "type": "text", "pos": 1, "translatable": true },
+        "author_role": { "type": "text", "pos": 2, "translatable": true },
+        "author_initials": { "type": "text", "pos": 3, "description": "Shown in avatar circle if no image" },
+        "author_image": { "type": "asset", "filetypes": ["images"], "pos": 4 }
+      }
+    },
+
+    {
+      "name": "stat_item",
+      "display_name": "Stat item",
+      "is_nestable": true,
+      "schema": {
+        "big_number": { "type": "text", "pos": 0, "required": true },
+        "unit": { "type": "text", "pos": 1, "description": "e.g. %, k, s" },
+        "label": { "type": "text", "pos": 2, "translatable": true },
+        "description": { "type": "textarea", "pos": 3, "translatable": true }
+      }
+    },
+
+    {
+      "name": "slide_stats",
+      "display_name": "Slide — Stats / KPIs",
+      "is_nestable": true,
+      "schema": {
+        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "stats": { "type": "bloks", "pos": 2, "restrict_components": true, "component_whitelist": ["stat_item"], "maximum": 3 }
+      }
+    },
+
+    {
+      "name": "step_item",
+      "display_name": "Step item",
+      "is_nestable": true,
+      "schema": {
+        "number_label": { "type": "text", "pos": 0, "default_value": "STEP 01" },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "description": { "type": "textarea", "pos": 2, "translatable": true },
+        "image": { "type": "asset", "filetypes": ["images"], "pos": 3 }
+      }
+    },
+
+    {
+      "name": "slide_stepper",
+      "display_name": "Slide — Stepper / Process",
+      "is_nestable": true,
+      "schema": {
+        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "image": { "type": "asset", "filetypes": ["images"], "pos": 2 },
+        "steps": { "type": "bloks", "pos": 3, "restrict_components": true, "component_whitelist": ["step_item"], "maximum": 4 }
+      }
+    },
+
+    {
+      "name": "team_member",
+      "display_name": "Team member",
+      "is_nestable": true,
+      "schema": {
+        "name": { "type": "text", "pos": 0, "required": true, "translatable": true },
+        "role": { "type": "text", "pos": 1, "translatable": true },
+        "bio": { "type": "textarea", "pos": 2, "translatable": true },
+        "initials": { "type": "text", "pos": 3 },
+        "image": { "type": "asset", "filetypes": ["images"], "pos": 4 }
+      }
+    },
+
+    {
+      "name": "slide_team",
+      "display_name": "Slide — Team / Profiles",
+      "is_nestable": true,
+      "schema": {
+        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "members": { "type": "bloks", "pos": 2, "restrict_components": true, "component_whitelist": ["team_member"], "maximum": 4 }
+      }
+    },
+
+    {
+      "name": "chart_group",
+      "display_name": "Chart group (pair)",
+      "is_nestable": true,
+      "schema": {
+        "label": { "type": "text", "pos": 0, "required": true },
+        "value_a": { "type": "number", "pos": 1, "required": true },
+        "value_b": { "type": "number", "pos": 2 }
+      }
+    },
+
+    {
+      "name": "slide_chart",
+      "display_name": "Slide — Bar Chart",
+      "is_nestable": true,
+      "schema": {
+        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "series_a_label": { "type": "text", "pos": 2, "translatable": true },
+        "series_b_label": { "type": "text", "pos": 3, "translatable": true },
+        "y_max": { "type": "number", "pos": 4, "default_value": 100 },
+        "groups": { "type": "bloks", "pos": 5, "restrict_components": true, "component_whitelist": ["chart_group"], "maximum": 6 }
+      }
+    },
+
+    {
+      "name": "slide_media",
+      "display_name": "Slide — Media / Video",
+      "is_nestable": true,
+      "schema": {
+        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "description": { "type": "textarea", "pos": 2, "translatable": true },
+        "duration": { "type": "text", "pos": 3, "description": "e.g. 12:04" },
+        "duration_label": { "type": "text", "pos": 4, "default_value": "DURATION" },
+        "meta_label": { "type": "text", "pos": 5, "default_value": "SPEAKER" },
+        "meta_value": { "type": "text", "pos": 6 },
+        "poster": { "type": "asset", "filetypes": ["images"], "pos": 7 },
+        "video_url": { "type": "text", "pos": 8 }
+      }
+    },
+
+    {
+      "name": "table_row",
+      "display_name": "Table row",
+      "is_nestable": true,
+      "schema": {
+        "cells": { "type": "textarea", "pos": 0, "description": "One cell per line" },
+        "highlight": { "type": "boolean", "pos": 1 },
+        "pill_label": { "type": "text", "pos": 2 },
+        "pill_kind": { "type": "option", "pos": 3, "options": [{ "name": "Default", "value": "default" }, { "name": "OK", "value": "ok" }, { "name": "Warn", "value": "warn" }] }
+      }
+    },
+
+    {
+      "name": "slide_table",
+      "display_name": "Slide — Data Table",
+      "is_nestable": true,
+      "schema": {
+        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "headers": { "type": "textarea", "pos": 2, "description": "One header per line" },
+        "rows": { "type": "bloks", "pos": 3, "restrict_components": true, "component_whitelist": ["table_row"] }
+      }
+    },
+
+    {
+      "name": "foot_item",
+      "display_name": "Closing foot item",
+      "is_nestable": true,
+      "schema": {
+        "label": { "type": "text", "pos": 0, "required": true, "translatable": true },
+        "value": { "type": "text", "pos": 1, "required": true, "translatable": true }
+      }
+    },
+
+    {
+      "name": "slide_closing",
+      "display_name": "Slide — Closing / CTA",
+      "is_nestable": true,
+      "schema": {
+        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "title_accent": { "type": "text", "pos": 2, "translatable": true },
+        "foot_items": { "type": "bloks", "pos": 3, "restrict_components": true, "component_whitelist": ["foot_item"], "maximum": 3 }
+      }
+    },
+
+    {
+      "name": "agenda_item",
+      "display_name": "Agenda item",
+      "is_nestable": true,
+      "schema": {
+        "number_label": { "type": "text", "pos": 0, "default_value": "01" },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "time_label": { "type": "text", "pos": 2 }
+      }
+    },
+
+    {
+      "name": "slide_agenda",
+      "display_name": "Slide — Agenda / TOC",
+      "is_nestable": true,
+      "schema": {
+        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "items": { "type": "bloks", "pos": 2, "restrict_components": true, "component_whitelist": ["agenda_item"] }
+      }
+    },
+
+    {
+      "name": "slide_bignum",
+      "display_name": "Slide — Big Number",
+      "is_nestable": true,
+      "schema": {
+        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
+        "number": { "type": "text", "pos": 1, "required": true },
+        "unit": { "type": "text", "pos": 2 },
+        "label": { "type": "textarea", "pos": 3, "translatable": true },
+        "label_bold": { "type": "text", "pos": 4, "translatable": true },
+        "sub": { "type": "textarea", "pos": 5, "translatable": true }
+      }
+    },
+
+    {
+      "name": "pricing_tier",
+      "display_name": "Pricing tier",
+      "is_nestable": true,
+      "schema": {
+        "name": { "type": "text", "pos": 0, "required": true, "translatable": true },
+        "price": { "type": "text", "pos": 1, "required": true },
+        "price_per": { "type": "text", "pos": 2, "default_value": "/month" },
+        "featured": { "type": "boolean", "pos": 3 },
+        "tag": { "type": "text", "pos": 4, "translatable": true },
+        "features": { "type": "textarea", "pos": 5, "description": "One feature per line", "translatable": true },
+        "cta": { "type": "text", "pos": 6, "default_value": "Start trial" }
+      }
+    },
+
+    {
+      "name": "slide_pricing",
+      "display_name": "Slide — Pricing",
+      "is_nestable": true,
+      "schema": {
+        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "tiers": { "type": "bloks", "pos": 2, "restrict_components": true, "component_whitelist": ["pricing_tier"], "maximum": 3 }
+      }
+    },
+
+    {
+      "name": "timeline_event",
+      "display_name": "Timeline event",
+      "is_nestable": true,
+      "schema": {
+        "date": { "type": "text", "pos": 0, "required": true },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "description": { "type": "textarea", "pos": 2, "translatable": true }
+      }
+    },
+
+    {
+      "name": "slide_timeline",
+      "display_name": "Slide — Timeline",
+      "is_nestable": true,
+      "schema": {
+        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "events": { "type": "bloks", "pos": 2, "restrict_components": true, "component_whitelist": ["timeline_event"], "maximum": 5 }
+      }
+    },
+
+    {
+      "name": "feature_item",
+      "display_name": "Feature item",
+      "is_nestable": true,
+      "schema": {
+        "icon": { "type": "text", "pos": 0, "description": "Short emoji/glyph/letter" },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "description": { "type": "textarea", "pos": 2, "translatable": true }
+      }
+    },
+
+    {
+      "name": "slide_features",
+      "display_name": "Slide — Feature Grid",
+      "is_nestable": true,
+      "schema": {
+        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "items": { "type": "bloks", "pos": 2, "restrict_components": true, "component_whitelist": ["feature_item"], "maximum": 6 }
+      }
+    },
+
+    {
+      "name": "gallery_tile",
+      "display_name": "Gallery tile",
+      "is_nestable": true,
+      "schema": {
+        "kind": { "type": "option", "pos": 0, "default_value": "neutral", "options": [{ "name": "Feature", "value": "feature" }, { "name": "Alt", "value": "alt" }, { "name": "Neutral", "value": "neutral" }, { "name": "Muted", "value": "muted" }] },
+        "caption": { "type": "text", "pos": 1, "translatable": true },
+        "image": { "type": "asset", "filetypes": ["images"], "pos": 2 }
+      }
+    },
+
+    {
+      "name": "slide_gallery",
+      "display_name": "Slide — Image Gallery",
+      "is_nestable": true,
+      "schema": {
+        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "tiles": { "type": "bloks", "pos": 2, "restrict_components": true, "component_whitelist": ["gallery_tile"], "maximum": 5 }
+      }
+    },
+
+    {
+      "name": "logo_item",
+      "display_name": "Logo item",
+      "is_nestable": true,
+      "schema": {
+        "name": { "type": "text", "pos": 0, "required": true },
+        "symbol": { "type": "text", "pos": 1, "description": "Leading char/symbol (accented)" },
+        "mono_style": { "type": "boolean", "pos": 2 }
+      }
+    },
+
+    {
+      "name": "slide_logos",
+      "display_name": "Slide — Logo Wall",
+      "is_nestable": true,
+      "schema": {
+        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "logos": { "type": "bloks", "pos": 2, "restrict_components": true, "component_whitelist": ["logo_item"], "maximum": 8 }
+      }
+    },
+
+    {
+      "name": "slide_qa",
+      "display_name": "Slide — Q&A Prompt",
+      "is_nestable": true,
+      "schema": {
+        "title_q": { "type": "text", "pos": 0, "default_value": "Q", "translatable": true },
+        "title_amp": { "type": "text", "pos": 1, "default_value": "&", "translatable": true },
+        "title_a": { "type": "text", "pos": 2, "default_value": "A", "translatable": true },
+        "sub": { "type": "textarea", "pos": 3, "translatable": true },
+        "hint": { "type": "text", "pos": 4, "translatable": true, "description": "Pill text (e.g. 'Ask anything')" }
+      }
+    },
+
+    {
+      "name": "slide_beforeafter",
+      "display_name": "Slide — Before / After",
+      "is_nestable": true,
+      "schema": {
+        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "before_label": { "type": "text", "pos": 2, "default_value": "BEFORE" },
+        "before_sample": { "type": "text", "pos": 3, "translatable": true },
+        "before_caption": { "type": "textarea", "pos": 4, "translatable": true },
+        "after_label": { "type": "text", "pos": 5, "default_value": "AFTER" },
+        "after_sample": { "type": "text", "pos": 6, "translatable": true },
+        "after_caption": { "type": "textarea", "pos": 7, "translatable": true }
+      }
+    },
+
+    {
+      "name": "diagram_node",
+      "display_name": "Diagram node",
+      "is_nestable": true,
+      "schema": {
+        "title": { "type": "text", "pos": 0, "required": true, "translatable": true },
+        "hint": { "type": "text", "pos": 1 },
+        "primary": { "type": "boolean", "pos": 2 }
+      }
+    },
+
+    {
+      "name": "slide_diagram",
+      "display_name": "Slide — Architecture Diagram",
+      "is_nestable": true,
+      "schema": {
+        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "nodes": { "type": "bloks", "pos": 2, "restrict_components": true, "component_whitelist": ["diagram_node"], "maximum": 5 },
+        "caption": { "type": "text", "pos": 3, "translatable": true }
+      }
+    },
+
+    {
+      "name": "slide_device",
+      "display_name": "Slide — Device Showcase",
+      "is_nestable": true,
+      "schema": {
+        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "description": { "type": "textarea", "pos": 2, "translatable": true },
+        "features": { "type": "textarea", "pos": 3, "description": "One feature per line", "translatable": true },
+        "mock_title": { "type": "text", "pos": 4, "translatable": true },
+        "mock_sub": { "type": "text", "pos": 5, "translatable": true },
+        "mock_number": { "type": "text", "pos": 6 },
+        "mock_label": { "type": "text", "pos": 7, "translatable": true }
+      }
+    },
+
+    {
+      "name": "definition_entry",
+      "display_name": "Definition entry",
+      "is_nestable": true,
+      "schema": {
+        "body": { "type": "textarea", "pos": 0, "required": true, "translatable": true }
+      }
+    },
+
+    {
+      "name": "slide_definition",
+      "display_name": "Slide — Definition / Key Term",
+      "is_nestable": true,
+      "schema": {
+        "type_label": { "type": "text", "pos": 0, "default_value": "noun", "translatable": true },
+        "term": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "phonetic": { "type": "text", "pos": 2 },
+        "entries": { "type": "bloks", "pos": 3, "restrict_components": true, "component_whitelist": ["definition_entry"], "maximum": 3 }
+      }
+    },
+
+    {
+      "name": "slide_console",
+      "display_name": "Slide — Terminal / Shell",
+      "is_nestable": true,
+      "schema": {
+        "window_title": { "type": "text", "pos": 0, "default_value": "~/project — zsh" },
+        "content": { "type": "textarea", "pos": 1, "required": true, "description": "Raw shell transcript. Rendered as HTML — wrap tokens in <span class=\"…\"> for color: prompt, host, cmd, flag, out, ok, err, url." }
+      }
+    },
+
+    {
+      "name": "diff_line",
+      "display_name": "Diff line",
+      "is_nestable": true,
+      "schema": {
+        "kind": { "type": "option", "pos": 0, "default_value": "context", "options": [{ "name": "Added", "value": "add" }, { "name": "Removed", "value": "rem" }, { "name": "Context", "value": "context" }] },
+        "line": { "type": "text", "pos": 1, "required": true }
+      }
+    },
+
+    {
+      "name": "slide_diff",
+      "display_name": "Slide — Diff View",
+      "is_nestable": true,
+      "schema": {
+        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "filename": { "type": "text", "pos": 2 },
+        "lines": { "type": "bloks", "pos": 3, "restrict_components": true, "component_whitelist": ["diff_line"] }
+      }
+    },
+
+    {
+      "name": "slide_api",
+      "display_name": "Slide — API Endpoint",
+      "is_nestable": true,
+      "schema": {
+        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "method": { "type": "option", "pos": 2, "default_value": "GET", "options": [{ "name": "GET", "value": "get" }, { "name": "POST", "value": "post" }, { "name": "PUT", "value": "put" }, { "name": "PATCH", "value": "patch" }, { "name": "DELETE", "value": "delete" }] },
+        "path": { "type": "text", "pos": 3, "required": true },
+        "description": { "type": "textarea", "pos": 4, "translatable": true },
+        "request_sample": { "type": "textarea", "pos": 5 },
+        "response_sample": { "type": "textarea", "pos": 6 }
+      }
+    },
+
+    {
+      "name": "slide_tree",
+      "display_name": "Slide — File Tree",
+      "is_nestable": true,
+      "schema": {
+        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "tree": { "type": "textarea", "pos": 2, "required": true, "description": "Raw ASCII tree" },
+        "callouts": { "type": "textarea", "pos": 3, "translatable": true, "description": "One callout per line" }
+      }
+    },
+
+    {
+      "name": "slide_techstack",
+      "display_name": "Slide — Tech Stack",
+      "is_nestable": true,
+      "schema": {
+        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "stack": { "type": "textarea", "pos": 2, "required": true, "description": "One tech per line, format: Category | Name | Note" }
+      }
+    },
+
+    {
+      "name": "slide_keyboard",
+      "display_name": "Slide — Keyboard Shortcut",
+      "is_nestable": true,
+      "schema": {
+        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "description": { "type": "textarea", "pos": 2, "translatable": true },
+        "keys": { "type": "text", "pos": 3, "required": true, "description": "Plus-separated, e.g. Cmd + K" },
+        "more": { "type": "textarea", "pos": 4, "description": "Additional shortcuts, one per line, format: 'Cmd+K | description'" }
+      }
+    },
+
+    {
+      "name": "changelog_entry",
+      "display_name": "Changelog entry",
+      "is_nestable": true,
+      "schema": {
+        "kind": { "type": "option", "pos": 0, "default_value": "added", "options": [{ "name": "Added", "value": "added" }, { "name": "Changed", "value": "changed" }, { "name": "Fixed", "value": "fixed" }, { "name": "Removed", "value": "removed" }] },
+        "text": { "type": "text", "pos": 1, "required": true, "translatable": true }
+      }
+    },
+
+    {
+      "name": "slide_changelog",
+      "display_name": "Slide — Changelog",
+      "is_nestable": true,
+      "schema": {
+        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "version": { "type": "text", "pos": 2, "required": true },
+        "date": { "type": "text", "pos": 3 },
+        "entries": { "type": "bloks", "pos": 4, "restrict_components": true, "component_whitelist": ["changelog_entry"] }
+      }
+    },
+
+    {
+      "name": "dashboard_metric",
+      "display_name": "Dashboard metric",
+      "is_nestable": true,
+      "schema": {
+        "label": { "type": "text", "pos": 0, "required": true, "translatable": true },
+        "value": { "type": "text", "pos": 1, "required": true },
+        "delta": { "type": "text", "pos": 2 },
+        "sparkline": { "type": "text", "pos": 3, "description": "Comma-separated numbers, e.g. 4,7,3,9,6" },
+        "accent": { "type": "boolean", "pos": 4 }
+      }
+    },
+
+    {
+      "name": "slide_dashboard",
+      "display_name": "Slide — Live Dashboard",
+      "is_nestable": true,
+      "schema": {
+        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
+        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
+        "timestamp": { "type": "text", "pos": 2, "description": "e.g. UPDATED 14:22:08 UTC" },
+        "metrics": { "type": "bloks", "pos": 3, "restrict_components": true, "component_whitelist": ["dashboard_metric"], "maximum": 6 }
+      }
+    }
+  ]
+}

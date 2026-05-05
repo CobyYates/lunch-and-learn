@@ -1,0 +1,4030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Slide Design System — 15 Layouts × 10 Themes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400;1,9..144,600&family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Archivo+Black&family=Archivo:wght@400;600;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Outfit:wght@300;400;500;700&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Unbounded:wght@400;600;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Manrope:wght@400;500;600;700&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@500;700;800&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+/* =========================================================
+   RESET & APP SHELL
+   ========================================================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: 'Inter Tight', system-ui, sans-serif;
+  background: #0a0a0a;
+  color: #fafafa;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+.app {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+}
+
+/* ---------- Header / Theme Picker ---------- */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #0a0a0a;
+  border-bottom: 1px solid #222;
+  padding: 18px 28px;
+  backdrop-filter: blur(20px);
+}
+.app-header-inner {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  max-width: 1600px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+.brand {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.brand-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+}
+.brand-sub {
+  font-size: 11px;
+  color: #888;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+.theme-picker {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+.theme-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px 8px 8px;
+  border-radius: 999px;
+  background: #141414;
+  border: 1px solid #222;
+  color: #ddd;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+.theme-btn:hover { border-color: #555; background: #1a1a1a; }
+.theme-btn.active {
+  background: #fff;
+  color: #000;
+  border-color: #fff;
+}
+.theme-btn .swatch {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.15);
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+.theme-btn .swatch::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--sw-a, #eee) 0 50%, var(--sw-b, #222) 50% 100%);
+}
+.theme-sep {
+  width: 1px;
+  align-self: stretch;
+  margin: 0 4px;
+  background: #2a2a2a;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.control-btn {
+  background: none;
+  border: 1px solid #333;
+  color: #aaa;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: 0.02em;
+}
+.control-btn:hover { color: #fff; border-color: #666; }
+
+/* ---------- Slides Grid ---------- */
+.slides-outer {
+  padding: 40px 28px 80px;
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
+}
+.slides-intro {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 28px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.slides-intro h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.slides-intro h2 em { font-style: italic; color: #888; font-weight: 400; }
+.slides-intro p { color: #888; font-size: 14px; max-width: 540px; }
+
+.slides-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  gap: 28px;
+}
+.slide-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.slide-caption {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  color: #888;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+.slide-caption .num {
+  font-family: 'JetBrains Mono', monospace;
+  color: #555;
+}
+.slide-caption .name {
+  color: #ddd;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 11px;
+}
+
+/* =========================================================
+   CORE SLIDE STYLES  (container query–based)
+   ========================================================= */
+.slide {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  container-type: inline-size;
+  container-name: slide;
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--slide-bg, #111);
+  color: var(--fg, #eee);
+  font-family: var(--font-body, system-ui);
+  font-size: 1rem;
+  isolation: isolate;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.slide:hover { transform: translateY(-2px); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+
+/* Inner padding and content scale -- all slides use cqw */
+.slide-inner {
+  position: absolute;
+  inset: 0;
+  padding: 5cqw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* =========================================================
+   THEME DEFINITIONS (via CSS custom properties)
+   Each theme sets its full variable suite.
+   ========================================================= */
+
+/* ---- 1. ATELIER  (editorial minimal, warm off-white) ---- */
+[data-theme="atelier"] {
+  --bg: #f4efe6;
+  --bg-alt: #e8e0d0;
+  --fg: #1a1715;
+  --fg-muted: #6b5e4f;
+  --accent: #b94a2c;
+  --accent-2: #1a1715;
+  --border: #1a1715;
+  --rule: #c0b5a0;
+  --font-display: 'Fraunces', serif;
+  --font-body: 'Inter Tight', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius: 0px;
+  --slide-bg: var(--bg);
+  --display-weight: 400;
+  --display-style: italic;
+}
+
+/* ---- 2. MIDNIGHT (deep dark + electric blue) ---- */
+[data-theme="midnight"] {
+  --bg: #0d0f14;
+  --bg-alt: #151821;
+  --fg: #e8eaf0;
+  --fg-muted: #7b8398;
+  --accent: #4d7cff;
+  --accent-2: #00e5c7;
+  --border: #252836;
+  --rule: #252836;
+  --font-display: 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'Geist Mono', 'JetBrains Mono', monospace;
+  --radius: 10px;
+  --slide-bg: radial-gradient(120% 80% at 0% 0%, #1a1f2e 0%, #0d0f14 55%);
+  --display-weight: 700;
+  --display-style: normal;
+}
+
+/* ---- 3. BRUTALIST (cream + thick black + yellow) ---- */
+[data-theme="brutalist"] {
+  --bg: #f5f1e3;
+  --bg-alt: #ffe14b;
+  --fg: #0a0a0a;
+  --fg-muted: #3a3a3a;
+  --accent: #ff5722;
+  --accent-2: #0a0a0a;
+  --border: #0a0a0a;
+  --rule: #0a0a0a;
+  --font-display: 'Archivo Black', sans-serif;
+  --font-body: 'Archivo', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius: 0px;
+  --slide-bg: var(--bg);
+  --display-weight: 900;
+  --display-style: normal;
+}
+
+/* ---- 4. SAGE (earthy organic, warm cream + green) ---- */
+[data-theme="sage"] {
+  --bg: #f0ebe1;
+  --bg-alt: #ddd5c3;
+  --fg: #2d3626;
+  --fg-muted: #6b7360;
+  --accent: #a36b3f;
+  --accent-2: #6c8466;
+  --border: #b5ad9b;
+  --rule: #c8c0ae;
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'Outfit', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius: 2px;
+  --slide-bg: var(--bg);
+  --display-weight: 400;
+  --display-style: italic;
+}
+
+/* ---- 5. MONARCH (luxury dark, plum + gold) ---- */
+[data-theme="monarch"] {
+  --bg: #1a0f1e;
+  --bg-alt: #2a1b2f;
+  --fg: #f0e6d2;
+  --fg-muted: #b8a78a;
+  --accent: #d4a93f;
+  --accent-2: #c78bb5;
+  --border: #4a3650;
+  --rule: #3a2a40;
+  --font-display: 'DM Serif Display', serif;
+  --font-body: 'Manrope', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius: 4px;
+  --slide-bg: radial-gradient(140% 90% at 100% 0%, #3a1f3e 0%, #1a0f1e 60%);
+  --display-weight: 400;
+  --display-style: normal;
+}
+
+/* ---- 6. NEBULA (vibrant gradient + magenta/cyan) ---- */
+[data-theme="nebula"] {
+  --bg: #0a0820;
+  --bg-alt: #1a1540;
+  --fg: #ffffff;
+  --fg-muted: #a8a0d8;
+  --accent: #ff3d8a;
+  --accent-2: #40e0ff;
+  --border: #2a2558;
+  --rule: #2a2558;
+  --font-display: 'Unbounded', sans-serif;
+  --font-body: 'Outfit', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius: 14px;
+  --slide-bg: linear-gradient(135deg, #0a0820 0%, #1a0d3d 40%, #3d1a5c 100%);
+  --display-weight: 800;
+  --display-style: normal;
+}
+
+/* ---- 7. PAPER (Swiss minimalist, white + black + red) ---- */
+[data-theme="paper"] {
+  --bg: #ffffff;
+  --bg-alt: #f4f4f4;
+  --fg: #000000;
+  --fg-muted: #666666;
+  --accent: #e63946;
+  --accent-2: #000000;
+  --border: #000000;
+  --rule: #d4d4d4;
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius: 0px;
+  --slide-bg: var(--bg);
+  --display-weight: 700;
+  --display-style: normal;
+}
+
+/* ---- 8. TERMINAL (pure dark + amber mono) ---- */
+[data-theme="terminal"] {
+  --bg: #0a0a08;
+  --bg-alt: #14140f;
+  --fg: #e8c56c;
+  --fg-muted: #8a7840;
+  --accent: #ffb84d;
+  --accent-2: #7cb342;
+  --border: #3a3218;
+  --rule: #3a3218;
+  --font-display: 'IBM Plex Mono', monospace;
+  --font-body: 'IBM Plex Mono', monospace;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --radius: 0px;
+  --slide-bg: var(--bg);
+  --display-weight: 500;
+  --display-style: normal;
+}
+
+/* ---- 9. BLOSSOM (soft pastel, blush + lavender) ---- */
+[data-theme="blossom"] {
+  --bg: #fdeef0;
+  --bg-alt: #f2dce6;
+  --fg: #3b2a3a;
+  --fg-muted: #8e7686;
+  --accent: #d4729a;
+  --accent-2: #b598d4;
+  --border: #e3c5d0;
+  --rule: #ecd4de;
+  --font-display: 'Instrument Serif', serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius: 18px;
+  --slide-bg: linear-gradient(165deg, #fdeef0 0%, #f5e3f0 100%);
+  --display-weight: 400;
+  --display-style: italic;
+}
+
+/* ---- 10. STEEL (corporate modern, navy + orange) ---- */
+[data-theme="steel"] {
+  --bg: #0f1a2b;
+  --bg-alt: #1a2840;
+  --fg: #e8ecf2;
+  --fg-muted: #8a95a8;
+  --accent: #ff7a3d;
+  --accent-2: #4dc3ff;
+  --border: #253554;
+  --rule: #253554;
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'IBM Plex Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --radius: 6px;
+  --slide-bg: linear-gradient(180deg, #0f1a2b 0%, #162338 100%);
+  --display-weight: 700;
+  --display-style: normal;
+}
+
+/* =========================================================
+   IDE-INSPIRED THEMES (11–18)
+   Iconic editor color palettes, recognizable to developers.
+   ========================================================= */
+
+/* ---- 11. DRACULA (iconic purple/pink on deep slate) ---- */
+[data-theme="dracula"] {
+  --bg: #282a36;
+  --bg-alt: #343746;
+  --fg: #f8f8f2;
+  --fg-muted: #6272a4;
+  --accent: #ff79c6;
+  --accent-2: #8be9fd;
+  --border: #44475a;
+  --rule: #44475a;
+  --font-display: 'Unbounded', sans-serif;
+  --font-body: 'Inter Tight', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius: 6px;
+  --slide-bg: var(--bg);
+  --display-weight: 700;
+  --display-style: normal;
+  --syn-key: #ff79c6;
+  --syn-str: #f1fa8c;
+  --syn-com: #6272a4;
+  --syn-fn:  #50fa7b;
+  --syn-num: #bd93f9;
+}
+
+/* ---- 12. MONOKAI (classic Sublime warmth) ---- */
+[data-theme="monokai"] {
+  --bg: #272822;
+  --bg-alt: #3e3d32;
+  --fg: #f8f8f2;
+  --fg-muted: #75715e;
+  --accent: #f92672;
+  --accent-2: #a6e22e;
+  --border: #49483e;
+  --rule: #49483e;
+  --font-display: 'Inter Tight', sans-serif;
+  --font-body: 'Inter Tight', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius: 4px;
+  --slide-bg: var(--bg);
+  --display-weight: 800;
+  --display-style: normal;
+  --syn-key: #f92672;
+  --syn-str: #e6db74;
+  --syn-com: #75715e;
+  --syn-fn:  #a6e22e;
+  --syn-num: #ae81ff;
+}
+
+/* ---- 13. SOLARIZED DARK (Ethan Schoonover's classic) ---- */
+[data-theme="solarized"] {
+  --bg: #002b36;
+  --bg-alt: #073642;
+  --fg: #93a1a1;
+  --fg-muted: #586e75;
+  --accent: #b58900;
+  --accent-2: #2aa198;
+  --border: #073642;
+  --rule: #073642;
+  --font-display: 'IBM Plex Sans', sans-serif;
+  --font-body: 'IBM Plex Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --radius: 3px;
+  --slide-bg: var(--bg);
+  --display-weight: 600;
+  --display-style: normal;
+  --syn-key: #268bd2;
+  --syn-str: #2aa198;
+  --syn-com: #586e75;
+  --syn-fn:  #b58900;
+  --syn-num: #d33682;
+}
+
+/* ---- 14. TOKYO NIGHT (modern deep-blue favorite) ---- */
+[data-theme="tokyo"] {
+  --bg: #1a1b26;
+  --bg-alt: #24283b;
+  --fg: #c0caf5;
+  --fg-muted: #565f89;
+  --accent: #bb9af7;
+  --accent-2: #7dcfff;
+  --border: #2a2e42;
+  --rule: #2a2e42;
+  --font-display: 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'Geist Mono', 'JetBrains Mono', monospace;
+  --radius: 8px;
+  --slide-bg: var(--bg);
+  --display-weight: 700;
+  --display-style: normal;
+  --syn-key: #bb9af7;
+  --syn-str: #9ece6a;
+  --syn-com: #565f89;
+  --syn-fn:  #7aa2f7;
+  --syn-num: #ff9e64;
+}
+
+/* ---- 15. NORD (arctic, frost-inspired) ---- */
+[data-theme="nord"] {
+  --bg: #2e3440;
+  --bg-alt: #3b4252;
+  --fg: #eceff4;
+  --fg-muted: #81889a;
+  --accent: #88c0d0;
+  --accent-2: #a3be8c;
+  --border: #434c5e;
+  --rule: #434c5e;
+  --font-display: 'Inter Tight', sans-serif;
+  --font-body: 'Inter Tight', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius: 4px;
+  --slide-bg: var(--bg);
+  --display-weight: 600;
+  --display-style: normal;
+  --syn-key: #81a1c1;
+  --syn-str: #a3be8c;
+  --syn-com: #4c566a;
+  --syn-fn:  #88c0d0;
+  --syn-num: #b48ead;
+}
+
+/* ---- 16. GRUVBOX (retro warm, vim-classic) ---- */
+[data-theme="gruvbox"] {
+  --bg: #282828;
+  --bg-alt: #3c3836;
+  --fg: #ebdbb2;
+  --fg-muted: #928374;
+  --accent: #fabd2f;
+  --accent-2: #b8bb26;
+  --border: #504945;
+  --rule: #504945;
+  --font-display: 'JetBrains Mono', monospace;
+  --font-body: 'JetBrains Mono', monospace;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius: 0px;
+  --slide-bg: var(--bg);
+  --display-weight: 700;
+  --display-style: normal;
+  --syn-key: #fb4934;
+  --syn-str: #b8bb26;
+  --syn-com: #928374;
+  --syn-fn:  #fabd2f;
+  --syn-num: #d3869b;
+}
+
+/* ---- 17. CATPPUCCIN MOCHA (pastel dark, deeply popular) ---- */
+[data-theme="catppuccin"] {
+  --bg: #1e1e2e;
+  --bg-alt: #313244;
+  --fg: #cdd6f4;
+  --fg-muted: #7f849c;
+  --accent: #f5c2e7;
+  --accent-2: #a6e3a1;
+  --border: #45475a;
+  --rule: #45475a;
+  --font-display: 'Outfit', sans-serif;
+  --font-body: 'Outfit', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius: 10px;
+  --slide-bg: var(--bg);
+  --display-weight: 700;
+  --display-style: normal;
+  --syn-key: #cba6f7;
+  --syn-str: #a6e3a1;
+  --syn-com: #6c7086;
+  --syn-fn:  #89b4fa;
+  --syn-num: #fab387;
+}
+
+/* ---- 18. GITHUB DARK (familiar, clean) ---- */
+[data-theme="github"] {
+  --bg: #0d1117;
+  --bg-alt: #161b22;
+  --fg: #c9d1d9;
+  --fg-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-2: #3fb950;
+  --border: #30363d;
+  --rule: #21262d;
+  --font-display: 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius: 6px;
+  --slide-bg: var(--bg);
+  --display-weight: 700;
+  --display-style: normal;
+  --syn-key: #ff7b72;
+  --syn-str: #a5d6ff;
+  --syn-com: #8b949e;
+  --syn-fn:  #d2a8ff;
+  --syn-num: #79c0ff;
+}
+
+/* =========================================================
+   SHARED SLIDE TYPOGRAPHY
+   Uses container-query units for perfect scaling.
+   ========================================================= */
+.slide h1, .slide h2, .slide h3 {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+}
+.slide h1 { font-size: 8cqw; }
+.slide h2 { font-size: 5.5cqw; }
+.slide h3 { font-size: 3.2cqw; }
+.slide p, .slide li, .slide td, .slide th {
+  font-family: var(--font-body);
+  line-height: 1.45;
+  color: var(--fg);
+}
+.slide .muted { color: var(--fg-muted); }
+.slide .accent { color: var(--accent); }
+.slide .eyebrow {
+  font-family: var(--font-body);
+  font-size: 1.4cqw;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+}
+.slide .rule {
+  height: 1px;
+  background: var(--rule);
+  border: 0;
+  margin: 2cqw 0;
+}
+
+/* =========================================================
+   LAYOUT 01 — TITLE / COVER
+   ========================================================= */
+.layout-title .slide-inner { justify-content: space-between; }
+.layout-title .top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-family: var(--font-mono);
+  font-size: 1.4cqw;
+  color: var(--fg-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.layout-title .big-title {
+  font-size: 11cqw;
+  line-height: 0.95;
+  max-width: 92%;
+}
+.layout-title .big-title em { color: var(--accent); }
+.layout-title .meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-size: 1.5cqw;
+  color: var(--fg-muted);
+  letter-spacing: 0.04em;
+}
+.layout-title .meta strong { color: var(--fg); font-weight: 600; display: block; }
+
+/* =========================================================
+   LAYOUT 02 — SECTION DIVIDER
+   ========================================================= */
+.layout-section .slide-inner {
+  flex-direction: row;
+  align-items: center;
+  gap: 5cqw;
+}
+.layout-section .num {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  font-size: 28cqw;
+  line-height: 0.8;
+  color: var(--accent);
+  letter-spacing: -0.05em;
+}
+.layout-section .body { flex: 1; }
+.layout-section .eyebrow { margin-bottom: 1.5cqw; }
+.layout-section h2 { font-size: 7cqw; margin-bottom: 2cqw; }
+.layout-section p { font-size: 1.8cqw; max-width: 90%; }
+
+/* =========================================================
+   LAYOUT 03 — BULLETS / TEXT CONTENT
+   ========================================================= */
+.layout-bullets .eyebrow { margin-bottom: 1cqw; }
+.layout-bullets h2 { font-size: 5.5cqw; max-width: 85%; margin-bottom: 0.8cqw; }
+.layout-bullets .sub { font-size: 1.8cqw; color: var(--fg-muted); margin-bottom: 3cqw; max-width: 80%; }
+.layout-bullets ul {
+  list-style: none;
+  display: grid;
+  gap: 1.4cqw;
+}
+.layout-bullets ul li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.8cqw;
+  font-size: 1.9cqw;
+  align-items: baseline;
+}
+.layout-bullets ul li::before {
+  content: counter(l, decimal-leading-zero);
+  counter-increment: l;
+  font-family: var(--font-mono);
+  font-size: 1.2cqw;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  padding-top: 0.4cqw;
+}
+.layout-bullets ul { counter-reset: l; }
+.layout-bullets ul li strong { font-weight: 700; color: var(--fg); }
+
+/* =========================================================
+   LAYOUT 04 — IMAGE + TEXT SPLIT
+   ========================================================= */
+.layout-split .slide-inner {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 4cqw;
+  align-items: center;
+  padding: 4cqw;
+}
+.layout-split .visual {
+  aspect-ratio: 4 / 5;
+  border-radius: calc(var(--radius) + 4px);
+  overflow: hidden;
+  position: relative;
+  background: var(--bg-alt);
+}
+.layout-split .text-col h2 { font-size: 5cqw; margin-bottom: 1.5cqw; }
+.layout-split .text-col .eyebrow { margin-bottom: 1cqw; }
+.layout-split .text-col p { font-size: 1.7cqw; color: var(--fg-muted); margin-bottom: 1cqw; }
+
+/* =========================================================
+   LAYOUT 05 — FULL-BLEED IMAGE WITH OVERLAY
+   ========================================================= */
+.layout-hero .slide-inner {
+  justify-content: flex-end;
+  padding: 5cqw;
+  background-image: var(--hero-overlay, linear-gradient(transparent 40%, rgba(0,0,0,0.75)));
+}
+.layout-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--hero-bg);
+  z-index: -1;
+}
+.layout-hero h1 { font-size: 8cqw; color: #fff; max-width: 80%; }
+.layout-hero .sub { color: rgba(255,255,255,0.85); font-size: 1.8cqw; max-width: 65%; margin-top: 1.5cqw; }
+.layout-hero .tag {
+  display: inline-block;
+  padding: 0.6cqw 1.4cqw;
+  background: var(--accent);
+  color: var(--bg);
+  font-size: 1.2cqw;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 2cqw;
+  border-radius: calc(var(--radius) / 2);
+}
+
+/* =========================================================
+   LAYOUT 06 — CODE SNIPPET
+   ========================================================= */
+.layout-code .slide-inner { padding: 4cqw; gap: 2cqw; }
+.layout-code .head { display: flex; align-items: baseline; justify-content: space-between; }
+.layout-code h3 { font-size: 3cqw; }
+.layout-code .lang {
+  font-family: var(--font-mono);
+  font-size: 1.3cqw;
+  color: var(--fg-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.layout-code pre {
+  flex: 1;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2.5cqw 3cqw;
+  font-family: var(--font-mono);
+  font-size: 1.45cqw;
+  line-height: 1.65;
+  overflow: hidden;
+  color: var(--fg);
+  position: relative;
+}
+.layout-code pre .tk-key { color: var(--syn-key, var(--accent)); font-weight: 500; }
+.layout-code pre .tk-str { color: var(--syn-str, var(--accent-2)); }
+.layout-code pre .tk-com { color: var(--syn-com, var(--fg-muted)); font-style: italic; }
+.layout-code pre .tk-fn { color: var(--syn-fn, var(--accent-2)); }
+.layout-code pre .tk-num { color: var(--syn-num, var(--accent)); }
+
+/* =========================================================
+   LAYOUT 07 — TWO-COLUMN COMPARISON
+   ========================================================= */
+.layout-compare .slide-inner { padding: 4cqw; gap: 2cqw; }
+.layout-compare h3 { font-size: 4cqw; text-align: center; margin-bottom: 0.5cqw; }
+.layout-compare .eyebrow { text-align: center; }
+.layout-compare .cols {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 2cqw;
+  align-items: stretch;
+  flex: 1;
+  margin-top: 2cqw;
+}
+.layout-compare .col {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2.4cqw;
+  display: flex;
+  flex-direction: column;
+  gap: 1cqw;
+}
+.layout-compare .col.featured { border-color: var(--accent); border-width: 2px; }
+.layout-compare .col h4 { font-family: var(--font-display); font-weight: var(--display-weight); font-style: var(--display-style); font-size: 2.6cqw; }
+.layout-compare .col .tag {
+  align-self: flex-start;
+  font-size: 1cqw;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.3cqw 0.8cqw;
+  background: var(--accent);
+  color: var(--bg);
+  border-radius: calc(var(--radius) / 2);
+  font-weight: 700;
+}
+.layout-compare .col ul { list-style: none; display: grid; gap: 0.8cqw; }
+.layout-compare .col ul li {
+  font-size: 1.4cqw;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1cqw;
+  align-items: baseline;
+  color: var(--fg-muted);
+}
+.layout-compare .col ul li::before {
+  content: '✓';
+  color: var(--accent-2);
+  font-weight: 700;
+}
+.layout-compare .divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  font-size: 3.5cqw;
+  color: var(--accent);
+}
+
+/* =========================================================
+   LAYOUT 08 — PULL QUOTE
+   ========================================================= */
+.layout-quote .slide-inner { padding: 6cqw; justify-content: center; gap: 3cqw; }
+.layout-quote .qmark {
+  font-family: var(--font-display);
+  font-size: 22cqw;
+  line-height: 0.6;
+  color: var(--accent);
+  margin-bottom: -3cqw;
+  font-style: var(--display-style);
+  font-weight: var(--display-weight);
+}
+.layout-quote blockquote {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  font-size: 5.5cqw;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  max-width: 95%;
+}
+.layout-quote .attr {
+  display: flex;
+  align-items: center;
+  gap: 1.5cqw;
+  margin-top: 2cqw;
+}
+.layout-quote .attr .avatar {
+  width: 5cqw;
+  height: 5cqw;
+  border-radius: 50%;
+  background: var(--accent);
+  display: grid;
+  place-items: center;
+  color: var(--bg);
+  font-weight: 700;
+  font-size: 1.8cqw;
+  flex-shrink: 0;
+}
+.layout-quote .attr strong { font-weight: 600; font-size: 1.7cqw; color: var(--fg); display: block; }
+.layout-quote .attr span { font-size: 1.4cqw; color: var(--fg-muted); }
+
+/* =========================================================
+   LAYOUT 09 — STATS / KPI
+   ========================================================= */
+.layout-stats .slide-inner { padding: 4cqw; gap: 2cqw; }
+.layout-stats h3 { font-size: 3.5cqw; max-width: 70%; }
+.layout-stats .eyebrow { margin-bottom: 0.6cqw; }
+.layout-stats .grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5cqw;
+  flex: 1;
+  margin-top: 2cqw;
+}
+.layout-stats .stat {
+  border-top: 1px solid var(--border);
+  padding: 1.6cqw 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6cqw;
+  justify-content: space-between;
+}
+.layout-stats .stat .big {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  font-size: 8cqw;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  color: var(--fg);
+}
+.layout-stats .stat .big .unit { color: var(--accent); }
+.layout-stats .stat .lbl {
+  font-size: 1.3cqw;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 500;
+}
+.layout-stats .stat .desc { font-size: 1.3cqw; color: var(--fg-muted); line-height: 1.4; }
+
+/* =========================================================
+   LAYOUT 10 — STEPPER / PROCESS TIMELINE
+   ========================================================= */
+.layout-stepper .slide-inner { padding: 4cqw; gap: 3cqw; }
+.layout-stepper h3 { font-size: 3.8cqw; }
+.layout-stepper .track {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.2cqw;
+  flex: 1;
+  position: relative;
+}
+.layout-stepper .step {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2cqw;
+  padding-top: 2.4cqw;
+  position: relative;
+}
+.layout-stepper .step::before {
+  content: '';
+  position: absolute;
+  top: 0.6cqw;
+  left: 0;
+  right: -1.2cqw;
+  height: 2px;
+  background: var(--rule);
+}
+.layout-stepper .step:last-child::before { right: 0; }
+.layout-stepper .step .dot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1.4cqw;
+  height: 1.4cqw;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px var(--slide-bg);
+}
+.layout-stepper .step .num {
+  font-family: var(--font-mono);
+  font-size: 1.2cqw;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+}
+.layout-stepper .step h4 {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  font-size: 2.2cqw;
+  line-height: 1.1;
+}
+.layout-stepper .step p { font-size: 1.25cqw; color: var(--fg-muted); line-height: 1.4; }
+
+/* =========================================================
+   LAYOUT 11 — TEAM / PROFILES
+   ========================================================= */
+.layout-team .slide-inner { padding: 4cqw; gap: 2.5cqw; }
+.layout-team h3 { font-size: 4cqw; max-width: 70%; }
+.layout-team .cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5cqw;
+  flex: 1;
+}
+.layout-team .card {
+  display: flex;
+  flex-direction: column;
+  gap: 1cqw;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.6cqw;
+}
+.layout-team .card .avatar {
+  aspect-ratio: 1 / 1;
+  border-radius: calc(var(--radius) * 0.7);
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-size: 4cqw;
+  color: var(--bg);
+}
+.layout-team .card h4 {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  font-size: 1.9cqw;
+  line-height: 1.1;
+  margin-top: 0.5cqw;
+}
+.layout-team .card .role {
+  font-size: 1.1cqw;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.layout-team .card p { font-size: 1.1cqw; color: var(--fg-muted); line-height: 1.4; }
+
+/* =========================================================
+   LAYOUT 12 — CHART / DATA VIZ
+   ========================================================= */
+.layout-chart .slide-inner { padding: 4cqw; gap: 2cqw; }
+.layout-chart .head { display: flex; justify-content: space-between; align-items: flex-end; }
+.layout-chart h3 { font-size: 3.6cqw; max-width: 70%; }
+.layout-chart .legend { display: flex; gap: 1.5cqw; font-size: 1.3cqw; color: var(--fg-muted); }
+.layout-chart .legend span { display: inline-flex; align-items: center; gap: 0.5cqw; }
+.layout-chart .legend .dot { width: 1cqw; height: 1cqw; border-radius: 2px; background: var(--accent); }
+.layout-chart .legend .dot.alt { background: var(--accent-2); }
+.layout-chart .chart {
+  flex: 1;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.5cqw;
+  position: relative;
+}
+.layout-chart .yaxis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-family: var(--font-mono);
+  font-size: 1.1cqw;
+  color: var(--fg-muted);
+  padding: 0.5cqw 0;
+}
+.layout-chart .bars {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1.2cqw;
+  align-items: end;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 2cqw;
+  position: relative;
+}
+.layout-chart .bars::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(to top, transparent calc(25% - 1px), var(--rule) calc(25% - 1px), var(--rule) 25%, transparent 25%),
+                    linear-gradient(to top, transparent calc(50% - 1px), var(--rule) calc(50% - 1px), var(--rule) 50%, transparent 50%),
+                    linear-gradient(to top, transparent calc(75% - 1px), var(--rule) calc(75% - 1px), var(--rule) 75%, transparent 75%);
+  opacity: 0.4;
+  pointer-events: none;
+}
+.layout-chart .bar-group { display: flex; flex-direction: column; gap: 0.5cqw; align-items: stretch; height: 100%; justify-content: flex-end; }
+.layout-chart .bar-group .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4cqw; align-items: end; height: 100%; }
+.layout-chart .bar { background: var(--accent); border-radius: 2px 2px 0 0; min-height: 2px; }
+.layout-chart .bar.alt { background: var(--accent-2); }
+.layout-chart .bar-group .lbl {
+  font-family: var(--font-mono);
+  font-size: 1cqw;
+  color: var(--fg-muted);
+  text-align: center;
+  margin-top: 0.5cqw;
+}
+
+/* =========================================================
+   LAYOUT 13 — MEDIA / VIDEO
+   ========================================================= */
+.layout-media .slide-inner { padding: 4cqw; flex-direction: row; gap: 3cqw; align-items: center; }
+.layout-media .video {
+  flex: 1.4;
+  aspect-ratio: 16 / 10;
+  background: linear-gradient(135deg, var(--bg-alt), var(--accent-2));
+  border-radius: var(--radius);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.layout-media .video::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.12), transparent 50%);
+}
+.layout-media .video .play {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12cqw; height: 12cqw;
+  border-radius: 50%;
+  background: var(--accent);
+  display: grid;
+  place-items: center;
+  color: var(--bg);
+  font-size: 4cqw;
+  box-shadow: 0 0 0 8px rgba(255,255,255,0.1);
+}
+.layout-media .video .duration {
+  position: absolute;
+  bottom: 1.2cqw;
+  right: 1.2cqw;
+  font-family: var(--font-mono);
+  font-size: 1.2cqw;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  padding: 0.3cqw 0.8cqw;
+  border-radius: 3px;
+}
+.layout-media .info { flex: 1; display: flex; flex-direction: column; gap: 1.2cqw; }
+.layout-media .info h3 { font-size: 3.8cqw; line-height: 1.05; }
+.layout-media .info p { font-size: 1.5cqw; color: var(--fg-muted); }
+.layout-media .info .meta { display: flex; gap: 1.5cqw; font-family: var(--font-mono); font-size: 1.2cqw; color: var(--fg-muted); margin-top: 1cqw; text-transform: uppercase; letter-spacing: 0.08em; }
+.layout-media .info .meta b { color: var(--fg); font-weight: 600; }
+
+/* =========================================================
+   LAYOUT 14 — TABLE / DATA
+   ========================================================= */
+.layout-table .slide-inner { padding: 4cqw; gap: 2cqw; }
+.layout-table h3 { font-size: 3.6cqw; }
+.layout-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1.4cqw;
+  flex: 1;
+}
+.layout-table thead th {
+  text-align: left;
+  padding: 1.2cqw 1cqw;
+  border-bottom: 2px solid var(--border);
+  font-family: var(--font-body);
+  font-size: 1.1cqw;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  font-weight: 600;
+}
+.layout-table thead th:last-child { text-align: right; }
+.layout-table tbody td {
+  padding: 1.3cqw 1cqw;
+  border-bottom: 1px solid var(--rule);
+  color: var(--fg);
+}
+.layout-table tbody td:last-child { text-align: right; font-family: var(--font-mono); }
+.layout-table tbody tr:last-child td { border-bottom: none; }
+.layout-table tbody tr.highlight td {
+  background: var(--bg-alt);
+  color: var(--accent);
+  font-weight: 600;
+}
+.layout-table .pill {
+  display: inline-block;
+  padding: 0.3cqw 0.9cqw;
+  border-radius: 999px;
+  font-size: 1cqw;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--bg-alt);
+  color: var(--fg-muted);
+  border: 1px solid var(--border);
+}
+.layout-table .pill.ok { color: var(--accent-2); border-color: var(--accent-2); }
+.layout-table .pill.warn { color: var(--accent); border-color: var(--accent); }
+
+/* =========================================================
+   LAYOUT 15 — CLOSING / CTA
+   ========================================================= */
+.layout-closing .slide-inner {
+  justify-content: center;
+  align-items: flex-start;
+  padding: 5cqw;
+  gap: 2cqw;
+}
+.layout-closing .eyebrow { margin-bottom: -0.5cqw; }
+.layout-closing h1 {
+  font-size: 14cqw;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+}
+.layout-closing h1 em { color: var(--accent); }
+.layout-closing .foot {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2cqw;
+  width: 100%;
+  margin-top: 2cqw;
+  padding-top: 2cqw;
+  border-top: 1px solid var(--rule);
+}
+.layout-closing .foot .lbl {
+  font-size: 1.1cqw;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.4cqw;
+}
+.layout-closing .foot .val { font-size: 1.6cqw; color: var(--fg); font-weight: 500; }
+
+/* =========================================================
+   LAYOUT 16 — AGENDA / TABLE OF CONTENTS
+   ========================================================= */
+.layout-agenda .slide-inner { padding: 4cqw; gap: 1.5cqw; }
+.layout-agenda .eyebrow { margin-bottom: 0.3cqw; }
+.layout-agenda h3 { font-size: 4cqw; margin-bottom: 1cqw; }
+.layout-agenda .items { display: grid; gap: 0; flex: 1; align-content: center; }
+.layout-agenda .item {
+  display: grid;
+  grid-template-columns: 5cqw 1fr auto;
+  gap: 2cqw;
+  align-items: baseline;
+  padding: 1.4cqw 0;
+  border-bottom: 1px solid var(--rule);
+}
+.layout-agenda .item:last-child { border-bottom: none; }
+.layout-agenda .item .n {
+  font-family: var(--font-mono);
+  color: var(--accent);
+  font-size: 1.3cqw;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+}
+.layout-agenda .item h4 {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  font-size: 2.6cqw;
+  line-height: 1.1;
+}
+.layout-agenda .item .t {
+  font-family: var(--font-mono);
+  color: var(--fg-muted);
+  font-size: 1.2cqw;
+  letter-spacing: 0.04em;
+}
+
+/* =========================================================
+   LAYOUT 17 — BIG NUMBER / HERO STAT
+   ========================================================= */
+.layout-bignum .slide-inner {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 1.2cqw;
+  padding: 4cqw;
+}
+.layout-bignum .eyebrow { margin-bottom: 0.8cqw; }
+.layout-bignum .number {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  font-size: 28cqw;
+  line-height: 0.82;
+  letter-spacing: -0.05em;
+  color: var(--fg);
+}
+.layout-bignum .number .unit { color: var(--accent); }
+.layout-bignum .label { font-size: 2.4cqw; color: var(--fg); max-width: 70%; line-height: 1.2; }
+.layout-bignum .label strong { font-weight: 700; }
+.layout-bignum .sub { font-size: 1.4cqw; color: var(--fg-muted); max-width: 55%; line-height: 1.5; margin-top: 0.5cqw; }
+
+/* =========================================================
+   LAYOUT 18 — PRICING TIERS
+   ========================================================= */
+.layout-pricing .slide-inner { padding: 4cqw; gap: 2cqw; }
+.layout-pricing .eyebrow { text-align: center; margin-bottom: 0.3cqw; }
+.layout-pricing h3 { font-size: 3.4cqw; text-align: center; }
+.layout-pricing .tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5cqw; flex: 1; }
+.layout-pricing .tier {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2cqw;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9cqw;
+  background: var(--bg-alt);
+}
+.layout-pricing .tier.featured { border-color: var(--accent); border-width: 2px; }
+.layout-pricing .tier .tag {
+  align-self: flex-start;
+  font-size: 0.9cqw;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.3cqw 0.8cqw;
+  background: var(--accent);
+  color: var(--bg);
+  border-radius: 999px;
+  font-weight: 700;
+  margin-bottom: -0.3cqw;
+}
+.layout-pricing .tier h4 {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  font-size: 2.4cqw;
+}
+.layout-pricing .tier .price { display: flex; align-items: baseline; gap: 0.4cqw; }
+.layout-pricing .tier .price .big {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  font-size: 5.5cqw;
+  color: var(--accent);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.layout-pricing .tier .price .per { font-size: 1.1cqw; color: var(--fg-muted); }
+.layout-pricing .tier ul { list-style: none; display: grid; gap: 0.6cqw; margin-top: 0.3cqw; }
+.layout-pricing .tier ul li {
+  font-size: 1.2cqw;
+  color: var(--fg-muted);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.7cqw;
+  align-items: baseline;
+  line-height: 1.4;
+}
+.layout-pricing .tier ul li::before { content: '✓'; color: var(--accent-2); font-weight: 700; }
+.layout-pricing .tier .cta {
+  margin-top: auto;
+  padding: 0.9cqw;
+  text-align: center;
+  background: var(--fg);
+  color: var(--bg);
+  border-radius: calc(var(--radius) / 2);
+  font-size: 1.1cqw;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.layout-pricing .tier.featured .cta { background: var(--accent); }
+
+/* =========================================================
+   LAYOUT 19 — TIMELINE (horizontal dated)
+   ========================================================= */
+.layout-timeline .slide-inner { padding: 4cqw; gap: 2cqw; }
+.layout-timeline .eyebrow { margin-bottom: 0.3cqw; }
+.layout-timeline h3 { font-size: 3.6cqw; }
+.layout-timeline .events {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  flex: 1;
+  position: relative;
+  margin-top: 2cqw;
+  align-items: center;
+}
+.layout-timeline .events::before {
+  content: '';
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 50%;
+  height: 2px;
+  background: var(--rule);
+  transform: translateY(-1px);
+}
+.layout-timeline .event {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8cqw;
+  position: relative;
+  padding: 0 1cqw;
+}
+.layout-timeline .event .dot {
+  width: 1.6cqw;
+  height: 1.6cqw;
+  border-radius: 50%;
+  background: var(--slide-bg, var(--bg));
+  border: 2px solid var(--accent);
+  z-index: 2;
+  flex-shrink: 0;
+}
+.layout-timeline .event:nth-child(odd) { flex-direction: column-reverse; margin-top: -6cqw; }
+.layout-timeline .event:nth-child(even) { margin-top: 6cqw; }
+.layout-timeline .event .date {
+  font-family: var(--font-mono);
+  font-size: 1.3cqw;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+.layout-timeline .event h4 {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  font-size: 1.8cqw;
+  text-align: center;
+  line-height: 1.1;
+}
+.layout-timeline .event p {
+  font-size: 1.1cqw;
+  color: var(--fg-muted);
+  text-align: center;
+  line-height: 1.35;
+}
+
+/* =========================================================
+   LAYOUT 20 — FEATURE GRID (6 cells)
+   ========================================================= */
+.layout-features .slide-inner { padding: 4cqw; gap: 2cqw; }
+.layout-features .eyebrow { margin-bottom: 0.3cqw; }
+.layout-features h3 { font-size: 3.4cqw; max-width: 70%; }
+.layout-features .grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 1.5cqw;
+  flex: 1;
+}
+.layout-features .feature {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7cqw;
+  padding: 1.4cqw 1.4cqw 1.4cqw 1.6cqw;
+  border-left: 2px solid var(--accent);
+}
+.layout-features .feature .icon {
+  font-family: var(--font-display);
+  font-size: 3.2cqw;
+  color: var(--accent);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  line-height: 1;
+  margin-bottom: 0.2cqw;
+}
+.layout-features .feature h4 {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  font-size: 1.9cqw;
+  line-height: 1.1;
+}
+.layout-features .feature p { font-size: 1.15cqw; color: var(--fg-muted); line-height: 1.45; }
+
+/* =========================================================
+   LAYOUT 21 — IMAGE GALLERY
+   ========================================================= */
+.layout-gallery .slide-inner { padding: 4cqw; gap: 1.8cqw; }
+.layout-gallery .eyebrow { margin-bottom: 0.3cqw; }
+.layout-gallery h3 { font-size: 3.4cqw; }
+.layout-gallery .wall {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 1cqw;
+  flex: 1;
+}
+.layout-gallery .tile {
+  border-radius: calc(var(--radius) / 2);
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-alt);
+}
+.layout-gallery .tile.feature {
+  grid-row: span 2;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+}
+.layout-gallery .tile.alt { background: linear-gradient(160deg, var(--accent-2), var(--fg-muted)); }
+.layout-gallery .tile.neutral { background: linear-gradient(135deg, var(--bg-alt), var(--accent) 200%); }
+.layout-gallery .tile.muted { background: var(--bg-alt); border: 1px solid var(--border); }
+.layout-gallery .tile .cap {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 1cqw 1.2cqw;
+  font-family: var(--font-mono);
+  font-size: 1cqw;
+  color: #fff;
+  background: linear-gradient(transparent, rgba(0,0,0,0.65));
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   LAYOUT 22 — LOGO WALL / CLIENTS
+   ========================================================= */
+.layout-logos .slide-inner { padding: 4cqw; gap: 2cqw; }
+.layout-logos .eyebrow { text-align: center; margin-bottom: 0.3cqw; }
+.layout-logos h3 { font-size: 3.6cqw; text-align: center; }
+.layout-logos .wall {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 1.2cqw;
+  flex: 1;
+}
+.layout-logos .logo {
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  font-size: 2cqw;
+  color: var(--fg);
+  background: var(--bg-alt);
+  letter-spacing: -0.02em;
+  padding: 1cqw;
+  text-align: center;
+  line-height: 1;
+}
+.layout-logos .logo .sym { color: var(--accent); margin-right: 0.3cqw; font-weight: var(--display-weight); }
+.layout-logos .logo.mono { font-family: var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; font-size: 1.5cqw; }
+
+/* =========================================================
+   LAYOUT 23 — Q&A PROMPT
+   ========================================================= */
+.layout-qa .slide-inner {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 5cqw;
+  gap: 1.5cqw;
+}
+.layout-qa .big {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  font-size: 17cqw;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--fg);
+}
+.layout-qa .big .amp { color: var(--accent); font-style: italic; }
+.layout-qa .sub { font-size: 2cqw; color: var(--fg-muted); max-width: 65%; line-height: 1.4; }
+.layout-qa .hint {
+  font-family: var(--font-mono);
+  font-size: 1.2cqw;
+  color: var(--accent);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-top: 2cqw;
+  padding: 0.8cqw 1.6cqw;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+}
+
+/* =========================================================
+   LAYOUT 24 — BEFORE / AFTER
+   ========================================================= */
+.layout-beforeafter .slide-inner { padding: 4cqw; gap: 2cqw; }
+.layout-beforeafter .eyebrow { margin-bottom: 0.3cqw; }
+.layout-beforeafter h3 { font-size: 3.4cqw; }
+.layout-beforeafter .split {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1.8cqw;
+  align-items: stretch;
+  flex: 1;
+}
+.layout-beforeafter .panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1cqw;
+  padding: 2cqw;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-alt);
+}
+.layout-beforeafter .panel .lbl {
+  font-family: var(--font-mono);
+  font-size: 1cqw;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  font-weight: 600;
+}
+.layout-beforeafter .panel.after .lbl { color: var(--accent); }
+.layout-beforeafter .panel .visual {
+  flex: 1;
+  border-radius: calc(var(--radius) / 2);
+  background: var(--slide-bg, var(--bg));
+  display: grid;
+  place-items: center;
+  padding: 2cqw;
+  min-height: 10cqw;
+  border: 1px dashed var(--rule);
+}
+.layout-beforeafter .panel.before .visual { opacity: 0.55; }
+.layout-beforeafter .panel .visual .sample {
+  font-family: var(--font-display);
+  font-size: 3.4cqw;
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  color: var(--fg);
+  line-height: 1;
+  text-align: center;
+  letter-spacing: -0.02em;
+}
+.layout-beforeafter .panel.after .visual .sample { color: var(--accent); }
+.layout-beforeafter .panel p { font-size: 1.2cqw; color: var(--fg-muted); line-height: 1.4; }
+.layout-beforeafter .arrow {
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-size: 4cqw;
+  color: var(--accent);
+}
+
+/* =========================================================
+   LAYOUT 25 — DIAGRAM / ARCHITECTURE FLOW
+   ========================================================= */
+.layout-diagram .slide-inner { padding: 4cqw; gap: 2cqw; }
+.layout-diagram .eyebrow { margin-bottom: 0.3cqw; }
+.layout-diagram h3 { font-size: 3.4cqw; }
+.layout-diagram .flow {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1cqw;
+  margin-top: 1cqw;
+}
+.layout-diagram .node {
+  flex: 1;
+  padding: 1.6cqw 1.4cqw;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-alt);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3cqw;
+  min-height: 9cqw;
+  justify-content: center;
+  position: relative;
+}
+.layout-diagram .node.primary {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+.layout-diagram .node.primary h5,
+.layout-diagram .node.primary .hint { color: var(--bg); }
+.layout-diagram .node h5 {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  font-size: 1.9cqw;
+  line-height: 1.1;
+  color: var(--fg);
+}
+.layout-diagram .node .hint {
+  font-family: var(--font-mono);
+  font-size: 0.9cqw;
+  color: var(--fg-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.layout-diagram .arrow {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-size: 2.8cqw;
+  color: var(--accent);
+  flex-shrink: 0;
+  line-height: 1;
+}
+.layout-diagram .caption {
+  font-family: var(--font-mono);
+  font-size: 1.1cqw;
+  color: var(--fg-muted);
+  text-align: center;
+  letter-spacing: 0.08em;
+  margin-top: 0.5cqw;
+}
+
+/* =========================================================
+   LAYOUT 26 — PRODUCT / DEVICE SHOWCASE
+   ========================================================= */
+.layout-device .slide-inner {
+  flex-direction: row;
+  padding: 4cqw;
+  gap: 3cqw;
+  align-items: center;
+}
+.layout-device .content {
+  flex: 1.2;
+  display: flex;
+  flex-direction: column;
+  gap: 1cqw;
+}
+.layout-device .content .eyebrow { margin-bottom: 0.3cqw; }
+.layout-device .content h3 { font-size: 4cqw; line-height: 1.05; }
+.layout-device .content p { font-size: 1.5cqw; color: var(--fg-muted); line-height: 1.45; }
+.layout-device .content ul { list-style: none; display: grid; gap: 0.7cqw; margin-top: 0.8cqw; }
+.layout-device .content ul li {
+  font-size: 1.3cqw;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.8cqw;
+  color: var(--fg);
+  align-items: baseline;
+}
+.layout-device .content ul li::before { content: '→'; color: var(--accent); font-weight: 700; }
+.layout-device .device-frame {
+  flex: 1;
+  aspect-ratio: 9 / 19;
+  max-height: 100%;
+  background: var(--fg);
+  border-radius: 4cqw;
+  padding: 0.7cqw;
+  position: relative;
+  box-shadow: 0 2cqw 5cqw rgba(0,0,0,0.25);
+  align-self: center;
+}
+.layout-device .device-frame::before {
+  content: '';
+  position: absolute;
+  top: 1.5cqw;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 22%;
+  height: 0.8cqw;
+  background: var(--bg);
+  border-radius: 999px;
+  z-index: 3;
+}
+.layout-device .screen {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(165deg, var(--accent) 0%, var(--accent-2) 100%);
+  border-radius: 3.4cqw;
+  padding: 4.5cqw 2cqw 2cqw;
+  display: flex;
+  flex-direction: column;
+  gap: 1cqw;
+  color: #fff;
+  overflow: hidden;
+}
+.layout-device .screen .mock-title {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  font-size: 2.6cqw;
+  line-height: 1;
+}
+.layout-device .screen .mock-sub { font-size: 1cqw; opacity: 0.8; letter-spacing: 0.05em; }
+.layout-device .screen .mock-card {
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(10px);
+  border-radius: 1.2cqw;
+  padding: 1.2cqw;
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3cqw;
+}
+.layout-device .screen .mock-card .mock-num {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  font-size: 3.6cqw;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.layout-device .screen .mock-card .mock-lbl {
+  font-size: 0.85cqw;
+  opacity: 0.85;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* =========================================================
+   LAYOUT 27 — DEFINITION / KEY TERM
+   ========================================================= */
+.layout-definition .slide-inner {
+  padding: 5cqw;
+  justify-content: center;
+  gap: 1.4cqw;
+}
+.layout-definition .type {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: italic;
+  font-size: 2cqw;
+  color: var(--fg-muted);
+}
+.layout-definition .term {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  font-size: 13cqw;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--fg);
+  margin-bottom: 0.5cqw;
+}
+.layout-definition .term .dot { color: var(--accent); }
+.layout-definition .phonetic {
+  font-family: var(--font-mono);
+  font-size: 1.4cqw;
+  color: var(--fg-muted);
+  letter-spacing: 0.04em;
+  font-style: normal;
+  margin-bottom: 1cqw;
+}
+.layout-definition .ns { display: grid; gap: 1cqw; max-width: 80%; }
+.layout-definition .defn {
+  display: grid;
+  grid-template-columns: 3cqw 1fr;
+  gap: 1.5cqw;
+  align-items: baseline;
+}
+.layout-definition .defn .n {
+  font-family: var(--font-mono);
+  color: var(--accent);
+  font-size: 1.2cqw;
+  font-weight: 600;
+}
+.layout-definition .defn p { font-size: 1.7cqw; line-height: 1.4; color: var(--fg); }
+.layout-definition .defn p em { color: var(--fg-muted); font-style: italic; }
+
+/* =========================================================
+   LAYOUT 28 — TERMINAL / SHELL SESSION
+   ========================================================= */
+.layout-console .slide-inner { padding: 3cqw; gap: 0; }
+.layout-console .window {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 4px);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.layout-console .chrome {
+  display: flex;
+  align-items: center;
+  gap: 0.5cqw;
+  padding: 1cqw 1.5cqw;
+  border-bottom: 1px solid var(--border);
+  background: var(--slide-bg, var(--bg));
+}
+.layout-console .chrome .dot {
+  width: 1.1cqw; height: 1.1cqw; border-radius: 50%;
+  display: inline-block;
+}
+.layout-console .chrome .dot.r { background: #ff5f57; }
+.layout-console .chrome .dot.y { background: #febc2e; }
+.layout-console .chrome .dot.g { background: #28c840; }
+.layout-console .chrome .ttl {
+  margin-left: auto;
+  margin-right: auto;
+  font-family: var(--font-mono);
+  font-size: 1.1cqw;
+  color: var(--fg-muted);
+  letter-spacing: 0.02em;
+}
+.layout-console pre.shell {
+  flex: 1;
+  padding: 2cqw 2.5cqw;
+  font-family: var(--font-mono);
+  font-size: 1.4cqw;
+  line-height: 1.65;
+  color: var(--fg);
+  overflow: hidden;
+  white-space: pre-wrap;
+}
+.layout-console pre.shell .prompt { color: var(--accent-2); font-weight: 600; }
+.layout-console pre.shell .host { color: var(--fg-muted); }
+.layout-console pre.shell .cmd { color: var(--fg); }
+.layout-console pre.shell .flag { color: var(--syn-num, var(--accent)); }
+.layout-console pre.shell .out { color: var(--fg-muted); }
+.layout-console pre.shell .ok { color: var(--accent-2); }
+.layout-console pre.shell .err { color: var(--syn-key, var(--accent)); }
+.layout-console pre.shell .url { color: var(--accent-2); text-decoration: underline; }
+.layout-console pre.shell .cur {
+  display: inline-block;
+  width: 0.8cqw; height: 1.6cqw;
+  background: var(--accent);
+  vertical-align: text-bottom;
+  animation: blink 1s steps(2) infinite;
+  margin-left: 0.3cqw;
+}
+
+/* =========================================================
+   LAYOUT 29 — DIFF VIEW
+   ========================================================= */
+.layout-diff .slide-inner { padding: 3.5cqw; gap: 1.5cqw; }
+.layout-diff .eyebrow { margin-bottom: 0.2cqw; }
+.layout-diff h3 { font-size: 3cqw; }
+.layout-diff .diff-block {
+  flex: 1;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  font-family: var(--font-mono);
+  font-size: 1.35cqw;
+  line-height: 1.8;
+  display: flex;
+  flex-direction: column;
+}
+.layout-diff .diff-head {
+  padding: 0.8cqw 1.5cqw;
+  font-family: var(--font-mono);
+  font-size: 1.1cqw;
+  color: var(--fg-muted);
+  border-bottom: 1px solid var(--border);
+  background: var(--slide-bg, var(--bg));
+  display: flex;
+  justify-content: space-between;
+}
+.layout-diff .diff-head .filename { color: var(--fg); }
+.layout-diff .diff-body {
+  flex: 1;
+  padding: 1.5cqw 0;
+  display: grid;
+  grid-template-columns: auto 2cqw 1fr;
+  column-gap: 0;
+  align-items: baseline;
+  align-content: start;
+  row-gap: 0.05cqw;
+}
+.layout-diff .diff-body .ln {
+  padding: 0 1cqw;
+  color: var(--fg-muted);
+  text-align: right;
+  user-select: none;
+  min-width: 3cqw;
+}
+.layout-diff .diff-body .mark {
+  padding: 0 0.5cqw;
+  text-align: center;
+  color: var(--fg-muted);
+}
+.layout-diff .diff-body .code {
+  padding: 0 1cqw 0 0.5cqw;
+  color: var(--fg);
+  white-space: pre;
+}
+.layout-diff .diff-body .add { background: color-mix(in srgb, var(--accent-2) 15%, transparent); }
+.layout-diff .diff-body .add.mark { color: var(--accent-2); font-weight: 700; }
+.layout-diff .diff-body .add.code { color: var(--fg); }
+.layout-diff .diff-body .rem { background: color-mix(in srgb, var(--syn-key, var(--accent)) 15%, transparent); }
+.layout-diff .diff-body .rem.mark { color: var(--syn-key, var(--accent)); font-weight: 700; }
+.layout-diff .diff-body .rem.code { color: var(--fg-muted); text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--syn-key, var(--accent)) 60%, transparent); }
+
+/* =========================================================
+   LAYOUT 30 — API ENDPOINT CARD
+   ========================================================= */
+.layout-api .slide-inner { padding: 4cqw; gap: 1.5cqw; }
+.layout-api .eyebrow { margin-bottom: 0.2cqw; }
+.layout-api h3 { font-size: 3.2cqw; }
+.layout-api .endpoint {
+  display: flex;
+  align-items: center;
+  gap: 1.2cqw;
+  padding: 1.3cqw 1.5cqw;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-top: 0.8cqw;
+}
+.layout-api .endpoint .method {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1.3cqw;
+  letter-spacing: 0.08em;
+  padding: 0.5cqw 1cqw;
+  background: var(--accent-2);
+  color: var(--bg);
+  border-radius: calc(var(--radius) / 2);
+}
+.layout-api .endpoint .method.post { background: var(--accent); }
+.layout-api .endpoint .path {
+  font-family: var(--font-mono);
+  font-size: 1.7cqw;
+  color: var(--fg);
+}
+.layout-api .endpoint .path .param { color: var(--accent); }
+.layout-api .desc {
+  font-size: 1.4cqw;
+  color: var(--fg-muted);
+  line-height: 1.5;
+  margin-bottom: 0.5cqw;
+}
+.layout-api .panels {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 1.5cqw;
+  flex: 1;
+}
+.layout-api .panel {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.4cqw;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8cqw;
+  min-height: 0;
+}
+.layout-api .panel h5 {
+  font-family: var(--font-mono);
+  font-size: 1.05cqw;
+  color: var(--fg-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.layout-api .panel pre {
+  font-family: var(--font-mono);
+  font-size: 1.15cqw;
+  line-height: 1.55;
+  color: var(--fg);
+  flex: 1;
+  overflow: hidden;
+  white-space: pre;
+}
+.layout-api .panel pre .k { color: var(--syn-key, var(--accent)); }
+.layout-api .panel pre .v { color: var(--syn-str, var(--accent-2)); }
+.layout-api .panel pre .n { color: var(--syn-num, var(--accent)); }
+.layout-api .panel pre .c { color: var(--syn-com, var(--fg-muted)); }
+
+/* =========================================================
+   LAYOUT 31 — FILE TREE
+   ========================================================= */
+.layout-tree .slide-inner { padding: 4cqw; gap: 1.5cqw; }
+.layout-tree .eyebrow { margin-bottom: 0.2cqw; }
+.layout-tree h3 { font-size: 3.2cqw; }
+.layout-tree .cols {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 2cqw;
+  flex: 1;
+  margin-top: 0.5cqw;
+  min-height: 0;
+}
+.layout-tree .tree {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2cqw 2.2cqw;
+  font-family: var(--font-mono);
+  font-size: 1.35cqw;
+  line-height: 1.7;
+  color: var(--fg);
+  white-space: pre;
+  overflow: hidden;
+}
+.layout-tree .tree .dir { color: var(--accent); font-weight: 500; }
+.layout-tree .tree .file { color: var(--fg); }
+.layout-tree .tree .note { color: var(--fg-muted); font-style: italic; }
+.layout-tree .tree .star { color: var(--accent-2); }
+.layout-tree .callouts {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2cqw;
+  justify-content: center;
+}
+.layout-tree .callouts .callout {
+  border-left: 2px solid var(--accent);
+  padding: 0.4cqw 0 0.4cqw 1.2cqw;
+}
+.layout-tree .callouts .callout .k {
+  font-family: var(--font-mono);
+  font-size: 1cqw;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.layout-tree .callouts .callout p {
+  font-size: 1.3cqw;
+  color: var(--fg-muted);
+  line-height: 1.4;
+  margin-top: 0.3cqw;
+}
+.layout-tree .callouts .callout p code {
+  font-family: var(--font-mono);
+  color: var(--fg);
+  background: var(--bg-alt);
+  padding: 0.1cqw 0.4cqw;
+  border-radius: 3px;
+  font-size: 1.1cqw;
+}
+
+/* =========================================================
+   LAYOUT 32 — TECH STACK
+   ========================================================= */
+.layout-stack .slide-inner { padding: 4cqw; gap: 2cqw; }
+.layout-stack .eyebrow { margin-bottom: 0.2cqw; }
+.layout-stack h3 { font-size: 3.4cqw; max-width: 70%; }
+.layout-stack .rows {
+  display: flex;
+  flex-direction: column;
+  gap: 1.3cqw;
+  flex: 1;
+  justify-content: center;
+  margin-top: 1cqw;
+}
+.layout-stack .row {
+  display: grid;
+  grid-template-columns: 8cqw 1fr;
+  gap: 2cqw;
+  align-items: center;
+  padding: 0.3cqw 0;
+}
+.layout-stack .row .cat {
+  font-family: var(--font-mono);
+  font-size: 1cqw;
+  color: var(--fg-muted);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  text-align: right;
+}
+.layout-stack .row .items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7cqw;
+}
+.layout-stack .pill {
+  font-family: var(--font-mono);
+  font-size: 1.25cqw;
+  padding: 0.6cqw 1.1cqw;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--fg);
+  letter-spacing: 0.02em;
+}
+.layout-stack .pill.primary { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 600; }
+.layout-stack .pill.accent { color: var(--accent-2); border-color: var(--accent-2); }
+
+/* =========================================================
+   LAYOUT 33 — KEYBOARD SHORTCUT
+   ========================================================= */
+.layout-shortcut .slide-inner {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 5cqw;
+  gap: 1.8cqw;
+}
+.layout-shortcut .eyebrow { margin-bottom: 0.2cqw; }
+.layout-shortcut h3 { font-size: 3.4cqw; max-width: 80%; }
+.layout-shortcut .combo {
+  display: flex;
+  align-items: center;
+  gap: 1.5cqw;
+  margin: 1.5cqw 0;
+}
+.layout-shortcut kbd.key {
+  font-family: var(--font-mono);
+  font-size: 6cqw;
+  font-weight: 600;
+  display: grid;
+  place-items: center;
+  width: 11cqw;
+  height: 11cqw;
+  background: var(--bg-alt);
+  color: var(--fg);
+  border: 2px solid var(--border);
+  border-bottom-width: 5px;
+  border-radius: calc(var(--radius) + 4px);
+  letter-spacing: -0.02em;
+}
+.layout-shortcut kbd.key.accent {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+.layout-shortcut .plus {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  font-size: 4cqw;
+  color: var(--accent);
+}
+.layout-shortcut .desc {
+  font-size: 1.6cqw;
+  color: var(--fg-muted);
+  max-width: 60%;
+  line-height: 1.4;
+}
+.layout-shortcut .more {
+  display: flex;
+  gap: 2cqw;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 1.5cqw;
+  padding-top: 1.5cqw;
+  border-top: 1px solid var(--rule);
+  width: 70%;
+}
+.layout-shortcut .more span {
+  font-size: 1.2cqw;
+  color: var(--fg-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.6cqw;
+}
+.layout-shortcut .more kbd {
+  font-family: var(--font-mono);
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  padding: 0.3cqw 0.6cqw;
+  border-radius: 4px;
+  font-size: 1cqw;
+  color: var(--fg);
+}
+
+/* =========================================================
+   LAYOUT 34 — CHANGELOG / RELEASE NOTES
+   ========================================================= */
+.layout-changelog .slide-inner { padding: 4cqw; gap: 1.8cqw; }
+.layout-changelog .head { display: flex; align-items: baseline; gap: 1.2cqw; flex-wrap: wrap; }
+.layout-changelog .eyebrow { margin-bottom: 0; }
+.layout-changelog .version {
+  font-family: var(--font-mono);
+  font-size: 2.4cqw;
+  color: var(--accent);
+  font-weight: 600;
+}
+.layout-changelog h3 { font-size: 2.4cqw; color: var(--fg-muted); font-weight: 400; font-style: normal; }
+.layout-changelog .entries { display: flex; flex-direction: column; gap: 1.4cqw; flex: 1; }
+.layout-changelog .entry {
+  display: grid;
+  grid-template-columns: 8cqw 1fr;
+  gap: 1.5cqw;
+  align-items: start;
+  padding-top: 1.2cqw;
+  border-top: 1px solid var(--rule);
+}
+.layout-changelog .entry:first-child { border-top: none; padding-top: 0; }
+.layout-changelog .entry .tag {
+  font-family: var(--font-mono);
+  font-size: 1cqw;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 0.4cqw 0.8cqw;
+  border-radius: calc(var(--radius) / 2);
+  text-align: center;
+  justify-self: start;
+}
+.layout-changelog .entry.added .tag { background: var(--accent-2); color: var(--bg); }
+.layout-changelog .entry.changed .tag { background: var(--accent); color: var(--bg); }
+.layout-changelog .entry.removed .tag {
+  background: transparent;
+  color: var(--fg-muted);
+  border: 1px solid var(--border);
+}
+.layout-changelog .entry ul { list-style: none; display: grid; gap: 0.5cqw; }
+.layout-changelog .entry ul li {
+  font-size: 1.4cqw;
+  color: var(--fg);
+  line-height: 1.4;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.8cqw;
+  align-items: baseline;
+}
+.layout-changelog .entry.added ul li::before { content: '+'; color: var(--accent-2); font-family: var(--font-mono); font-weight: 700; }
+.layout-changelog .entry.changed ul li::before { content: '~'; color: var(--accent); font-family: var(--font-mono); font-weight: 700; }
+.layout-changelog .entry.removed ul li::before { content: '−'; color: var(--fg-muted); font-family: var(--font-mono); font-weight: 700; }
+.layout-changelog .entry ul li code {
+  font-family: var(--font-mono);
+  background: var(--bg-alt);
+  padding: 0.1cqw 0.4cqw;
+  border-radius: 3px;
+  font-size: 1.2cqw;
+  color: var(--accent);
+  border: 1px solid var(--border);
+}
+
+/* =========================================================
+   LAYOUT 35 — LIVE DASHBOARD / METRICS
+   ========================================================= */
+.layout-dashboard .slide-inner { padding: 4cqw; gap: 1.8cqw; }
+.layout-dashboard .head { display: flex; justify-content: space-between; align-items: flex-end; gap: 1cqw; }
+.layout-dashboard .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6cqw;
+  margin-bottom: 0.2cqw;
+}
+.layout-dashboard .eyebrow::before {
+  content: '';
+  width: 0.8cqw; height: 0.8cqw;
+  border-radius: 50%;
+  background: var(--accent-2);
+  box-shadow: 0 0 0 0.4cqw color-mix(in srgb, var(--accent-2) 20%, transparent);
+  animation: pulse 2s ease-out infinite;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent-2) 40%, transparent); }
+  100% { box-shadow: 0 0 0 1cqw transparent; }
+}
+.layout-dashboard h3 { font-size: 3.2cqw; }
+.layout-dashboard .ts {
+  font-family: var(--font-mono);
+  font-size: 1.1cqw;
+  color: var(--fg-muted);
+  letter-spacing: 0.04em;
+}
+.layout-dashboard .metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.3cqw;
+  flex: 1;
+}
+.layout-dashboard .metric {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5cqw;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5cqw;
+  min-height: 0;
+  position: relative;
+}
+.layout-dashboard .metric .lbl {
+  font-family: var(--font-mono);
+  font-size: 1cqw;
+  color: var(--fg-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.layout-dashboard .metric .val {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  font-size: 4.5cqw;
+  line-height: 1;
+  color: var(--fg);
+  letter-spacing: -0.03em;
+}
+.layout-dashboard .metric .change {
+  font-family: var(--font-mono);
+  font-size: 1.1cqw;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3cqw;
+  align-self: flex-start;
+}
+.layout-dashboard .metric .change.up { color: var(--accent-2); }
+.layout-dashboard .metric .change.down { color: var(--syn-key, var(--accent)); }
+.layout-dashboard .metric .spark {
+  margin-top: auto;
+  width: 100%;
+  height: 4cqw;
+  color: var(--accent);
+}
+.layout-dashboard .metric.accent .spark { color: var(--accent-2); }
+
+/* =========================================================
+   THEME-SPECIFIC VISUAL DECOR  (decorations per theme)
+   ========================================================= */
+
+/* ATELIER - editorial flourishes, ruled lines, italic accents */
+[data-theme="atelier"] .slide { border: 1px solid var(--border); }
+[data-theme="atelier"] .layout-title .big-title em { font-style: italic; color: var(--accent); }
+[data-theme="atelier"] .layout-split .visual {
+  background: linear-gradient(135deg, #d9a683 0%, #b94a2c 100%);
+  position: relative;
+}
+[data-theme="atelier"] .layout-split .visual::after {
+  content: '';
+  position: absolute;
+  inset: 8cqw;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+[data-theme="atelier"] .layout-hero { --hero-bg: linear-gradient(135deg, #b94a2c 0%, #6b2515 100%); }
+[data-theme="atelier"] .layout-stats .stat .big { font-style: italic; }
+
+/* MIDNIGHT - glow accents, faint grid */
+[data-theme="midnight"] .slide::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(77,124,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(77,124,255,0.05) 1px, transparent 1px);
+  background-size: 3cqw 3cqw;
+  pointer-events: none;
+  z-index: 0;
+}
+[data-theme="midnight"] .slide-inner { z-index: 1; }
+[data-theme="midnight"] .layout-hero { --hero-bg: radial-gradient(ellipse at 20% 30%, #4d7cff 0%, #1a2b5c 40%, #0d0f14 100%); }
+[data-theme="midnight"] .layout-split .visual {
+  background: radial-gradient(circle at 30% 20%, #4d7cff 0%, #1a2b5c 50%, #0d0f14 100%);
+}
+
+/* BRUTALIST - thick borders, offset shadows, uppercase */
+[data-theme="brutalist"] .slide { border: 4px solid var(--border); }
+[data-theme="brutalist"] .slide h1,
+[data-theme="brutalist"] .slide h2,
+[data-theme="brutalist"] .slide h3,
+[data-theme="brutalist"] .slide h4 { text-transform: uppercase; }
+[data-theme="brutalist"] .layout-title .big-title { line-height: 0.88; }
+[data-theme="brutalist"] .layout-section .num { background: var(--bg-alt); padding: 0 2cqw; }
+[data-theme="brutalist"] .layout-compare .col { border-width: 3px; box-shadow: 6px 6px 0 var(--border); }
+[data-theme="brutalist"] .layout-compare .col.featured { background: var(--bg-alt); }
+[data-theme="brutalist"] .layout-team .card { border-width: 2px; box-shadow: 4px 4px 0 var(--border); }
+[data-theme="brutalist"] .layout-stats .stat { border-top-width: 3px; }
+[data-theme="brutalist"] .layout-hero { --hero-bg: #ffe14b; }
+[data-theme="brutalist"] .layout-hero h1, [data-theme="brutalist"] .layout-hero .sub { color: var(--border); text-shadow: none; }
+[data-theme="brutalist"] .layout-hero .slide-inner { background-image: none; }
+
+/* SAGE - organic feel, serif italic, earth tones */
+[data-theme="sage"] .slide { border: 1px solid var(--border); }
+[data-theme="sage"] .layout-split .visual {
+  background: linear-gradient(160deg, #c8b993 0%, #6c8466 100%);
+}
+[data-theme="sage"] .layout-hero { --hero-bg: linear-gradient(135deg, #6c8466 0%, #2d3626 100%); }
+
+/* MONARCH - ornate details, gold on plum */
+[data-theme="monarch"] .slide { border: 1px solid #3a2a40; }
+[data-theme="monarch"] .slide::before {
+  content: '';
+  position: absolute;
+  inset: 2cqw;
+  border: 1px solid rgba(212,169,63,0.2);
+  pointer-events: none;
+  z-index: 0;
+}
+[data-theme="monarch"] .slide-inner { z-index: 1; }
+[data-theme="monarch"] .layout-hero { --hero-bg: radial-gradient(circle at 70% 30%, #5a2a5a 0%, #1a0f1e 70%); }
+[data-theme="monarch"] .layout-split .visual {
+  background: radial-gradient(circle at 40% 40%, #d4a93f 0%, #5a3a1a 60%, #2a1b1e 100%);
+}
+
+/* NEBULA - glow, gradient mesh */
+[data-theme="nebula"] .slide::after {
+  content: '';
+  position: absolute;
+  top: -10%; right: -10%;
+  width: 50%; aspect-ratio: 1;
+  background: radial-gradient(circle, rgba(255,61,138,0.3) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+[data-theme="nebula"] .slide::before {
+  content: '';
+  position: absolute;
+  bottom: -15%; left: -10%;
+  width: 60%; aspect-ratio: 1;
+  background: radial-gradient(circle, rgba(64,224,255,0.25) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+[data-theme="nebula"] .slide-inner { z-index: 1; }
+[data-theme="nebula"] .layout-hero { --hero-bg: linear-gradient(135deg, #ff3d8a 0%, #7b2fde 50%, #40e0ff 100%); }
+[data-theme="nebula"] .layout-split .visual {
+  background: linear-gradient(135deg, #ff3d8a 0%, #7b2fde 60%, #40e0ff 100%);
+}
+
+/* PAPER - ultra-clean Swiss grid */
+[data-theme="paper"] .slide { border: 1px solid var(--border); }
+[data-theme="paper"] .layout-section .num { color: var(--accent); }
+[data-theme="paper"] .layout-title .big-title { text-transform: uppercase; letter-spacing: -0.04em; }
+[data-theme="paper"] .layout-hero { --hero-bg: #e63946; }
+[data-theme="paper"] .layout-split .visual { background: #000; }
+
+/* TERMINAL - CRT scanlines, blinking cursor feel */
+[data-theme="terminal"] .slide { border: 1px solid var(--border); }
+[data-theme="terminal"] .slide::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(to bottom, rgba(232,197,108,0.03) 0px, rgba(232,197,108,0.03) 1px, transparent 1px, transparent 3px);
+  pointer-events: none;
+  z-index: 2;
+}
+[data-theme="terminal"] .slide h1::after,
+[data-theme="terminal"] .layout-title .big-title::after {
+  content: '_';
+  color: var(--accent);
+  animation: blink 1s steps(2) infinite;
+  margin-left: 0.5cqw;
+}
+@keyframes blink { 50% { opacity: 0; } }
+[data-theme="terminal"] .slide h1,
+[data-theme="terminal"] .slide h2,
+[data-theme="terminal"] .slide h3 { letter-spacing: 0; }
+[data-theme="terminal"] .layout-title .top::before { content: '> '; }
+[data-theme="terminal"] .layout-hero { --hero-bg: #14140f; }
+[data-theme="terminal"] .layout-split .visual {
+  background: var(--bg-alt);
+  position: relative;
+}
+[data-theme="terminal"] .layout-split .visual::after {
+  content: '[ IMAGE ]';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: 1.4cqw;
+  letter-spacing: 0.1em;
+}
+
+/* BLOSSOM - soft, rounded, playful */
+[data-theme="blossom"] .slide h1,
+[data-theme="blossom"] .slide h2,
+[data-theme="blossom"] .slide h3 { font-style: italic; }
+[data-theme="blossom"] .layout-split .visual {
+  background: linear-gradient(135deg, #f4b8c8 0%, #c9a8e0 100%);
+  border-radius: calc(var(--radius) * 1.2);
+}
+[data-theme="blossom"] .layout-hero { --hero-bg: linear-gradient(135deg, #d4729a 0%, #b598d4 100%); }
+[data-theme="blossom"] .layout-compare .col { border-radius: calc(var(--radius) * 0.8); }
+
+/* STEEL - corporate, structured, precise */
+[data-theme="steel"] .slide { border: 1px solid var(--border); }
+[data-theme="steel"] .layout-title .big-title { font-weight: 800; }
+[data-theme="steel"] .layout-split .visual {
+  background: linear-gradient(135deg, #ff7a3d 0%, #d4521e 50%, #1a2840 100%);
+}
+[data-theme="steel"] .layout-hero { --hero-bg: linear-gradient(120deg, #0f1a2b 0%, #1a3a5c 50%, #ff7a3d 100%); }
+
+/* =========================================================
+   THEME OVERRIDES FOR LAYOUTS 16–27
+   ========================================================= */
+
+/* Brutalist — offset shadows on new card components */
+[data-theme="brutalist"] .layout-pricing .tier {
+  border-width: 3px;
+  box-shadow: 6px 6px 0 var(--border);
+}
+[data-theme="brutalist"] .layout-pricing .tier.featured { background: var(--bg-alt); }
+[data-theme="brutalist"] .layout-features .feature { border-left-width: 4px; }
+[data-theme="brutalist"] .layout-diagram .node {
+  border-width: 3px;
+  box-shadow: 4px 4px 0 var(--border);
+}
+[data-theme="brutalist"] .layout-logos .logo {
+  border-width: 2px;
+  box-shadow: 4px 4px 0 var(--border);
+}
+[data-theme="brutalist"] .layout-beforeafter .panel {
+  border-width: 3px;
+  box-shadow: 5px 5px 0 var(--border);
+}
+[data-theme="brutalist"] .layout-device .device-frame { box-shadow: 8px 8px 0 var(--border); }
+[data-theme="brutalist"] .layout-qa .hint { border-width: 2px; }
+
+/* Terminal — swap visual backgrounds for bracketed labels */
+[data-theme="terminal"] .layout-gallery .tile {
+  background: var(--bg-alt) !important;
+  border: 1px solid var(--border);
+  display: grid;
+  place-items: center;
+}
+[data-theme="terminal"] .layout-gallery .tile::before {
+  content: '[ IMG ]';
+  font-family: var(--font-mono);
+  color: var(--fg-muted);
+  font-size: 1.3cqw;
+  letter-spacing: 0.2em;
+}
+[data-theme="terminal"] .layout-gallery .tile.feature::before { content: '[ FEATURED_IMG ]'; font-size: 1.5cqw; }
+[data-theme="terminal"] .layout-device .screen {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  color: var(--fg);
+}
+[data-theme="terminal"] .layout-device .screen .mock-card { background: rgba(232,197,108,0.1); border: 1px solid var(--border); }
+[data-theme="terminal"] .layout-beforeafter .panel .visual .sample::after { content: '_'; animation: blink 1s steps(2) infinite; }
+[data-theme="terminal"] .layout-qa .big::after { content: ''; }
+
+/* Monarch — nested inner frame is already universal; accent ring on hero cards */
+[data-theme="monarch"] .layout-pricing .tier.featured {
+  box-shadow: 0 0 0 1px var(--accent), 0 0 40px rgba(212,169,63,0.15);
+}
+[data-theme="monarch"] .layout-device .device-frame { background: #0a0508; }
+
+/* Paper — hard borders on tiles and nodes */
+[data-theme="paper"] .layout-pricing .tier,
+[data-theme="paper"] .layout-diagram .node,
+[data-theme="paper"] .layout-beforeafter .panel,
+[data-theme="paper"] .layout-logos .logo { border-width: 1px; }
+[data-theme="paper"] .layout-gallery .tile.muted { background: #f4f4f4; }
+[data-theme="paper"] .slide h4 { text-transform: uppercase; letter-spacing: -0.02em; }
+[data-theme="paper"] .layout-qa .big { text-transform: uppercase; }
+
+/* Nebula — glow on featured items */
+[data-theme="nebula"] .layout-pricing .tier.featured {
+  box-shadow: 0 0 60px rgba(255,61,138,0.25);
+}
+[data-theme="nebula"] .layout-device .device-frame { background: #05020f; }
+
+/* Midnight — subtle glow on active elements */
+[data-theme="midnight"] .layout-pricing .tier.featured {
+  box-shadow: 0 0 40px rgba(77,124,255,0.2);
+}
+[data-theme="midnight"] .layout-device .device-frame { background: #05060a; }
+
+/* Atelier — italicized displays carry through */
+[data-theme="atelier"] .layout-definition .term .dot,
+[data-theme="atelier"] .layout-qa .big .amp { font-style: italic; }
+[data-theme="atelier"] .layout-device .device-frame { background: #2a211a; }
+
+/* Sage — softer transitions */
+[data-theme="sage"] .layout-device .device-frame { background: #2d3626; }
+[data-theme="sage"] .layout-definition .term,
+[data-theme="sage"] .layout-qa .big { font-style: italic; }
+
+/* Blossom — pastel softness */
+[data-theme="blossom"] .layout-pricing .tier { background: rgba(255,255,255,0.5); }
+[data-theme="blossom"] .layout-device .device-frame { background: #3b2a3a; }
+[data-theme="blossom"] .layout-logos .logo { background: rgba(255,255,255,0.5); }
+
+/* Steel — cleaner borders on data elements */
+[data-theme="steel"] .layout-pricing .tier { background: rgba(26,40,64,0.6); }
+[data-theme="steel"] .layout-device .device-frame { background: #05080d; }
+
+/* =========================================================
+   IDE-THEME DECORATIONS  (11–18)
+   Recognizable editor flourishes — borders, glow, cursors.
+   ========================================================= */
+
+/* Dracula — signature soft glow on accent elements */
+[data-theme="dracula"] .slide { border: 1px solid var(--border); }
+[data-theme="dracula"] .layout-hero { --hero-bg: linear-gradient(135deg, #bd93f9 0%, #ff79c6 100%); }
+[data-theme="dracula"] .layout-split .visual {
+  background: linear-gradient(135deg, #bd93f9 0%, #8be9fd 100%);
+}
+[data-theme="dracula"] .layout-pricing .tier.featured { box-shadow: 0 0 40px rgba(255,121,198,0.25); }
+
+/* Monokai — vibrant accent edges */
+[data-theme="monokai"] .slide { border: 1px solid var(--border); }
+[data-theme="monokai"] .layout-hero { --hero-bg: linear-gradient(135deg, #f92672 0%, #ae81ff 100%); }
+[data-theme="monokai"] .layout-split .visual {
+  background: linear-gradient(135deg, #f92672 0%, #fd971f 100%);
+}
+
+/* Solarized — understated, muted */
+[data-theme="solarized"] .slide { border: 1px solid #073642; }
+[data-theme="solarized"] .layout-hero { --hero-bg: linear-gradient(135deg, #b58900 0%, #cb4b16 100%); }
+[data-theme="solarized"] .layout-split .visual {
+  background: linear-gradient(135deg, #268bd2 0%, #2aa198 100%);
+}
+
+/* Tokyo Night — purple haze */
+[data-theme="tokyo"] .slide { border: 1px solid var(--border); }
+[data-theme="tokyo"] .slide::before {
+  content: '';
+  position: absolute;
+  top: -30%; right: -15%;
+  width: 55%; aspect-ratio: 1;
+  background: radial-gradient(circle, rgba(187,154,247,0.2) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+[data-theme="tokyo"] .slide-inner { z-index: 1; }
+[data-theme="tokyo"] .layout-hero { --hero-bg: linear-gradient(135deg, #bb9af7 0%, #7aa2f7 50%, #1a1b26 100%); }
+[data-theme="tokyo"] .layout-split .visual {
+  background: linear-gradient(135deg, #bb9af7 0%, #7dcfff 100%);
+}
+
+/* Nord — cold minimalism */
+[data-theme="nord"] .slide { border: 1px solid var(--border); }
+[data-theme="nord"] .layout-hero { --hero-bg: linear-gradient(135deg, #5e81ac 0%, #88c0d0 100%); }
+[data-theme="nord"] .layout-split .visual {
+  background: linear-gradient(135deg, #5e81ac 0%, #81a1c1 50%, #88c0d0 100%);
+}
+
+/* Gruvbox — retro warmth, mono everything */
+[data-theme="gruvbox"] .slide { border: 1px solid var(--border); }
+[data-theme="gruvbox"] .slide h1,
+[data-theme="gruvbox"] .slide h2,
+[data-theme="gruvbox"] .slide h3,
+[data-theme="gruvbox"] .slide h4 { letter-spacing: -0.01em; }
+[data-theme="gruvbox"] .layout-hero { --hero-bg: linear-gradient(135deg, #fe8019 0%, #d65d0e 100%); }
+[data-theme="gruvbox"] .layout-split .visual {
+  background: linear-gradient(135deg, #fabd2f 0%, #fe8019 100%);
+}
+
+/* Catppuccin — soft pastel blur */
+[data-theme="catppuccin"] .slide { border: 1px solid var(--border); }
+[data-theme="catppuccin"] .layout-hero { --hero-bg: linear-gradient(135deg, #f5c2e7 0%, #cba6f7 50%, #89b4fa 100%); }
+[data-theme="catppuccin"] .layout-split .visual {
+  background: linear-gradient(135deg, #f5c2e7 0%, #cba6f7 50%, #89b4fa 100%);
+}
+[data-theme="catppuccin"] .layout-pricing .tier.featured {
+  box-shadow: 0 0 40px rgba(245,194,231,0.2);
+}
+
+/* GitHub Dark — familiar, clean */
+[data-theme="github"] .slide { border: 1px solid var(--border); }
+[data-theme="github"] .layout-hero { --hero-bg: linear-gradient(135deg, #58a6ff 0%, #3fb950 100%); }
+[data-theme="github"] .layout-split .visual {
+  background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%);
+}
+
+/* =========================================================
+   SLIDE PREVIEW MODAL
+   ========================================================= */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  backdrop-filter: blur(8px);
+}
+.modal.active { display: flex; }
+.modal .slide-expand {
+  width: min(100%, 1400px);
+  max-height: 90vh;
+}
+.modal .close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: none;
+  border: 1px solid #555;
+  color: #fff;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+}
+.modal .close:hover { border-color: #fff; }
+
+/* =========================================================
+   FOOTER / THEME INFO
+   ========================================================= */
+.theme-info {
+  margin-top: 60px;
+  padding: 32px;
+  background: #111;
+  border: 1px solid #222;
+  border-radius: 12px;
+}
+.theme-info h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+.theme-info .vars {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 10px 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: #aaa;
+}
+.theme-info .vars div { display: flex; justify-content: space-between; border-bottom: 1px dashed #222; padding-bottom: 6px; }
+.theme-info .vars .k { color: #888; }
+.theme-info .vars .v { color: #eee; }
+.theme-info .vars .v.color {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.theme-info .vars .v .chip {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid #333;
+}
+
+@media (max-width: 700px) {
+  .slides-grid { grid-template-columns: 1fr; }
+  .app-header-inner { gap: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ===== HEADER ===== -->
+  <header class="app-header">
+    <div class="app-header-inner">
+      <div class="brand">
+        <span class="brand-title">Slide System</span>
+        <span class="brand-sub">35 layouts · 18 themes</span>
+      </div>
+      <div class="theme-picker" id="themePicker">
+        <button class="theme-btn active" data-theme="atelier" style="--sw-a:#f4efe6; --sw-b:#b94a2c;"><span class="swatch"></span><span>Atelier</span></button>
+        <button class="theme-btn" data-theme="midnight" style="--sw-a:#4d7cff; --sw-b:#0d0f14;"><span class="swatch"></span><span>Midnight</span></button>
+        <button class="theme-btn" data-theme="brutalist" style="--sw-a:#ffe14b; --sw-b:#0a0a0a;"><span class="swatch"></span><span>Brutalist</span></button>
+        <button class="theme-btn" data-theme="sage" style="--sw-a:#f0ebe1; --sw-b:#6c8466;"><span class="swatch"></span><span>Sage</span></button>
+        <button class="theme-btn" data-theme="monarch" style="--sw-a:#d4a93f; --sw-b:#1a0f1e;"><span class="swatch"></span><span>Monarch</span></button>
+        <button class="theme-btn" data-theme="nebula" style="--sw-a:#ff3d8a; --sw-b:#40e0ff;"><span class="swatch"></span><span>Nebula</span></button>
+        <button class="theme-btn" data-theme="paper" style="--sw-a:#ffffff; --sw-b:#e63946;"><span class="swatch"></span><span>Paper</span></button>
+        <button class="theme-btn" data-theme="terminal" style="--sw-a:#e8c56c; --sw-b:#0a0a08;"><span class="swatch"></span><span>Terminal</span></button>
+        <button class="theme-btn" data-theme="blossom" style="--sw-a:#d4729a; --sw-b:#b598d4;"><span class="swatch"></span><span>Blossom</span></button>
+        <button class="theme-btn" data-theme="steel" style="--sw-a:#ff7a3d; --sw-b:#0f1a2b;"><span class="swatch"></span><span>Steel</span></button>
+        <span class="theme-sep" aria-hidden="true"></span>
+        <button class="theme-btn" data-theme="dracula" style="--sw-a:#ff79c6; --sw-b:#282a36;"><span class="swatch"></span><span>Dracula</span></button>
+        <button class="theme-btn" data-theme="monokai" style="--sw-a:#f92672; --sw-b:#272822;"><span class="swatch"></span><span>Monokai</span></button>
+        <button class="theme-btn" data-theme="solarized" style="--sw-a:#b58900; --sw-b:#002b36;"><span class="swatch"></span><span>Solarized</span></button>
+        <button class="theme-btn" data-theme="tokyo" style="--sw-a:#bb9af7; --sw-b:#1a1b26;"><span class="swatch"></span><span>Tokyo Night</span></button>
+        <button class="theme-btn" data-theme="nord" style="--sw-a:#88c0d0; --sw-b:#2e3440;"><span class="swatch"></span><span>Nord</span></button>
+        <button class="theme-btn" data-theme="gruvbox" style="--sw-a:#fabd2f; --sw-b:#282828;"><span class="swatch"></span><span>Gruvbox</span></button>
+        <button class="theme-btn" data-theme="catppuccin" style="--sw-a:#f5c2e7; --sw-b:#1e1e2e;"><span class="swatch"></span><span>Catppuccin</span></button>
+        <button class="theme-btn" data-theme="github" style="--sw-a:#58a6ff; --sw-b:#0d1117;"><span class="swatch"></span><span>GitHub Dark</span></button>
+      </div>
+      <div class="controls">
+        <button class="control-btn" id="randomize">↻ Shuffle</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== SLIDES GRID ===== -->
+  <section class="slides-outer">
+    <div class="slides-intro">
+      <h2>Theme: <em id="currentName">Atelier</em></h2>
+      <p>Click any slide to expand. Switch themes above to see every slide restyled. All 35 layouts accept the optional <code>title / subtitle / description</code> props you described, plus one content slot. <strong style="color:#ddd">Scroll down past the first ten themes for IDE-inspired palettes.</strong></p>
+    </div>
+
+    <div class="slides-grid" id="slidesGrid" data-theme="atelier">
+
+      <!-- 01 TITLE -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">01</span><span class="name">Cover / Title</span></div>
+        <div class="slide layout-title">
+          <div class="slide-inner">
+            <div class="top">
+              <span>Presentation · 2026</span>
+              <span>01 / 24</span>
+            </div>
+            <h1 class="big-title">Designing <em>forward</em> motion.</h1>
+            <div class="meta">
+              <div><strong>Nora Kestrel</strong><span>Principal, Studio Halcyon</span></div>
+              <div><strong>April 2026</strong><span>Annual Keynote</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 02 SECTION DIVIDER -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">02</span><span class="name">Section Divider</span></div>
+        <div class="slide layout-section">
+          <div class="slide-inner">
+            <div class="num">02</div>
+            <div class="body">
+              <div class="eyebrow">Chapter Two</div>
+              <h2>The shape of what's coming.</h2>
+              <p class="muted">A look at the systemic shifts driving the next decade of product design, and how small studios are adapting in real time.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 03 BULLETS -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">03</span><span class="name">Bulleted Content</span></div>
+        <div class="slide layout-bullets">
+          <div class="slide-inner">
+            <div class="eyebrow">Why it works</div>
+            <h2>Five principles we return to.</h2>
+            <p class="sub">Decisions that have held up across projects, budgets, and clients over the past six years.</p>
+            <ul>
+              <li><span><strong>Clarity over cleverness.</strong> The first read is the only read that matters.</span></li>
+              <li><span><strong>Typography is 80% of the work.</strong> Get it wrong and nothing else recovers.</span></li>
+              <li><span><strong>Color is a decision, not a default.</strong> Commit or leave it out.</span></li>
+              <li><span><strong>Motion should reward, not announce.</strong> Subtle beats showy every time.</span></li>
+              <li><span><strong>Every surface is an opportunity</strong> to reinforce the voice.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 04 SPLIT / IMAGE + TEXT -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">04</span><span class="name">Image + Text Split</span></div>
+        <div class="slide layout-split">
+          <div class="slide-inner">
+            <div class="visual"></div>
+            <div class="text-col">
+              <div class="eyebrow">Case Study 07</div>
+              <h2>Redrawing the map.</h2>
+              <p>When the Halcyon brief arrived, the team had three weeks and a legacy system that no one wanted to touch. We stripped it back to six primitives.</p>
+              <p class="muted">What emerged wasn't a refresh — it was a new set of grammar rules the whole product could speak.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 05 HERO / FULL-BLEED -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">05</span><span class="name">Full-Bleed Hero</span></div>
+        <div class="slide layout-hero">
+          <div class="slide-inner">
+            <span class="tag">Featured</span>
+            <h1>A slower, sharper way of working.</h1>
+            <p class="sub">Three months, one product, zero meetings after 4pm. Here's what we learned about deep work in distributed teams.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 06 CODE -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">06</span><span class="name">Code Snippet</span></div>
+        <div class="slide layout-code">
+          <div class="slide-inner">
+            <div class="head">
+              <h3>Defining a slide schema</h3>
+              <span class="lang">typescript</span>
+            </div>
+<pre><span class="tk-com">// storyblok/types/slide.ts</span>
+<span class="tk-key">export interface</span> <span class="tk-fn">Slide</span> {
+  <span class="tk-key">layout</span>: <span class="tk-str">'title'</span> | <span class="tk-str">'bullets'</span> | <span class="tk-str">'code'</span>
+  <span class="tk-key">title</span>?: <span class="tk-fn">string</span>
+  <span class="tk-key">subtitle</span>?: <span class="tk-fn">string</span>
+  <span class="tk-key">description</span>?: <span class="tk-fn">string</span>
+  <span class="tk-key">content</span>: <span class="tk-fn">SlideContent</span>
+  <span class="tk-key">theme</span>?: <span class="tk-fn">ThemeName</span>
+  <span class="tk-key">order</span>: <span class="tk-num">number</span>
+}</pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- 07 COMPARISON -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">07</span><span class="name">Comparison</span></div>
+        <div class="slide layout-compare">
+          <div class="slide-inner">
+            <div class="eyebrow">Side by side</div>
+            <h3>Which approach fits you?</h3>
+            <div class="cols">
+              <div class="col">
+                <h4>Studio</h4>
+                <p class="muted" style="font-size:1.2cqw">For small teams shipping quickly.</p>
+                <ul>
+                  <li>Up to 5 seats</li>
+                  <li>Unlimited presentations</li>
+                  <li>Email support</li>
+                  <li>Core layout library</li>
+                </ul>
+              </div>
+              <div class="divider">vs</div>
+              <div class="col featured">
+                <span class="tag">Popular</span>
+                <h4>Agency</h4>
+                <p class="muted" style="font-size:1.2cqw">For teams that need flexibility.</p>
+                <ul>
+                  <li>Unlimited seats</li>
+                  <li>Custom themes &amp; fonts</li>
+                  <li>Priority support</li>
+                  <li>Brand system export</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 08 QUOTE -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">08</span><span class="name">Pull Quote</span></div>
+        <div class="slide layout-quote">
+          <div class="slide-inner">
+            <div class="qmark">"</div>
+            <blockquote>The best systems feel inevitable — as if they could not have been any other way.</blockquote>
+            <div class="attr">
+              <div class="avatar">EM</div>
+              <div>
+                <strong>Eliza Monteiro</strong>
+                <span>Design Director · Halcyon</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 09 STATS -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">09</span><span class="name">Stats / KPIs</span></div>
+        <div class="slide layout-stats">
+          <div class="slide-inner">
+            <div class="eyebrow">2026 in review</div>
+            <h3>A year of compounding wins.</h3>
+            <div class="grid">
+              <div class="stat">
+                <div class="big">142<span class="unit">%</span></div>
+                <div>
+                  <div class="lbl">YoY Revenue</div>
+                  <p class="desc">Strongest growth since 2021 — driven primarily by the Agency tier.</p>
+                </div>
+              </div>
+              <div class="stat">
+                <div class="big">8.4<span class="unit">k</span></div>
+                <div>
+                  <div class="lbl">Active Teams</div>
+                  <p class="desc">New workspaces created in the last twelve months alone.</p>
+                </div>
+              </div>
+              <div class="stat">
+                <div class="big">0.94<span class="unit">s</span></div>
+                <div>
+                  <div class="lbl">P50 Load</div>
+                  <p class="desc">Median time-to-first-slide across the entire customer base.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10 STEPPER -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">10</span><span class="name">Stepper / Process</span></div>
+        <div class="slide layout-stepper">
+          <div class="slide-inner">
+            <div class="eyebrow">Our Process</div>
+            <h3>From brief to ship.</h3>
+            <div class="track">
+              <div class="step">
+                <span class="dot"></span>
+                <span class="num">STEP 01</span>
+                <h4>Discover</h4>
+                <p>Audit, stakeholder interviews, and a tight problem statement we all agree on.</p>
+              </div>
+              <div class="step">
+                <span class="dot"></span>
+                <span class="num">STEP 02</span>
+                <h4>Frame</h4>
+                <p>Narrow to three directions. Sketch fast. Kill the weakest two by Friday.</p>
+              </div>
+              <div class="step">
+                <span class="dot"></span>
+                <span class="num">STEP 03</span>
+                <h4>Build</h4>
+                <p>Design in real components. Prototype weekly. Ship a staging build every Tuesday.</p>
+              </div>
+              <div class="step">
+                <span class="dot"></span>
+                <span class="num">STEP 04</span>
+                <h4>Launch</h4>
+                <p>Rollout plan, measurement in place, and a retrospective within two weeks of ship.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 11 TEAM -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">11</span><span class="name">Team / Profiles</span></div>
+        <div class="slide layout-team">
+          <div class="slide-inner">
+            <div class="eyebrow">The Humans</div>
+            <h3>Small team. Long memory.</h3>
+            <div class="cards">
+              <div class="card">
+                <div class="avatar">NK</div>
+                <h4>Nora Kestrel</h4>
+                <span class="role">Principal</span>
+                <p>Leads strategy and keeps the studio pointed in one direction at a time.</p>
+              </div>
+              <div class="card">
+                <div class="avatar">EM</div>
+                <h4>Eliza Monteiro</h4>
+                <span class="role">Design Director</span>
+                <p>Owns the visual language. Writes better than most copywriters we've hired.</p>
+              </div>
+              <div class="card">
+                <div class="avatar">JT</div>
+                <h4>Julien Tavares</h4>
+                <span class="role">Engineering Lead</span>
+                <p>Builds the things. Has strong opinions on type rendering at 1x pixel density.</p>
+              </div>
+              <div class="card">
+                <div class="avatar">AO</div>
+                <h4>Ayana Okafor</h4>
+                <span class="role">Producer</span>
+                <p>Keeps the trains running and the calendar honest. The reason anything ships.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 12 CHART -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">12</span><span class="name">Chart / Data</span></div>
+        <div class="slide layout-chart">
+          <div class="slide-inner">
+            <div class="head">
+              <div>
+                <div class="eyebrow">Revenue by quarter</div>
+                <h3>Four quarters up and to the right.</h3>
+              </div>
+              <div class="legend">
+                <span><span class="dot"></span>Studio</span>
+                <span><span class="dot alt"></span>Agency</span>
+              </div>
+            </div>
+            <div class="chart">
+              <div class="yaxis">
+                <span>$400k</span><span>$300k</span><span>$200k</span><span>$100k</span><span>$0</span>
+              </div>
+              <div class="bars">
+                <div class="bar-group">
+                  <div class="pair"><div class="bar" style="height:32%"></div><div class="bar alt" style="height:20%"></div></div>
+                  <div class="lbl">Q1</div>
+                </div>
+                <div class="bar-group">
+                  <div class="pair"><div class="bar" style="height:45%"></div><div class="bar alt" style="height:35%"></div></div>
+                  <div class="lbl">Q2</div>
+                </div>
+                <div class="bar-group">
+                  <div class="pair"><div class="bar" style="height:58%"></div><div class="bar alt" style="height:48%"></div></div>
+                  <div class="lbl">Q3</div>
+                </div>
+                <div class="bar-group">
+                  <div class="pair"><div class="bar" style="height:70%"></div><div class="bar alt" style="height:65%"></div></div>
+                  <div class="lbl">Q4</div>
+                </div>
+                <div class="bar-group">
+                  <div class="pair"><div class="bar" style="height:82%"></div><div class="bar alt" style="height:78%"></div></div>
+                  <div class="lbl">Q1</div>
+                </div>
+                <div class="bar-group">
+                  <div class="pair"><div class="bar" style="height:92%"></div><div class="bar alt" style="height:88%"></div></div>
+                  <div class="lbl">Q2</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 13 MEDIA -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">13</span><span class="name">Media / Video</span></div>
+        <div class="slide layout-media">
+          <div class="slide-inner">
+            <div class="video">
+              <div class="play">▶</div>
+              <div class="duration">04:12</div>
+            </div>
+            <div class="info">
+              <div class="eyebrow">Watch</div>
+              <h3>Behind the redesign.</h3>
+              <p>A short film on the four-week sprint that rebuilt the Halcyon platform from six primitives. Featuring unfiltered commentary from the team.</p>
+              <div class="meta">
+                <span><b>DIR</b> Alden Park</span>
+                <span><b>RUN</b> 4:12</span>
+                <span><b>YEAR</b> 2026</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 14 TABLE -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">14</span><span class="name">Table / Data Grid</span></div>
+        <div class="slide layout-table">
+          <div class="slide-inner">
+            <div class="eyebrow">Q4 performance</div>
+            <h3>Projects, status, & spend.</h3>
+            <table>
+              <thead>
+                <tr><th>Project</th><th>Lead</th><th>Status</th><th>Budget</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Halcyon Redesign</td><td>Eliza M.</td><td><span class="pill ok">Shipped</span></td><td>$128,400</td></tr>
+                <tr><td>Northwind Identity</td><td>Nora K.</td><td><span class="pill ok">Shipped</span></td><td>$84,200</td></tr>
+                <tr><td>Marine Atlas</td><td>Julien T.</td><td><span class="pill">In review</span></td><td>$42,800</td></tr>
+                <tr><td>Kestrel App</td><td>Ayana O.</td><td><span class="pill warn">At risk</span></td><td>$210,000</td></tr>
+                <tr class="highlight"><td><strong>Total</strong></td><td>—</td><td>—</td><td><strong>$465,400</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- 15 CLOSING -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">15</span><span class="name">Closing / Thank You</span></div>
+        <div class="slide layout-closing">
+          <div class="slide-inner">
+            <div class="eyebrow">Fin.</div>
+            <h1>Thank <em>you</em>.</h1>
+            <div class="foot">
+              <div>
+                <div class="lbl">Get in touch</div>
+                <div class="val">hello@halcyon.studio</div>
+              </div>
+              <div>
+                <div class="lbl">Follow</div>
+                <div class="val">@halcyon.studio</div>
+              </div>
+              <div>
+                <div class="lbl">Web</div>
+                <div class="val">halcyon.studio</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 16 AGENDA -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">16</span><span class="name">Agenda / Contents</span></div>
+        <div class="slide layout-agenda">
+          <div class="slide-inner">
+            <div class="eyebrow">What we'll cover</div>
+            <h3>Today's agenda.</h3>
+            <div class="items">
+              <div class="item">
+                <span class="n">01</span>
+                <h4>Where we started</h4>
+                <span class="t">15 min</span>
+              </div>
+              <div class="item">
+                <span class="n">02</span>
+                <h4>The shape of what's coming</h4>
+                <span class="t">25 min</span>
+              </div>
+              <div class="item">
+                <span class="n">03</span>
+                <h4>How we rebuilt the system</h4>
+                <span class="t">30 min</span>
+              </div>
+              <div class="item">
+                <span class="n">04</span>
+                <h4>Three case studies</h4>
+                <span class="t">20 min</span>
+              </div>
+              <div class="item">
+                <span class="n">05</span>
+                <h4>Questions &amp; discussion</h4>
+                <span class="t">15 min</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 17 BIG NUMBER -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">17</span><span class="name">Big Number / Hero Stat</span></div>
+        <div class="slide layout-bignum">
+          <div class="slide-inner">
+            <div class="eyebrow">Impact, 2026</div>
+            <div class="number">2.4<span class="unit">M</span></div>
+            <p class="label"><strong>hours of focused work</strong> returned to teams using the system this year.</p>
+            <p class="sub">Measured across 8,400 active workspaces. A 3× jump over 2025, with a flatter learning curve.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 18 PRICING -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">18</span><span class="name">Pricing Tiers</span></div>
+        <div class="slide layout-pricing">
+          <div class="slide-inner">
+            <div class="eyebrow">Simple, honest pricing</div>
+            <h3>Pick a tier. Change it anytime.</h3>
+            <div class="tiers">
+              <div class="tier">
+                <h4>Starter</h4>
+                <div class="price"><span class="big">$19</span><span class="per">/ mo</span></div>
+                <p class="muted" style="font-size:1.1cqw">For solo builders and side projects.</p>
+                <ul>
+                  <li>3 presentations</li>
+                  <li>Core layouts &amp; themes</li>
+                  <li>PDF export</li>
+                  <li>Community support</li>
+                </ul>
+                <div class="cta">Start free</div>
+              </div>
+              <div class="tier featured">
+                <span class="tag">Most popular</span>
+                <h4>Studio</h4>
+                <div class="price"><span class="big">$49</span><span class="per">/ mo</span></div>
+                <p class="muted" style="font-size:1.1cqw">For small teams shipping real work.</p>
+                <ul>
+                  <li>Unlimited presentations</li>
+                  <li>All 10 themes + custom</li>
+                  <li>Team workspaces (5 seats)</li>
+                  <li>Email support</li>
+                </ul>
+                <div class="cta">Choose Studio</div>
+              </div>
+              <div class="tier">
+                <h4>Agency</h4>
+                <div class="price"><span class="big">$149</span><span class="per">/ mo</span></div>
+                <p class="muted" style="font-size:1.1cqw">For agencies and larger teams.</p>
+                <ul>
+                  <li>Everything in Studio</li>
+                  <li>Unlimited seats</li>
+                  <li>Brand kit &amp; custom fonts</li>
+                  <li>Priority support + SLA</li>
+                </ul>
+                <div class="cta">Talk to sales</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 19 TIMELINE -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">19</span><span class="name">Timeline (dated)</span></div>
+        <div class="slide layout-timeline">
+          <div class="slide-inner">
+            <div class="eyebrow">Our story</div>
+            <h3>Six years, one throughline.</h3>
+            <div class="events">
+              <div class="event">
+                <span class="date">2020</span>
+                <span class="dot"></span>
+                <h4>Founded</h4>
+                <p>Studio opens in a converted boat shed with three people and one client.</p>
+              </div>
+              <div class="event">
+                <span class="date">2022</span>
+                <span class="dot"></span>
+                <h4>First product</h4>
+                <p>Halcyon v1 ships after nine months of deliberate, deliberate, deliberate work.</p>
+              </div>
+              <div class="event">
+                <span class="date">2023</span>
+                <span class="dot"></span>
+                <h4>Team of ten</h4>
+                <p>Moved to the current studio. Added a producer. Stopped doing meetings on Fridays.</p>
+              </div>
+              <div class="event">
+                <span class="date">2025</span>
+                <span class="dot"></span>
+                <h4>Series A</h4>
+                <p>Raised to expand the platform side. First hires in research and customer success.</p>
+              </div>
+              <div class="event">
+                <span class="date">2026</span>
+                <span class="dot"></span>
+                <h4>New system</h4>
+                <p>This redesign. Same studio, deeper craft, a clearer voice across every surface.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 20 FEATURE GRID -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">20</span><span class="name">Feature Grid</span></div>
+        <div class="slide layout-features">
+          <div class="slide-inner">
+            <div class="eyebrow">What's inside</div>
+            <h3>Everything you need. Nothing you don't.</h3>
+            <div class="grid">
+              <div class="feature">
+                <div class="icon">◆</div>
+                <h4>27 layouts</h4>
+                <p>Every common slide type covered, from title cards to full architecture diagrams.</p>
+              </div>
+              <div class="feature">
+                <div class="icon">❋</div>
+                <h4>10 themes</h4>
+                <p>Each presentation gets one theme. Every surface inherits it automatically.</p>
+              </div>
+              <div class="feature">
+                <div class="icon">✦</div>
+                <h4>Headless CMS</h4>
+                <p>Content lives in Storyblok. Your team edits. The design system stays consistent.</p>
+              </div>
+              <div class="feature">
+                <div class="icon">◉</div>
+                <h4>Container queries</h4>
+                <p>Slides scale beautifully at any size, from thumbnail preview to full-screen.</p>
+              </div>
+              <div class="feature">
+                <div class="icon">▲</div>
+                <h4>Keyboard-first</h4>
+                <p>Navigate, switch themes, present. Your hands never have to leave home row.</p>
+              </div>
+              <div class="feature">
+                <div class="icon">◎</div>
+                <h4>Export anywhere</h4>
+                <p>PDF, PNG, or live URL. Hand off to clients without losing a pixel.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 21 IMAGE GALLERY -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">21</span><span class="name">Image Gallery</span></div>
+        <div class="slide layout-gallery">
+          <div class="slide-inner">
+            <div class="eyebrow">Selected work</div>
+            <h3>Six projects, six directions.</h3>
+            <div class="wall">
+              <div class="tile feature"><span class="cap">Halcyon · Product</span></div>
+              <div class="tile alt"><span class="cap">Northwind · Identity</span></div>
+              <div class="tile neutral"><span class="cap">Marine Atlas</span></div>
+              <div class="tile muted"><span class="cap">Kestrel · App</span></div>
+              <div class="tile alt"><span class="cap">Studio site</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 22 LOGO WALL -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">22</span><span class="name">Logo Wall / Clients</span></div>
+        <div class="slide layout-logos">
+          <div class="slide-inner">
+            <div class="eyebrow">Teams we've built with</div>
+            <h3>In good company.</h3>
+            <div class="wall">
+              <div class="logo"><span class="sym">◆</span>Halcyon</div>
+              <div class="logo mono">Northwind</div>
+              <div class="logo">Marine<span class="sym"> · </span>Atlas</div>
+              <div class="logo"><span class="sym">✦</span>Kestrel</div>
+              <div class="logo mono">Meridian Co</div>
+              <div class="logo">Tessellate</div>
+              <div class="logo"><span class="sym">❋</span>Fieldnotes</div>
+              <div class="logo mono">Lumen Lab</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 23 Q&A -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">23</span><span class="name">Q&amp;A Prompt</span></div>
+        <div class="slide layout-qa">
+          <div class="slide-inner">
+            <div class="big">Questions <span class="amp">&amp;</span> answers.</div>
+            <p class="sub">Ask anything — about the system, the process, the team. Half of what we know came from questions like yours.</p>
+            <span class="hint">Your turn</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 24 BEFORE / AFTER -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">24</span><span class="name">Before / After</span></div>
+        <div class="slide layout-beforeafter">
+          <div class="slide-inner">
+            <div class="eyebrow">Case study · typography</div>
+            <h3>Before the system, after the system.</h3>
+            <div class="split">
+              <div class="panel before">
+                <span class="lbl">Before</span>
+                <div class="visual"><div class="sample">Helvetica<br>Neue</div></div>
+                <p>Default system stack. Safe, forgettable, identical to every other SaaS dashboard.</p>
+              </div>
+              <div class="arrow">→</div>
+              <div class="panel after">
+                <span class="lbl">After</span>
+                <div class="visual"><div class="sample">Distinct.<br>Deliberate.</div></div>
+                <p>Display-serif paired with a refined sans. Unmistakable within three seconds.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 25 DIAGRAM / ARCHITECTURE -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">25</span><span class="name">Architecture Diagram</span></div>
+        <div class="slide layout-diagram">
+          <div class="slide-inner">
+            <div class="eyebrow">How it's wired</div>
+            <h3>Data flow, end to end.</h3>
+            <div class="flow">
+              <div class="node">
+                <h5>Storyblok</h5>
+                <span class="hint">Headless CMS</span>
+              </div>
+              <div class="arrow">→</div>
+              <div class="node">
+                <h5>Nuxt</h5>
+                <span class="hint">Data layer</span>
+              </div>
+              <div class="arrow">→</div>
+              <div class="node primary">
+                <h5>Slide engine</h5>
+                <span class="hint">Layout + theme</span>
+              </div>
+              <div class="arrow">→</div>
+              <div class="node">
+                <h5>Client</h5>
+                <span class="hint">Vuetify · SSR</span>
+              </div>
+            </div>
+            <p class="caption">Content flows one way. Themes are resolved once, at the presentation root.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 26 DEVICE / PRODUCT SHOWCASE -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">26</span><span class="name">Product / Device Showcase</span></div>
+        <div class="slide layout-device">
+          <div class="slide-inner">
+            <div class="content">
+              <div class="eyebrow">Now on mobile</div>
+              <h3>Present from anywhere.</h3>
+              <p>The full slide system, rebuilt for touch. Swipe between slides, pinch to zoom, and tap to reveal speaker notes.</p>
+              <ul>
+                <li>Works offline after first load</li>
+                <li>Syncs across devices in real time</li>
+                <li>Speaker notes on second screen</li>
+                <li>One-tap export to PDF</li>
+              </ul>
+            </div>
+            <div class="device-frame">
+              <div class="screen">
+                <div>
+                  <div class="mock-sub">HALCYON · TODAY</div>
+                  <div class="mock-title">Designing<br>forward motion.</div>
+                </div>
+                <div class="mock-card">
+                  <div class="mock-lbl">Next up</div>
+                  <div class="mock-num">03 / 24</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 27 DEFINITION -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">27</span><span class="name">Definition / Key Term</span></div>
+        <div class="slide layout-definition">
+          <div class="slide-inner">
+            <span class="type">noun</span>
+            <div class="term">System<span class="dot">.</span></div>
+            <div class="phonetic">/ˈsɪstəm/</div>
+            <div class="ns">
+              <div class="defn">
+                <span class="n">01</span>
+                <p>A set of connected things or parts that form a complex whole. <em>Not the sum of its decisions — the shape they take together.</em></p>
+              </div>
+              <div class="defn">
+                <span class="n">02</span>
+                <p>An organized scheme of <strong>ideas, principles, and tools</strong> that applies in a wide range of situations without needing to be reinvented each time.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 28 TERMINAL / SHELL -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">28</span><span class="name">Terminal / Shell</span></div>
+        <div class="slide layout-console">
+          <div class="slide-inner">
+            <div class="window">
+              <div class="chrome">
+                <span class="dot r"></span>
+                <span class="dot y"></span>
+                <span class="dot g"></span>
+                <span class="ttl">~/halcyon — zsh — 92×24</span>
+              </div>
+<pre class="shell"><span class="prompt">halcyon ~</span> <span class="cmd">pnpm create halcyon-slides my-deck</span>
+<span class="out">  Scaffolding into ./my-deck</span>
+<span class="ok">  ✓ Installed 142 packages in 3.4s</span>
+<span class="ok">  ✓ Storyblok space configured</span>
+
+<span class="prompt">halcyon ~</span> <span class="cmd">cd my-deck && halcyon init</span> <span class="flag">--theme=dracula</span>
+<span class="ok">  ✓ Created halcyon.config.ts</span>
+<span class="ok">  ✓ Added 3 default slides</span>
+
+<span class="prompt">halcyon ~/my-deck</span> <span class="cmd">pnpm dev</span>
+<span class="out">  Nuxt 3.14 · ready in 612 ms</span>
+<span class="out">  ➜ Local:    <span class="url">http://localhost:3000</span></span>
+<span class="out">  ➜ Network:  use </span><span class="flag">--host</span><span class="out"> to expose</span>
+
+<span class="prompt">halcyon ~/my-deck</span> <span class="cur"></span></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 29 DIFF -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">29</span><span class="name">Git Diff</span></div>
+        <div class="slide layout-diff">
+          <div class="slide-inner">
+            <div class="eyebrow">Commit · a7f31e2</div>
+            <h3>Theming, refactored.</h3>
+            <div class="diff-block">
+              <div class="diff-head">
+                <span class="filename">composables/useTheme.ts</span>
+                <span>+5 −2</span>
+              </div>
+              <div class="diff-body">
+                <span class="ln">12</span><span class="mark"> </span><span class="code">import { useStorage } from '@vueuse/core'</span>
+                <span class="ln">13</span><span class="mark"> </span><span class="code"></span>
+                <span class="ln">14</span><span class="mark"> </span><span class="code">export const useTheme = () =&gt; {</span>
+                <span class="ln rem">15</span><span class="mark rem">−</span><span class="code rem">  const mode = ref('dark')</span>
+                <span class="ln rem">16</span><span class="mark rem">−</span><span class="code rem">  document.body.dataset.theme = mode.value</span>
+                <span class="ln add">15</span><span class="mark add">+</span><span class="code add">  const mode = useStorage('theme', user.preferredMode)</span>
+                <span class="ln add">16</span><span class="mark add">+</span><span class="code add">  watchEffect(() =&gt; {</span>
+                <span class="ln add">17</span><span class="mark add">+</span><span class="code add">    document.documentElement.dataset.theme = mode.value</span>
+                <span class="ln add">18</span><span class="mark add">+</span><span class="code add">  })</span>
+                <span class="ln add">19</span><span class="mark add">+</span><span class="code add">  return { mode, setTheme, reset }</span>
+                <span class="ln">20</span><span class="mark"> </span><span class="code">}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 30 API ENDPOINT -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">30</span><span class="name">API Endpoint</span></div>
+        <div class="slide layout-api">
+          <div class="slide-inner">
+            <div class="eyebrow">REST API · v2</div>
+            <h3>Fetch a presentation.</h3>
+            <div class="endpoint">
+              <span class="method">GET</span>
+              <span class="path">/api/v2/presentations/<span class="param">{id}</span></span>
+            </div>
+            <p class="desc">Returns a single presentation with all slides, resolved theme variables, and author metadata. Requires a bearer token with <code style="font-family:var(--font-mono);color:var(--accent)">read:decks</code> scope.</p>
+            <div class="panels">
+              <div class="panel">
+                <h5>Request headers</h5>
+<pre><span class="k">Authorization</span>: <span class="v">Bearer &lt;token&gt;</span>
+<span class="k">Accept</span>: <span class="v">application/json</span>
+<span class="k">X-Client</span>: <span class="v">halcyon/2.4.0</span></pre>
+              </div>
+              <div class="panel">
+                <h5>Response · 200 OK</h5>
+<pre>{
+  <span class="k">"id"</span>: <span class="v">"pres_a7f31e2"</span>,
+  <span class="k">"title"</span>: <span class="v">"Q4 Review"</span>,
+  <span class="k">"theme"</span>: <span class="v">"dracula"</span>,
+  <span class="k">"slide_count"</span>: <span class="n">24</span>,
+  <span class="k">"updated_at"</span>: <span class="v">"2026-04-12T09:14:22Z"</span>
+}</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 31 FILE TREE -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">31</span><span class="name">File Tree</span></div>
+        <div class="slide layout-tree">
+          <div class="slide-inner">
+            <div class="eyebrow">Project structure</div>
+            <h3>How the files fit together.</h3>
+            <div class="cols">
+<pre class="tree"><span class="dir">halcyon/</span>
+├── <span class="dir">components/</span>
+│   ├── <span class="file">Slide.vue</span>           <span class="note"># dispatcher</span>
+│   ├── <span class="file">SlideFrame.vue</span>
+│   └── <span class="dir">layouts/</span>
+│       ├── <span class="file">Title.vue</span>
+│       ├── <span class="file">Bullets.vue</span>
+│       ├── <span class="file">Code.vue</span>
+│       └── <span class="file">...</span>             <span class="note"># 35 total</span>
+├── <span class="dir">composables/</span>
+│   ├── <span class="file">useTheme.ts</span>         <span class="star">★</span>
+│   └── <span class="file">useSlides.ts</span>
+├── <span class="dir">pages/</span>
+│   └── <span class="file">[slug].vue</span>
+├── <span class="file">halcyon.config.ts</span>
+└── <span class="file">nuxt.config.ts</span>
+</pre>
+              <div class="callouts">
+                <div class="callout">
+                  <span class="k">Layouts</span>
+                  <p>Each slide type is a single-file component in <code>components/layouts</code>. Add your own by dropping in a new .vue file.</p>
+                </div>
+                <div class="callout">
+                  <span class="k">Theme</span>
+                  <p>All theme logic lives in <code>useTheme</code> — one composable resolves the active theme once per page.</p>
+                </div>
+                <div class="callout">
+                  <span class="k">Content</span>
+                  <p>Slide data comes from Storyblok via <code>useSlides</code>. The schema mirrors the slide component props 1:1.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 32 TECH STACK -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">32</span><span class="name">Tech Stack</span></div>
+        <div class="slide layout-stack">
+          <div class="slide-inner">
+            <div class="eyebrow">The stack</div>
+            <h3>Built with care. Boring where it counts.</h3>
+            <div class="rows">
+              <div class="row">
+                <span class="cat">Frontend</span>
+                <div class="items">
+                  <span class="pill primary">Nuxt 3</span>
+                  <span class="pill">Vue 3</span>
+                  <span class="pill">Vuetify 3</span>
+                  <span class="pill">TypeScript</span>
+                  <span class="pill">Pinia</span>
+                </div>
+              </div>
+              <div class="row">
+                <span class="cat">Content</span>
+                <div class="items">
+                  <span class="pill accent">Storyblok</span>
+                  <span class="pill">Zod</span>
+                  <span class="pill">MDC</span>
+                </div>
+              </div>
+              <div class="row">
+                <span class="cat">Tooling</span>
+                <div class="items">
+                  <span class="pill">Vite</span>
+                  <span class="pill">Vitest</span>
+                  <span class="pill">Biome</span>
+                  <span class="pill">pnpm</span>
+                  <span class="pill">Changesets</span>
+                </div>
+              </div>
+              <div class="row">
+                <span class="cat">Runtime</span>
+                <div class="items">
+                  <span class="pill">Node 22</span>
+                  <span class="pill accent">Cloudflare Workers</span>
+                  <span class="pill">Postgres</span>
+                  <span class="pill">Redis</span>
+                </div>
+              </div>
+              <div class="row">
+                <span class="cat">Infra</span>
+                <div class="items">
+                  <span class="pill">GitHub Actions</span>
+                  <span class="pill">Terraform</span>
+                  <span class="pill">Sentry</span>
+                  <span class="pill">Grafana</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 33 KEYBOARD SHORTCUT -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">33</span><span class="name">Keyboard Shortcut</span></div>
+        <div class="slide layout-shortcut">
+          <div class="slide-inner">
+            <div class="eyebrow">Power user</div>
+            <h3>Command palette, from anywhere.</h3>
+            <div class="combo">
+              <kbd class="key">⌘</kbd>
+              <span class="plus">+</span>
+              <kbd class="key accent">K</kbd>
+            </div>
+            <p class="desc">Jump between slides, swap themes, open speaker notes, or search any content in the deck — without leaving home row.</p>
+            <div class="more">
+              <span><kbd>⌘ /</kbd> speaker notes</span>
+              <span><kbd>⌘ .</kbd> present mode</span>
+              <span><kbd>⌘ ,</kbd> settings</span>
+              <span><kbd>⌘ ⇧ P</kbd> export PDF</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 34 CHANGELOG -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">34</span><span class="name">Changelog / Release</span></div>
+        <div class="slide layout-changelog">
+          <div class="slide-inner">
+            <div class="head">
+              <div class="eyebrow">Release</div>
+              <span class="version">v2.4.0</span>
+              <h3>— April 23, 2026</h3>
+            </div>
+            <div class="entries">
+              <div class="entry added">
+                <span class="tag">Added</span>
+                <ul>
+                  <li>Eight new IDE-inspired themes: Dracula, Monokai, Nord, Tokyo Night, Gruvbox, Catppuccin, Solarized, and GitHub Dark</li>
+                  <li>Terminal, diff, API endpoint, and file-tree slide layouts</li>
+                  <li>Keyboard-first command palette (<code>⌘+K</code>) with fuzzy search across all slides</li>
+                </ul>
+              </div>
+              <div class="entry changed">
+                <span class="tag">Changed</span>
+                <ul>
+                  <li>Stepper layout now scales cleanly from 3 to 6 steps</li>
+                  <li>Chart component accepts arbitrary data shapes via render prop</li>
+                </ul>
+              </div>
+              <div class="entry removed">
+                <span class="tag">Removed</span>
+                <ul>
+                  <li>Legacy <code>theme.json</code> config — migrate to <code>halcyon.config.ts</code></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 35 DASHBOARD / LIVE METRICS -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">35</span><span class="name">Live Dashboard</span></div>
+        <div class="slide layout-dashboard">
+          <div class="slide-inner">
+            <div class="head">
+              <div>
+                <div class="eyebrow">Live</div>
+                <h3>System at a glance.</h3>
+              </div>
+              <span class="ts">UPDATED 14:22:08 UTC</span>
+            </div>
+            <div class="metrics">
+              <div class="metric">
+                <span class="lbl">Requests / min</span>
+                <span class="val">12.4k</span>
+                <span class="change up">↑ 8.2%</span>
+                <svg class="spark" viewBox="0 0 100 30" preserveAspectRatio="none">
+                  <path d="M0,20 L10,18 L20,22 L30,15 L40,17 L50,12 L60,14 L70,8 L80,10 L90,5 L100,7" stroke="currentColor" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="metric accent">
+                <span class="lbl">P50 Latency</span>
+                <span class="val">94ms</span>
+                <span class="change up">↓ 12%</span>
+                <svg class="spark" viewBox="0 0 100 30" preserveAspectRatio="none">
+                  <path d="M0,10 L10,12 L20,8 L30,14 L40,10 L50,18 L60,15 L70,22 L80,20 L90,25 L100,23" stroke="currentColor" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="metric">
+                <span class="lbl">Error rate</span>
+                <span class="val">0.04<span style="font-size:0.6em;opacity:0.6">%</span></span>
+                <span class="change down">↑ 0.01%</span>
+                <svg class="spark" viewBox="0 0 100 30" preserveAspectRatio="none">
+                  <path d="M0,25 L10,22 L20,26 L30,20 L40,24 L50,18 L60,21 L70,15 L80,18 L90,12 L100,10" stroke="currentColor" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="metric accent">
+                <span class="lbl">Active decks</span>
+                <span class="val">847</span>
+                <span class="change up">↑ 23</span>
+                <svg class="spark" viewBox="0 0 100 30" preserveAspectRatio="none">
+                  <path d="M0,22 L10,20 L20,18 L30,20 L40,15 L50,17 L60,12 L70,14 L80,8 L90,6 L100,4" stroke="currentColor" fill="none" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- THEME INSPECTOR -->
+    <div class="theme-info">
+      <h3>CSS variables for <em id="themeInfoName">Atelier</em></h3>
+      <div class="vars" id="themeVars"></div>
+    </div>
+  </section>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <button class="close" id="modalClose">×</button>
+  <div class="slide-expand" id="modalContent"></div>
+</div>
+
+<script>
+const themes = {
+  atelier:    { name: 'Atelier',     desc: 'Warm editorial minimal — italic serif display, ruled lines, hand-sewn feel.' },
+  midnight:   { name: 'Midnight',    desc: 'Deep dark with electric blue accents — faint grid, glowing highlights.' },
+  brutalist:  { name: 'Brutalist',   desc: 'Cream + thick black borders + yellow. Offset shadows. All caps.' },
+  sage:       { name: 'Sage',        desc: 'Organic earth tones — italic serif, sage green and terracotta.' },
+  monarch:    { name: 'Monarch',     desc: 'Luxury dark — plum background, gold accents, nested inner frame.' },
+  nebula:     { name: 'Nebula',      desc: 'Vibrant gradient — magenta to cyan, glowing radial washes.' },
+  paper:      { name: 'Paper',       desc: 'Swiss minimalism — black on white with a single red accent.' },
+  terminal:   { name: 'Terminal',    desc: 'CRT aesthetic — amber monospace, scanlines, blinking cursor.' },
+  blossom:    { name: 'Blossom',     desc: 'Soft pastel — blush and lavender gradients, italic serif, rounded.' },
+  steel:      { name: 'Steel',       desc: 'Corporate modern — deep navy with bright orange accent.' },
+  dracula:    { name: 'Dracula',     desc: 'The iconic editor theme — pink, cyan, purple on deep slate.' },
+  monokai:    { name: 'Monokai',     desc: 'Classic Sublime Text warmth — magenta, lime, amber on olive dark.' },
+  solarized:  { name: 'Solarized',   desc: 'Ethan Schoonover\'s meticulously tuned palette — muted, balanced.' },
+  tokyo:      { name: 'Tokyo Night', desc: 'Modern deep-blue favorite — soft purple accents, low contrast body.' },
+  nord:       { name: 'Nord',        desc: 'Arctic frost palette — cool blues and cyans on polar night slate.' },
+  gruvbox:    { name: 'Gruvbox',     desc: 'Retro vim warmth — mustard, olive, terracotta on toasted dark.' },
+  catppuccin: { name: 'Catppuccin',  desc: 'Mocha variant of the beloved pastel theme — soft, rounded, popular.' },
+  github:     { name: 'GitHub Dark', desc: 'Familiar from every PR review — blue accent, clean hierarchy.' }
+};
+
+const picker = document.getElementById('themePicker');
+const grid = document.getElementById('slidesGrid');
+const currentName = document.getElementById('currentName');
+const themeInfoName = document.getElementById('themeInfoName');
+const themeVarsEl = document.getElementById('themeVars');
+
+const varsToShow = ['--bg', '--bg-alt', '--fg', '--fg-muted', '--accent', '--accent-2', '--border', '--font-display', '--font-body', '--font-mono', '--radius'];
+
+function updateThemeInfo(theme) {
+  const sample = document.createElement('div');
+  sample.setAttribute('data-theme', theme);
+  sample.style.display = 'none';
+  document.body.appendChild(sample);
+  const cs = getComputedStyle(sample);
+  themeVarsEl.innerHTML = varsToShow.map(v => {
+    const val = cs.getPropertyValue(v).trim();
+    const isColor = v.includes('bg') || v.includes('fg') || v.includes('accent') || v.includes('border');
+    if (isColor && val) {
+      return `<div><span class="k">${v}</span><span class="v color"><span class="chip" style="background:${val}"></span>${val}</span></div>`;
+    }
+    return `<div><span class="k">${v}</span><span class="v">${val || '—'}</span></div>`;
+  }).join('');
+  document.body.removeChild(sample);
+}
+
+function setTheme(theme) {
+  grid.setAttribute('data-theme', theme);
+  currentName.textContent = themes[theme].name;
+  themeInfoName.textContent = themes[theme].name;
+  document.querySelectorAll('.theme-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.theme === theme);
+  });
+  updateThemeInfo(theme);
+}
+
+picker.addEventListener('click', e => {
+  const btn = e.target.closest('.theme-btn');
+  if (btn) setTheme(btn.dataset.theme);
+});
+
+// Shuffle
+document.getElementById('randomize').addEventListener('click', () => {
+  const keys = Object.keys(themes);
+  let next;
+  do { next = keys[Math.floor(Math.random() * keys.length)]; }
+  while (next === grid.dataset.theme);
+  setTheme(next);
+});
+
+// Modal expand
+const modal = document.getElementById('modal');
+const modalContent = document.getElementById('modalContent');
+document.querySelectorAll('.slide').forEach(slide => {
+  slide.addEventListener('click', () => {
+    modalContent.innerHTML = slide.outerHTML;
+    modal.classList.add('active');
+  });
+});
+document.getElementById('modalClose').addEventListener('click', () => modal.classList.remove('active'));
+modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('active'); });
+
+// Keyboard shortcut: number keys 1-9, 0 switches themes
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') modal.classList.remove('active');
+  const keys = Object.keys(themes);
+  const idx = e.key === '0' ? 9 : parseInt(e.key, 10) - 1;
+  if (idx >= 0 && idx < keys.length) setTheme(keys[idx]);
+});
+
+// Init
+updateThemeInfo('atelier');
+</script>
+
+</body>
+</html>
