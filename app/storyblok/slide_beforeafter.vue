@@ -9,6 +9,7 @@ defineProps<{
     after_label?: string;
     after_sample?: string;
     after_caption?: string;
+    repo_url?: string;
   };
 }>();
 </script>
@@ -36,5 +37,6 @@ defineProps<{
         </div>
       </div>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>

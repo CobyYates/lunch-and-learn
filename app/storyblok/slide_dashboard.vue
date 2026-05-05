@@ -12,8 +12,8 @@ const props = defineProps<{
   blok: {
     eyebrow?: string;
     title?: string;
-    timestamp?: string;
     metrics?: DashboardMetric[];
+    repo_url?: string;
   };
 }>();
 
@@ -60,7 +60,6 @@ function deltaDirection(delta?: string): "up" | "down" | "" {
           <div v-if="blok.eyebrow" class="eyebrow">{{ blok.eyebrow }}</div>
           <h3 v-if="blok.title">{{ blok.title }}</h3>
         </div>
-        <span v-if="blok.timestamp" class="ts">{{ blok.timestamp }}</span>
       </div>
       <div class="metrics">
         <div
@@ -92,5 +91,6 @@ function deltaDirection(delta?: string): "up" | "down" | "" {
         </div>
       </div>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>

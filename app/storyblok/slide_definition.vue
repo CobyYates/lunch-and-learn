@@ -10,6 +10,7 @@ defineProps<{
     term?: string;
     phonetic?: string;
     entries?: DefinitionEntry[];
+    repo_url?: string;
   };
 }>();
 
@@ -31,5 +32,6 @@ const pad = (i: number) => String(i + 1).padStart(2, "0");
         </div>
       </div>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>

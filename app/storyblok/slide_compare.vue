@@ -15,6 +15,7 @@ defineProps<{
     left?: CompareCol;
     right?: CompareCol;
     divider_label?: string; // defaults to "vs"
+    repo_url?: string;
   };
 }>();
 </script>
@@ -44,5 +45,6 @@ defineProps<{
         </div>
       </div>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>

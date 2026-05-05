@@ -11,6 +11,7 @@ defineProps<{
     eyebrow?: string;
     title?: string;
     tiles?: GalleryTile[];
+    repo_url?: string;
   };
 }>();
 </script>
@@ -36,5 +37,6 @@ defineProps<{
         </div>
       </div>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>

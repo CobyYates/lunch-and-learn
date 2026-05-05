@@ -11,6 +11,7 @@ defineProps<{
     eyebrow?: string;
     title?: string;
     events?: TimelineEvent[];
+    repo_url?: string;
   };
 }>();
 </script>
@@ -29,5 +30,6 @@ defineProps<{
         </div>
       </div>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>

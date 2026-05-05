@@ -1,35 +1,92 @@
 {
-  "$comment": "Storyblok component definitions for the 35 slide layouts + slideshow container. Push with scripts/push-storyblok-schema.mjs (requires STORYBLOK_SPACE_ID and STORYBLOK_MANAGEMENT_TOKEN). Field 'pos' values space components alphabetically in the Storyblok UI; adjust as desired.",
-
+  "$comment": "Storyblok component definitions for the slide-design-system. Push with scripts/push-storyblok-schema.mjs (requires STORYBLOK_SPACE_ID and STORYBLOK_MANAGEMENT_TOKEN). Components are tagged with `component_group_uuid` so they land in the right Storyblok group. The slideshow.Slides field uses `component_group_whitelist` so any new slide_* component dropped in this group becomes available to authors automatically. `repo_url` on each slide_* renders a small GitHub/GitLab mark in the bottom-right; leave blank to hide.",
   "theme_options": [
-    { "name": "Atelier", "value": "atelier" },
-    { "name": "Midnight", "value": "midnight" },
-    { "name": "Brutalist", "value": "brutalist" },
-    { "name": "Sage", "value": "sage" },
-    { "name": "Monarch", "value": "monarch" },
-    { "name": "Nebula", "value": "nebula" },
-    { "name": "Paper", "value": "paper" },
-    { "name": "Terminal", "value": "terminal" },
-    { "name": "Blossom", "value": "blossom" },
-    { "name": "Steel", "value": "steel" },
-    { "name": "Dracula", "value": "dracula" },
-    { "name": "Monokai", "value": "monokai" },
-    { "name": "Solarized", "value": "solarized" },
-    { "name": "Tokyo Night", "value": "tokyo" },
-    { "name": "Nord", "value": "nord" },
-    { "name": "Gruvbox", "value": "gruvbox" },
-    { "name": "Catppuccin", "value": "catppuccin" },
-    { "name": "GitHub Dark", "value": "github" }
+    {
+      "name": "Atelier",
+      "value": "atelier"
+    },
+    {
+      "name": "Midnight",
+      "value": "midnight"
+    },
+    {
+      "name": "Brutalist",
+      "value": "brutalist"
+    },
+    {
+      "name": "Sage",
+      "value": "sage"
+    },
+    {
+      "name": "Monarch",
+      "value": "monarch"
+    },
+    {
+      "name": "Nebula",
+      "value": "nebula"
+    },
+    {
+      "name": "Paper",
+      "value": "paper"
+    },
+    {
+      "name": "Terminal",
+      "value": "terminal"
+    },
+    {
+      "name": "Blossom",
+      "value": "blossom"
+    },
+    {
+      "name": "Steel",
+      "value": "steel"
+    },
+    {
+      "name": "Dracula",
+      "value": "dracula"
+    },
+    {
+      "name": "Monokai",
+      "value": "monokai"
+    },
+    {
+      "name": "Solarized",
+      "value": "solarized"
+    },
+    {
+      "name": "Tokyo Night",
+      "value": "tokyo"
+    },
+    {
+      "name": "Nord",
+      "value": "nord"
+    },
+    {
+      "name": "Gruvbox",
+      "value": "gruvbox"
+    },
+    {
+      "name": "Catppuccin",
+      "value": "catppuccin"
+    },
+    {
+      "name": "GitHub Dark",
+      "value": "github"
+    }
   ],
-
   "components": [
     {
-      "name": "Slideshow",
+      "name": "slideshow",
       "display_name": "Slideshow",
       "is_root": true,
       "is_nestable": false,
       "schema": {
-        "title": { "type": "text", "pos": 0, "required": true, "translatable": true },
+        "title": {
+          "type": "text",
+          "pos": 0,
+          "required": true,
+          "translatable": true
+        },
         "theme": {
           "type": "option",
           "pos": 1,
@@ -37,709 +94,3140 @@
           "default_value": "atelier",
           "options": "__THEME_OPTIONS__"
         },
-        "image": { "type": "asset", "filetypes": ["images"], "pos": 2 },
+        "image": {
+          "type": "asset",
+          "filetypes": [
+            "images"
+          ],
+          "pos": 2
+        },
         "Slides": {
           "type": "bloks",
           "pos": 3,
           "restrict_components": true,
-          "component_whitelist": [
-            "slide_title",
-            "slide_section",
-            "slide_bullets",
-            "slide_split",
-            "slide_hero",
-            "slide_code",
-            "slide_compare",
-            "slide_quote",
-            "slide_stats",
-            "slide_stepper",
-            "slide_team",
-            "slide_chart",
-            "slide_media",
-            "slide_table",
-            "slide_closing",
-            "slide_agenda",
-            "slide_bignum",
-            "slide_pricing",
-            "slide_timeline",
-            "slide_features",
-            "slide_gallery",
-            "slide_logos",
-            "slide_qa",
-            "slide_beforeafter",
-            "slide_diagram",
-            "slide_device",
-            "slide_definition",
-            "slide_console",
-            "slide_diff",
-            "slide_api",
-            "slide_tree",
-            "slide_techstack",
-            "slide_keyboard",
-            "slide_changelog",
-            "slide_dashboard"
+          "restrict_type": "groups",
+          "component_group_whitelist": [
+            "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
           ]
         }
       }
     },
-
     {
       "name": "slide_title",
-      "display_name": "Slide — Title / Cover",
+      "display_name": "Slide \u2014 Title / Cover",
       "is_nestable": true,
       "schema": {
-        "meta_left": { "type": "text", "pos": 0 },
-        "meta_right": { "type": "text", "pos": 1 },
-        "title": { "type": "text", "pos": 2, "required": true, "translatable": true },
-        "title_accent": { "type": "text", "pos": 3, "translatable": true, "description": "Word(s) rendered in accent color / italic" },
-        "presenter_name": { "type": "text", "pos": 4 },
-        "presenter_role": { "type": "text", "pos": 5 },
-        "date_label": { "type": "text", "pos": 6 },
-        "date_sub": { "type": "text", "pos": 7 }
-      }
+        "meta_left": {
+          "type": "text",
+          "pos": 0
+        },
+        "meta_right": {
+          "type": "text",
+          "pos": 1
+        },
+        "title": {
+          "type": "text",
+          "pos": 2,
+          "required": true,
+          "translatable": true
+        },
+        "title_accent": {
+          "type": "text",
+          "pos": 3,
+          "translatable": true,
+          "description": "Word(s) rendered in accent color / italic"
+        },
+        "presenter_name": {
+          "type": "text",
+          "pos": 4
+        },
+        "presenter_role": {
+          "type": "text",
+          "pos": 5
+        },
+        "date_label": {
+          "type": "text",
+          "pos": 6
+        },
+        "date_sub": {
+          "type": "text",
+          "pos": 7
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Repo URL \u2014 present for parity, but the title/closing layouts hide the bottom-right mark by design."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "slide_section",
-      "display_name": "Slide — Section Divider",
+      "display_name": "Slide \u2014 Section Divider",
       "is_nestable": true,
       "schema": {
-        "number_label": { "type": "text", "pos": 0, "default_value": "01" },
-        "eyebrow": { "type": "text", "pos": 1, "translatable": true },
-        "title": { "type": "text", "pos": 2, "required": true, "translatable": true },
-        "description": { "type": "textarea", "pos": 3, "translatable": true }
-      }
+        "number_label": {
+          "type": "text",
+          "pos": 0,
+          "default_value": "01"
+        },
+        "eyebrow": {
+          "type": "text",
+          "pos": 1,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 2,
+          "required": true,
+          "translatable": true
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 3,
+          "translatable": true
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "bullet_item",
       "display_name": "Bullet item",
       "is_nestable": true,
       "schema": {
-        "lead": { "type": "text", "pos": 0, "translatable": true, "description": "Bold leading phrase" },
-        "text": { "type": "text", "pos": 1, "translatable": true, "description": "Rest of the bullet" }
-      }
+        "lead": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true,
+          "description": "Bold leading phrase"
+        },
+        "text": {
+          "type": "text",
+          "pos": 1,
+          "translatable": true,
+          "description": "Rest of the bullet"
+        }
+      },
+      "component_group_uuid": "f5846019-3d3c-41f4-8feb-fef99fe302f4"
     },
-
     {
       "name": "slide_bullets",
-      "display_name": "Slide — Bullets",
+      "display_name": "Slide \u2014 Bullets",
       "is_nestable": true,
       "schema": {
-        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "subtitle": { "type": "textarea", "pos": 2, "translatable": true },
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "subtitle": {
+          "type": "textarea",
+          "pos": 2,
+          "translatable": true
+        },
         "items": {
           "type": "bloks",
           "pos": 3,
           "restrict_components": true,
-          "component_whitelist": ["bullet_item"],
+          "component_whitelist": [
+            "bullet_item"
+          ],
           "maximum": 6
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
         }
-      }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "slide_split",
-      "display_name": "Slide — Image + Text Split",
+      "display_name": "Slide \u2014 Image + Text Split",
       "is_nestable": true,
       "schema": {
-        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "body": { "type": "textarea", "pos": 2, "translatable": true },
-        "body_muted": { "type": "textarea", "pos": 3, "translatable": true },
-        "image": { "type": "asset", "filetypes": ["images"], "pos": 4 }
-      }
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "body": {
+          "type": "textarea",
+          "pos": 2,
+          "translatable": true
+        },
+        "body_muted": {
+          "type": "textarea",
+          "pos": 3,
+          "translatable": true
+        },
+        "image": {
+          "type": "asset",
+          "filetypes": [
+            "images"
+          ],
+          "pos": 4
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "slide_hero",
-      "display_name": "Slide — Full-bleed Hero",
+      "display_name": "Slide \u2014 Full-bleed Hero",
       "is_nestable": true,
       "schema": {
-        "tag": { "type": "text", "pos": 0, "translatable": true },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "subtitle": { "type": "textarea", "pos": 2, "translatable": true },
-        "image": { "type": "asset", "filetypes": ["images"], "pos": 3 }
-      }
+        "tag": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "subtitle": {
+          "type": "textarea",
+          "pos": 2,
+          "translatable": true
+        },
+        "image": {
+          "type": "asset",
+          "filetypes": [
+            "images"
+          ],
+          "pos": 3
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "slide_code",
-      "display_name": "Slide — Code Snippet",
+      "display_name": "Slide \u2014 Code Snippet",
       "is_nestable": true,
       "schema": {
-        "title": { "type": "text", "pos": 0, "translatable": true },
-        "language": { "type": "text", "pos": 1, "default_value": "typescript" },
-        "code": { "type": "textarea", "pos": 2, "required": true, "description": "Raw source. Theme provides syntax highlighting via CSS variables." }
-      }
+        "title": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "language": {
+          "type": "text",
+          "pos": 1,
+          "default_value": "typescript"
+        },
+        "code": {
+          "type": "textarea",
+          "pos": 2,
+          "required": true,
+          "description": "Raw source. Theme provides syntax highlighting via CSS variables."
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "compare_column",
       "display_name": "Compare column",
       "is_nestable": true,
       "schema": {
-        "heading": { "type": "text", "pos": 0, "required": true, "translatable": true },
-        "description": { "type": "text", "pos": 1, "translatable": true },
-        "featured": { "type": "boolean", "pos": 2 },
-        "tag": { "type": "text", "pos": 3, "translatable": true, "description": "Shown when featured" },
-        "items": { "type": "options", "pos": 4, "source": "internal", "options": [] }
-      }
+        "heading": {
+          "type": "text",
+          "pos": 0,
+          "required": true,
+          "translatable": true
+        },
+        "description": {
+          "type": "text",
+          "pos": 1,
+          "translatable": true
+        },
+        "featured": {
+          "type": "boolean",
+          "pos": 2
+        },
+        "tag": {
+          "type": "text",
+          "pos": 3,
+          "translatable": true,
+          "description": "Shown when featured"
+        },
+        "items": {
+          "type": "options",
+          "pos": 4,
+          "source": "internal",
+          "options": []
+        }
+      },
+      "component_group_uuid": "4cbd5422-97b8-4372-9cdf-aa69469e4884"
     },
-
     {
       "name": "slide_compare",
-      "display_name": "Slide — Comparison",
+      "display_name": "Slide \u2014 Comparison",
       "is_nestable": true,
       "schema": {
-        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "divider_label": { "type": "text", "pos": 2, "default_value": "vs" },
-        "left": { "type": "bloks", "pos": 3, "restrict_components": true, "component_whitelist": ["compare_column"], "maximum": 1 },
-        "right": { "type": "bloks", "pos": 4, "restrict_components": true, "component_whitelist": ["compare_column"], "maximum": 1 }
-      }
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "divider_label": {
+          "type": "text",
+          "pos": 2,
+          "default_value": "vs"
+        },
+        "left": {
+          "type": "bloks",
+          "pos": 3,
+          "restrict_components": true,
+          "component_whitelist": [
+            "compare_column"
+          ],
+          "maximum": 1
+        },
+        "right": {
+          "type": "bloks",
+          "pos": 4,
+          "restrict_components": true,
+          "component_whitelist": [
+            "compare_column"
+          ],
+          "maximum": 1
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "slide_quote",
-      "display_name": "Slide — Pull Quote",
+      "display_name": "Slide \u2014 Pull Quote",
       "is_nestable": true,
       "schema": {
-        "quote": { "type": "textarea", "pos": 0, "required": true, "translatable": true },
-        "author_name": { "type": "text", "pos": 1, "translatable": true },
-        "author_role": { "type": "text", "pos": 2, "translatable": true },
-        "author_initials": { "type": "text", "pos": 3, "description": "Shown in avatar circle if no image" },
-        "author_image": { "type": "asset", "filetypes": ["images"], "pos": 4 }
-      }
+        "quote": {
+          "type": "textarea",
+          "pos": 0,
+          "required": true,
+          "translatable": true
+        },
+        "author_name": {
+          "type": "text",
+          "pos": 1,
+          "translatable": true
+        },
+        "author_role": {
+          "type": "text",
+          "pos": 2,
+          "translatable": true
+        },
+        "author_initials": {
+          "type": "text",
+          "pos": 3,
+          "description": "Shown in avatar circle if no image"
+        },
+        "author_image": {
+          "type": "asset",
+          "filetypes": [
+            "images"
+          ],
+          "pos": 4
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "stat_item",
       "display_name": "Stat item",
       "is_nestable": true,
       "schema": {
-        "big_number": { "type": "text", "pos": 0, "required": true },
-        "unit": { "type": "text", "pos": 1, "description": "e.g. %, k, s" },
-        "label": { "type": "text", "pos": 2, "translatable": true },
-        "description": { "type": "textarea", "pos": 3, "translatable": true }
-      }
+        "big_number": {
+          "type": "text",
+          "pos": 0,
+          "required": true
+        },
+        "unit": {
+          "type": "text",
+          "pos": 1,
+          "description": "e.g. %, k, s"
+        },
+        "label": {
+          "type": "text",
+          "pos": 2,
+          "translatable": true
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 3,
+          "translatable": true
+        }
+      },
+      "component_group_uuid": "f5846019-3d3c-41f4-8feb-fef99fe302f4"
     },
-
     {
       "name": "slide_stats",
-      "display_name": "Slide — Stats / KPIs",
+      "display_name": "Slide \u2014 Stats / KPIs",
       "is_nestable": true,
       "schema": {
-        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "stats": { "type": "bloks", "pos": 2, "restrict_components": true, "component_whitelist": ["stat_item"], "maximum": 3 }
-      }
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "stats": {
+          "type": "bloks",
+          "pos": 2,
+          "restrict_components": true,
+          "component_whitelist": [
+            "stat_item"
+          ],
+          "maximum": 3
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "step_item",
       "display_name": "Step item",
       "is_nestable": true,
       "schema": {
-        "number_label": { "type": "text", "pos": 0, "default_value": "STEP 01" },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "description": { "type": "textarea", "pos": 2, "translatable": true },
-        "image": { "type": "asset", "filetypes": ["images"], "pos": 3 }
-      }
+        "number_label": {
+          "type": "text",
+          "pos": 0,
+          "default_value": "STEP 01"
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 2,
+          "translatable": true
+        }
+      },
+      "component_group_uuid": "f5846019-3d3c-41f4-8feb-fef99fe302f4"
     },
-
     {
       "name": "slide_stepper",
-      "display_name": "Slide — Stepper / Process",
+      "display_name": "Slide \u2014 Stepper / Process",
       "is_nestable": true,
       "schema": {
-        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "image": { "type": "asset", "filetypes": ["images"], "pos": 2 },
-        "steps": { "type": "bloks", "pos": 3, "restrict_components": true, "component_whitelist": ["step_item"], "maximum": 4 }
-      }
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "steps": {
+          "type": "bloks",
+          "pos": 3,
+          "restrict_components": true,
+          "component_whitelist": [
+            "step_item"
+          ],
+          "maximum": 4
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "team_member",
       "display_name": "Team member",
       "is_nestable": true,
       "schema": {
-        "name": { "type": "text", "pos": 0, "required": true, "translatable": true },
-        "role": { "type": "text", "pos": 1, "translatable": true },
-        "bio": { "type": "textarea", "pos": 2, "translatable": true },
-        "initials": { "type": "text", "pos": 3 },
-        "image": { "type": "asset", "filetypes": ["images"], "pos": 4 }
-      }
+        "name": {
+          "type": "text",
+          "pos": 0,
+          "required": true,
+          "translatable": true
+        },
+        "role": {
+          "type": "text",
+          "pos": 1,
+          "translatable": true
+        },
+        "bio": {
+          "type": "textarea",
+          "pos": 2,
+          "translatable": true
+        },
+        "initials": {
+          "type": "text",
+          "pos": 3
+        },
+        "image": {
+          "type": "asset",
+          "filetypes": [
+            "images"
+          ],
+          "pos": 4
+        }
+      },
+      "component_group_uuid": "4cbd5422-97b8-4372-9cdf-aa69469e4884"
     },
-
     {
       "name": "slide_team",
-      "display_name": "Slide — Team / Profiles",
+      "display_name": "Slide \u2014 Team / Profiles",
       "is_nestable": true,
       "schema": {
-        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "members": { "type": "bloks", "pos": 2, "restrict_components": true, "component_whitelist": ["team_member"], "maximum": 4 }
-      }
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "members": {
+          "type": "bloks",
+          "pos": 2,
+          "restrict_components": true,
+          "component_whitelist": [
+            "team_member"
+          ],
+          "maximum": 4
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "chart_group",
       "display_name": "Chart group (pair)",
       "is_nestable": true,
       "schema": {
-        "label": { "type": "text", "pos": 0, "required": true },
-        "value_a": { "type": "number", "pos": 1, "required": true },
-        "value_b": { "type": "number", "pos": 2 }
-      }
+        "label": {
+          "type": "text",
+          "pos": 0,
+          "required": true
+        },
+        "value_a": {
+          "type": "number",
+          "pos": 1,
+          "required": true
+        },
+        "value_b": {
+          "type": "number",
+          "pos": 2
+        }
+      },
+      "component_group_uuid": "4cbd5422-97b8-4372-9cdf-aa69469e4884"
     },
-
     {
       "name": "slide_chart",
-      "display_name": "Slide — Bar Chart",
+      "display_name": "Slide \u2014 Bar Chart",
       "is_nestable": true,
       "schema": {
-        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "series_a_label": { "type": "text", "pos": 2, "translatable": true },
-        "series_b_label": { "type": "text", "pos": 3, "translatable": true },
-        "y_max": { "type": "number", "pos": 4, "default_value": 100 },
-        "groups": { "type": "bloks", "pos": 5, "restrict_components": true, "component_whitelist": ["chart_group"], "maximum": 6 }
-      }
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "series_a_label": {
+          "type": "text",
+          "pos": 2,
+          "translatable": true
+        },
+        "series_b_label": {
+          "type": "text",
+          "pos": 3,
+          "translatable": true
+        },
+        "y_max": {
+          "type": "number",
+          "pos": 4,
+          "default_value": 100
+        },
+        "groups": {
+          "type": "bloks",
+          "pos": 5,
+          "restrict_components": true,
+          "component_whitelist": [
+            "chart_group"
+          ],
+          "maximum": 6
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "slide_media",
-      "display_name": "Slide — Media / Video",
+      "display_name": "Slide \u2014 Media / Video",
       "is_nestable": true,
       "schema": {
-        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "description": { "type": "textarea", "pos": 2, "translatable": true },
-        "duration": { "type": "text", "pos": 3, "description": "e.g. 12:04" },
-        "duration_label": { "type": "text", "pos": 4, "default_value": "DURATION" },
-        "meta_label": { "type": "text", "pos": 5, "default_value": "SPEAKER" },
-        "meta_value": { "type": "text", "pos": 6 },
-        "poster": { "type": "asset", "filetypes": ["images"], "pos": 7 },
-        "video_url": { "type": "text", "pos": 8 }
-      }
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 2,
+          "translatable": true
+        },
+        "duration": {
+          "type": "text",
+          "pos": 3,
+          "description": "e.g. 12:04"
+        },
+        "duration_label": {
+          "type": "text",
+          "pos": 4,
+          "default_value": "DURATION"
+        },
+        "meta_label": {
+          "type": "text",
+          "pos": 5,
+          "default_value": "SPEAKER"
+        },
+        "meta_value": {
+          "type": "text",
+          "pos": 6
+        },
+        "poster": {
+          "type": "asset",
+          "filetypes": [
+            "images"
+          ],
+          "pos": 7
+        },
+        "video_url": {
+          "type": "text",
+          "pos": 8
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "table_row",
       "display_name": "Table row",
       "is_nestable": true,
       "schema": {
-        "cells": { "type": "textarea", "pos": 0, "description": "One cell per line" },
-        "highlight": { "type": "boolean", "pos": 1 },
-        "pill_label": { "type": "text", "pos": 2 },
-        "pill_kind": { "type": "option", "pos": 3, "options": [{ "name": "Default", "value": "default" }, { "name": "OK", "value": "ok" }, { "name": "Warn", "value": "warn" }] }
-      }
+        "cells": {
+          "type": "textarea",
+          "pos": 0,
+          "description": "One cell per line"
+        },
+        "highlight": {
+          "type": "boolean",
+          "pos": 1
+        },
+        "pill_label": {
+          "type": "text",
+          "pos": 2
+        },
+        "pill_kind": {
+          "type": "option",
+          "pos": 3,
+          "options": [
+            {
+              "name": "Default",
+              "value": "default"
+            },
+            {
+              "name": "OK",
+              "value": "ok"
+            },
+            {
+              "name": "Warn",
+              "value": "warn"
+            }
+          ]
+        }
+      },
+      "component_group_uuid": "4cbd5422-97b8-4372-9cdf-aa69469e4884"
     },
-
     {
       "name": "slide_table",
-      "display_name": "Slide — Data Table",
+      "display_name": "Slide \u2014 Data Table",
       "is_nestable": true,
       "schema": {
-        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "headers": { "type": "textarea", "pos": 2, "description": "One header per line" },
-        "rows": { "type": "bloks", "pos": 3, "restrict_components": true, "component_whitelist": ["table_row"] }
-      }
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "headers": {
+          "type": "textarea",
+          "pos": 2,
+          "description": "One header per line"
+        },
+        "rows": {
+          "type": "bloks",
+          "pos": 3,
+          "restrict_components": true,
+          "component_whitelist": [
+            "table_row"
+          ]
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "foot_item",
       "display_name": "Closing foot item",
       "is_nestable": true,
       "schema": {
-        "label": { "type": "text", "pos": 0, "required": true, "translatable": true },
-        "value": { "type": "text", "pos": 1, "required": true, "translatable": true }
-      }
+        "label": {
+          "type": "text",
+          "pos": 0,
+          "required": true,
+          "translatable": true
+        },
+        "value": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        }
+      },
+      "component_group_uuid": "f5846019-3d3c-41f4-8feb-fef99fe302f4"
     },
-
     {
       "name": "slide_closing",
-      "display_name": "Slide — Closing / CTA",
+      "display_name": "Slide \u2014 Closing / CTA",
       "is_nestable": true,
       "schema": {
-        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "title_accent": { "type": "text", "pos": 2, "translatable": true },
-        "foot_items": { "type": "bloks", "pos": 3, "restrict_components": true, "component_whitelist": ["foot_item"], "maximum": 3 }
-      }
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "title_accent": {
+          "type": "text",
+          "pos": 2,
+          "translatable": true
+        },
+        "foot_items": {
+          "type": "bloks",
+          "pos": 3,
+          "restrict_components": true,
+          "component_whitelist": [
+            "foot_item"
+          ],
+          "maximum": 3
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Repo URL \u2014 present for parity, but the title/closing layouts hide the bottom-right mark by design."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "agenda_item",
       "display_name": "Agenda item",
       "is_nestable": true,
       "schema": {
-        "number_label": { "type": "text", "pos": 0, "default_value": "01" },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "time_label": { "type": "text", "pos": 2 }
-      }
+        "number_label": {
+          "type": "text",
+          "pos": 0,
+          "default_value": "01"
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "time_label": {
+          "type": "text",
+          "pos": 2
+        }
+      },
+      "component_group_uuid": "f5846019-3d3c-41f4-8feb-fef99fe302f4"
     },
-
     {
       "name": "slide_agenda",
-      "display_name": "Slide — Agenda / TOC",
+      "display_name": "Slide \u2014 Agenda / TOC",
       "is_nestable": true,
       "schema": {
-        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "items": { "type": "bloks", "pos": 2, "restrict_components": true, "component_whitelist": ["agenda_item"] }
-      }
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "items": {
+          "type": "bloks",
+          "pos": 2,
+          "restrict_components": true,
+          "component_whitelist": [
+            "agenda_item"
+          ]
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "slide_bignum",
-      "display_name": "Slide — Big Number",
+      "display_name": "Slide \u2014 Big Number",
       "is_nestable": true,
       "schema": {
-        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
-        "number": { "type": "text", "pos": 1, "required": true },
-        "unit": { "type": "text", "pos": 2 },
-        "label": { "type": "textarea", "pos": 3, "translatable": true },
-        "label_bold": { "type": "text", "pos": 4, "translatable": true },
-        "sub": { "type": "textarea", "pos": 5, "translatable": true }
-      }
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "number": {
+          "type": "text",
+          "pos": 1,
+          "required": true
+        },
+        "unit": {
+          "type": "text",
+          "pos": 2
+        },
+        "label": {
+          "type": "textarea",
+          "pos": 3,
+          "translatable": true
+        },
+        "label_bold": {
+          "type": "text",
+          "pos": 4,
+          "translatable": true
+        },
+        "sub": {
+          "type": "textarea",
+          "pos": 5,
+          "translatable": true
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "pricing_tier",
       "display_name": "Pricing tier",
       "is_nestable": true,
       "schema": {
-        "name": { "type": "text", "pos": 0, "required": true, "translatable": true },
-        "price": { "type": "text", "pos": 1, "required": true },
-        "price_per": { "type": "text", "pos": 2, "default_value": "/month" },
-        "featured": { "type": "boolean", "pos": 3 },
-        "tag": { "type": "text", "pos": 4, "translatable": true },
-        "features": { "type": "textarea", "pos": 5, "description": "One feature per line", "translatable": true },
-        "cta": { "type": "text", "pos": 6, "default_value": "Start trial" }
-      }
+        "name": {
+          "type": "text",
+          "pos": 0,
+          "required": true,
+          "translatable": true
+        },
+        "price": {
+          "type": "text",
+          "pos": 1,
+          "required": true
+        },
+        "price_per": {
+          "type": "text",
+          "pos": 2,
+          "default_value": "/month"
+        },
+        "featured": {
+          "type": "boolean",
+          "pos": 3
+        },
+        "tag": {
+          "type": "text",
+          "pos": 4,
+          "translatable": true
+        },
+        "features": {
+          "type": "textarea",
+          "pos": 5,
+          "description": "One feature per line",
+          "translatable": true
+        },
+        "cta": {
+          "type": "text",
+          "pos": 6,
+          "default_value": "Start trial"
+        }
+      },
+      "component_group_uuid": "4cbd5422-97b8-4372-9cdf-aa69469e4884"
     },
-
     {
       "name": "slide_pricing",
-      "display_name": "Slide — Pricing",
+      "display_name": "Slide \u2014 Pricing",
       "is_nestable": true,
       "schema": {
-        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "tiers": { "type": "bloks", "pos": 2, "restrict_components": true, "component_whitelist": ["pricing_tier"], "maximum": 3 }
-      }
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "tiers": {
+          "type": "bloks",
+          "pos": 2,
+          "restrict_components": true,
+          "component_whitelist": [
+            "pricing_tier"
+          ],
+          "maximum": 3
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "timeline_event",
       "display_name": "Timeline event",
       "is_nestable": true,
       "schema": {
-        "date": { "type": "text", "pos": 0, "required": true },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "description": { "type": "textarea", "pos": 2, "translatable": true }
-      }
+        "date": {
+          "type": "text",
+          "pos": 0,
+          "required": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 2,
+          "translatable": true
+        }
+      },
+      "component_group_uuid": "4cbd5422-97b8-4372-9cdf-aa69469e4884"
     },
-
     {
       "name": "slide_timeline",
-      "display_name": "Slide — Timeline",
+      "display_name": "Slide \u2014 Timeline",
       "is_nestable": true,
       "schema": {
-        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "events": { "type": "bloks", "pos": 2, "restrict_components": true, "component_whitelist": ["timeline_event"], "maximum": 5 }
-      }
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "events": {
+          "type": "bloks",
+          "pos": 2,
+          "restrict_components": true,
+          "component_whitelist": [
+            "timeline_event"
+          ],
+          "maximum": 5
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "feature_item",
       "display_name": "Feature item",
       "is_nestable": true,
       "schema": {
-        "icon": { "type": "text", "pos": 0, "description": "Short emoji/glyph/letter" },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "description": { "type": "textarea", "pos": 2, "translatable": true }
-      }
+        "icon": {
+          "type": "text",
+          "pos": 0,
+          "description": "Short emoji/glyph/letter"
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 2,
+          "translatable": true
+        }
+      },
+      "component_group_uuid": "f5846019-3d3c-41f4-8feb-fef99fe302f4"
     },
-
     {
       "name": "slide_features",
-      "display_name": "Slide — Feature Grid",
+      "display_name": "Slide \u2014 Feature Grid",
       "is_nestable": true,
       "schema": {
-        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "items": { "type": "bloks", "pos": 2, "restrict_components": true, "component_whitelist": ["feature_item"], "maximum": 6 }
-      }
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "items": {
+          "type": "bloks",
+          "pos": 2,
+          "restrict_components": true,
+          "component_whitelist": [
+            "feature_item"
+          ],
+          "maximum": 6
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "gallery_tile",
       "display_name": "Gallery tile",
       "is_nestable": true,
       "schema": {
-        "kind": { "type": "option", "pos": 0, "default_value": "neutral", "options": [{ "name": "Feature", "value": "feature" }, { "name": "Alt", "value": "alt" }, { "name": "Neutral", "value": "neutral" }, { "name": "Muted", "value": "muted" }] },
-        "caption": { "type": "text", "pos": 1, "translatable": true },
-        "image": { "type": "asset", "filetypes": ["images"], "pos": 2 }
-      }
+        "kind": {
+          "type": "option",
+          "pos": 0,
+          "default_value": "neutral",
+          "options": [
+            {
+              "name": "Feature",
+              "value": "feature"
+            },
+            {
+              "name": "Alt",
+              "value": "alt"
+            },
+            {
+              "name": "Neutral",
+              "value": "neutral"
+            },
+            {
+              "name": "Muted",
+              "value": "muted"
+            }
+          ]
+        },
+        "caption": {
+          "type": "text",
+          "pos": 1,
+          "translatable": true
+        },
+        "image": {
+          "type": "asset",
+          "filetypes": [
+            "images"
+          ],
+          "pos": 2
+        }
+      },
+      "component_group_uuid": "4cbd5422-97b8-4372-9cdf-aa69469e4884"
     },
-
     {
       "name": "slide_gallery",
-      "display_name": "Slide — Image Gallery",
+      "display_name": "Slide \u2014 Image Gallery",
       "is_nestable": true,
       "schema": {
-        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "tiles": { "type": "bloks", "pos": 2, "restrict_components": true, "component_whitelist": ["gallery_tile"], "maximum": 5 }
-      }
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "tiles": {
+          "type": "bloks",
+          "pos": 2,
+          "restrict_components": true,
+          "component_whitelist": [
+            "gallery_tile"
+          ],
+          "maximum": 5
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "logo_item",
       "display_name": "Logo item",
       "is_nestable": true,
       "schema": {
-        "name": { "type": "text", "pos": 0, "required": true },
-        "symbol": { "type": "text", "pos": 1, "description": "Leading char/symbol (accented)" },
-        "mono_style": { "type": "boolean", "pos": 2 }
-      }
+        "name": {
+          "type": "text",
+          "pos": 0,
+          "required": true
+        },
+        "symbol": {
+          "type": "text",
+          "pos": 1,
+          "description": "Leading char/symbol (accented)"
+        },
+        "mono_style": {
+          "type": "boolean",
+          "pos": 2
+        }
+      },
+      "component_group_uuid": "f5846019-3d3c-41f4-8feb-fef99fe302f4"
     },
-
     {
       "name": "slide_logos",
-      "display_name": "Slide — Logo Wall",
+      "display_name": "Slide \u2014 Logo Wall",
       "is_nestable": true,
       "schema": {
-        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "logos": { "type": "bloks", "pos": 2, "restrict_components": true, "component_whitelist": ["logo_item"], "maximum": 8 }
-      }
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "logos": {
+          "type": "bloks",
+          "pos": 2,
+          "restrict_components": true,
+          "component_whitelist": [
+            "logo_item"
+          ],
+          "maximum": 8
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "slide_qa",
-      "display_name": "Slide — Q&A Prompt",
+      "display_name": "Slide \u2014 Q&A Prompt",
       "is_nestable": true,
       "schema": {
-        "title_q": { "type": "text", "pos": 0, "default_value": "Q", "translatable": true },
-        "title_amp": { "type": "text", "pos": 1, "default_value": "&", "translatable": true },
-        "title_a": { "type": "text", "pos": 2, "default_value": "A", "translatable": true },
-        "sub": { "type": "textarea", "pos": 3, "translatable": true },
-        "hint": { "type": "text", "pos": 4, "translatable": true, "description": "Pill text (e.g. 'Ask anything')" }
-      }
+        "title_q": {
+          "type": "text",
+          "pos": 0,
+          "default_value": "Q",
+          "translatable": true
+        },
+        "title_amp": {
+          "type": "text",
+          "pos": 1,
+          "default_value": "&",
+          "translatable": true
+        },
+        "title_a": {
+          "type": "text",
+          "pos": 2,
+          "default_value": "A",
+          "translatable": true
+        },
+        "sub": {
+          "type": "textarea",
+          "pos": 3,
+          "translatable": true
+        },
+        "hint": {
+          "type": "text",
+          "pos": 4,
+          "translatable": true,
+          "description": "Pill text (e.g. 'Ask anything')"
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "slide_beforeafter",
-      "display_name": "Slide — Before / After",
+      "display_name": "Slide \u2014 Before / After",
       "is_nestable": true,
       "schema": {
-        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "before_label": { "type": "text", "pos": 2, "default_value": "BEFORE" },
-        "before_sample": { "type": "text", "pos": 3, "translatable": true },
-        "before_caption": { "type": "textarea", "pos": 4, "translatable": true },
-        "after_label": { "type": "text", "pos": 5, "default_value": "AFTER" },
-        "after_sample": { "type": "text", "pos": 6, "translatable": true },
-        "after_caption": { "type": "textarea", "pos": 7, "translatable": true }
-      }
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "before_label": {
+          "type": "text",
+          "pos": 2,
+          "default_value": "BEFORE"
+        },
+        "before_sample": {
+          "type": "text",
+          "pos": 3,
+          "translatable": true
+        },
+        "before_caption": {
+          "type": "textarea",
+          "pos": 4,
+          "translatable": true
+        },
+        "after_label": {
+          "type": "text",
+          "pos": 5,
+          "default_value": "AFTER"
+        },
+        "after_sample": {
+          "type": "text",
+          "pos": 6,
+          "translatable": true
+        },
+        "after_caption": {
+          "type": "textarea",
+          "pos": 7,
+          "translatable": true
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "diagram_node",
       "display_name": "Diagram node",
       "is_nestable": true,
       "schema": {
-        "title": { "type": "text", "pos": 0, "required": true, "translatable": true },
-        "hint": { "type": "text", "pos": 1 },
-        "primary": { "type": "boolean", "pos": 2 }
-      }
+        "title": {
+          "type": "text",
+          "pos": 0,
+          "required": true,
+          "translatable": true
+        },
+        "hint": {
+          "type": "text",
+          "pos": 1
+        },
+        "primary": {
+          "type": "boolean",
+          "pos": 2
+        }
+      },
+      "component_group_uuid": "4cbd5422-97b8-4372-9cdf-aa69469e4884"
     },
-
     {
       "name": "slide_diagram",
-      "display_name": "Slide — Architecture Diagram",
+      "display_name": "Slide \u2014 Architecture Diagram",
       "is_nestable": true,
       "schema": {
-        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "nodes": { "type": "bloks", "pos": 2, "restrict_components": true, "component_whitelist": ["diagram_node"], "maximum": 5 },
-        "caption": { "type": "text", "pos": 3, "translatable": true }
-      }
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "nodes": {
+          "type": "bloks",
+          "pos": 2,
+          "restrict_components": true,
+          "component_whitelist": [
+            "diagram_node"
+          ],
+          "maximum": 5
+        },
+        "caption": {
+          "type": "text",
+          "pos": 3,
+          "translatable": true
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "slide_device",
-      "display_name": "Slide — Device Showcase",
+      "display_name": "Slide \u2014 Device Showcase",
       "is_nestable": true,
       "schema": {
-        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "description": { "type": "textarea", "pos": 2, "translatable": true },
-        "features": { "type": "textarea", "pos": 3, "description": "One feature per line", "translatable": true },
-        "mock_title": { "type": "text", "pos": 4, "translatable": true },
-        "mock_sub": { "type": "text", "pos": 5, "translatable": true },
-        "mock_number": { "type": "text", "pos": 6 },
-        "mock_label": { "type": "text", "pos": 7, "translatable": true }
-      }
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 2,
+          "translatable": true
+        },
+        "features": {
+          "type": "textarea",
+          "pos": 3,
+          "description": "One feature per line",
+          "translatable": true
+        },
+        "mock_title": {
+          "type": "text",
+          "pos": 4,
+          "translatable": true
+        },
+        "mock_sub": {
+          "type": "text",
+          "pos": 5,
+          "translatable": true
+        },
+        "mock_number": {
+          "type": "text",
+          "pos": 6
+        },
+        "mock_label": {
+          "type": "text",
+          "pos": 7,
+          "translatable": true
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "definition_entry",
       "display_name": "Definition entry",
       "is_nestable": true,
       "schema": {
-        "body": { "type": "textarea", "pos": 0, "required": true, "translatable": true }
-      }
+        "body": {
+          "type": "textarea",
+          "pos": 0,
+          "required": true,
+          "translatable": true
+        }
+      },
+      "component_group_uuid": "4cbd5422-97b8-4372-9cdf-aa69469e4884"
     },
-
     {
       "name": "slide_definition",
-      "display_name": "Slide — Definition / Key Term",
+      "display_name": "Slide \u2014 Definition / Key Term",
       "is_nestable": true,
       "schema": {
-        "type_label": { "type": "text", "pos": 0, "default_value": "noun", "translatable": true },
-        "term": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "phonetic": { "type": "text", "pos": 2 },
-        "entries": { "type": "bloks", "pos": 3, "restrict_components": true, "component_whitelist": ["definition_entry"], "maximum": 3 }
-      }
+        "type_label": {
+          "type": "text",
+          "pos": 0,
+          "default_value": "noun",
+          "translatable": true
+        },
+        "term": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "phonetic": {
+          "type": "text",
+          "pos": 2
+        },
+        "entries": {
+          "type": "bloks",
+          "pos": 3,
+          "restrict_components": true,
+          "component_whitelist": [
+            "definition_entry"
+          ],
+          "maximum": 3
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "slide_console",
-      "display_name": "Slide — Terminal / Shell",
+      "display_name": "Slide \u2014 Terminal / Shell",
       "is_nestable": true,
       "schema": {
-        "window_title": { "type": "text", "pos": 0, "default_value": "~/project — zsh" },
-        "content": { "type": "textarea", "pos": 1, "required": true, "description": "Raw shell transcript. Rendered as HTML — wrap tokens in <span class=\"…\"> for color: prompt, host, cmd, flag, out, ok, err, url." }
-      }
+        "window_title": {
+          "type": "text",
+          "pos": 0,
+          "default_value": "~/project \u2014 zsh"
+        },
+        "content": {
+          "type": "textarea",
+          "pos": 1,
+          "required": true,
+          "description": "Raw shell transcript. Rendered as HTML \u2014 wrap tokens in <span class=\"\u2026\"> for color: prompt, host, cmd, flag, out, ok, err, url."
+        },
+        "image": {
+          "type": "asset",
+          "pos": 2,
+          "filetypes": [
+            "images"
+          ],
+          "description": "Optional image displayed inside the terminal window."
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "diff_line",
       "display_name": "Diff line",
       "is_nestable": true,
       "schema": {
-        "kind": { "type": "option", "pos": 0, "default_value": "context", "options": [{ "name": "Added", "value": "add" }, { "name": "Removed", "value": "rem" }, { "name": "Context", "value": "context" }] },
-        "line": { "type": "text", "pos": 1, "required": true }
-      }
+        "kind": {
+          "type": "option",
+          "pos": 0,
+          "default_value": "context",
+          "options": [
+            {
+              "name": "Added",
+              "value": "add"
+            },
+            {
+              "name": "Removed",
+              "value": "rem"
+            },
+            {
+              "name": "Context",
+              "value": "context"
+            }
+          ]
+        },
+        "line": {
+          "type": "text",
+          "pos": 1,
+          "required": true
+        }
+      },
+      "component_group_uuid": "4cbd5422-97b8-4372-9cdf-aa69469e4884"
     },
-
     {
       "name": "slide_diff",
-      "display_name": "Slide — Diff View",
+      "display_name": "Slide \u2014 Diff View",
       "is_nestable": true,
       "schema": {
-        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "filename": { "type": "text", "pos": 2 },
-        "lines": { "type": "bloks", "pos": 3, "restrict_components": true, "component_whitelist": ["diff_line"] }
-      }
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "filename": {
+          "type": "text",
+          "pos": 2
+        },
+        "lines": {
+          "type": "bloks",
+          "pos": 3,
+          "restrict_components": true,
+          "component_whitelist": [
+            "diff_line"
+          ]
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "slide_api",
-      "display_name": "Slide — API Endpoint",
+      "display_name": "Slide \u2014 API Endpoint",
       "is_nestable": true,
       "schema": {
-        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "method": { "type": "option", "pos": 2, "default_value": "GET", "options": [{ "name": "GET", "value": "get" }, { "name": "POST", "value": "post" }, { "name": "PUT", "value": "put" }, { "name": "PATCH", "value": "patch" }, { "name": "DELETE", "value": "delete" }] },
-        "path": { "type": "text", "pos": 3, "required": true },
-        "description": { "type": "textarea", "pos": 4, "translatable": true },
-        "request_sample": { "type": "textarea", "pos": 5 },
-        "response_sample": { "type": "textarea", "pos": 6 }
-      }
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "method": {
+          "type": "option",
+          "pos": 2,
+          "default_value": "GET",
+          "options": [
+            {
+              "name": "GET",
+              "value": "get"
+            },
+            {
+              "name": "POST",
+              "value": "post"
+            },
+            {
+              "name": "PUT",
+              "value": "put"
+            },
+            {
+              "name": "PATCH",
+              "value": "patch"
+            },
+            {
+              "name": "DELETE",
+              "value": "delete"
+            }
+          ]
+        },
+        "path": {
+          "type": "text",
+          "pos": 3,
+          "required": true
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 4,
+          "translatable": true
+        },
+        "request_sample": {
+          "type": "custom",
+          "pos": 5,
+          "field_type": "storyblok-code-block",
+          "options": [
+            {
+              "name": "enableTitle",
+              "value": ""
+            },
+            {
+              "name": "enableLineNumberStart",
+              "value": ""
+            },
+            {
+              "name": "languages",
+              "value": ""
+            },
+            {
+              "name": "highlightStates",
+              "value": ""
+            }
+          ],
+          "description": "Request body sample. Uses the storyblok-code-block plugin for syntax-aware editing."
+        },
+        "response_sample": {
+          "type": "textarea",
+          "pos": 6
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "slide_tree",
-      "display_name": "Slide — File Tree",
+      "display_name": "Slide \u2014 File Tree",
       "is_nestable": true,
       "schema": {
-        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "tree": { "type": "textarea", "pos": 2, "required": true, "description": "Raw ASCII tree" },
-        "callouts": { "type": "textarea", "pos": 3, "translatable": true, "description": "One callout per line" }
-      }
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "tree": {
+          "type": "textarea",
+          "pos": 2,
+          "required": true,
+          "description": "Raw ASCII tree"
+        },
+        "callouts": {
+          "type": "textarea",
+          "pos": 3,
+          "translatable": true,
+          "description": "One callout per line"
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "slide_techstack",
-      "display_name": "Slide — Tech Stack",
+      "display_name": "Slide \u2014 Tech Stack",
       "is_nestable": true,
       "schema": {
-        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "stack": { "type": "textarea", "pos": 2, "required": true, "description": "One tech per line, format: Category | Name | Note" }
-      }
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "stack": {
+          "type": "textarea",
+          "pos": 2,
+          "required": true,
+          "description": "One tech per line, format: Category | Name | Note"
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "slide_keyboard",
-      "display_name": "Slide — Keyboard Shortcut",
+      "display_name": "Slide \u2014 Keyboard Shortcut",
       "is_nestable": true,
       "schema": {
-        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "description": { "type": "textarea", "pos": 2, "translatable": true },
-        "keys": { "type": "text", "pos": 3, "required": true, "description": "Plus-separated, e.g. Cmd + K" },
-        "more": { "type": "textarea", "pos": 4, "description": "Additional shortcuts, one per line, format: 'Cmd+K | description'" }
-      }
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 2,
+          "translatable": true
+        },
+        "keys": {
+          "type": "text",
+          "pos": 3,
+          "required": true,
+          "description": "Plus-separated, e.g. Cmd + K"
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "changelog_entry",
       "display_name": "Changelog entry",
       "is_nestable": true,
       "schema": {
-        "kind": { "type": "option", "pos": 0, "default_value": "added", "options": [{ "name": "Added", "value": "added" }, { "name": "Changed", "value": "changed" }, { "name": "Fixed", "value": "fixed" }, { "name": "Removed", "value": "removed" }] },
-        "text": { "type": "text", "pos": 1, "required": true, "translatable": true }
-      }
+        "kind": {
+          "type": "option",
+          "pos": 0,
+          "default_value": "added",
+          "options": [
+            {
+              "name": "Added",
+              "value": "added"
+            },
+            {
+              "name": "Changed",
+              "value": "changed"
+            },
+            {
+              "name": "Fixed",
+              "value": "fixed"
+            },
+            {
+              "name": "Removed",
+              "value": "removed"
+            }
+          ]
+        },
+        "text": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        }
+      },
+      "component_group_uuid": "4cbd5422-97b8-4372-9cdf-aa69469e4884"
     },
-
     {
       "name": "slide_changelog",
-      "display_name": "Slide — Changelog",
+      "display_name": "Slide \u2014 Changelog",
       "is_nestable": true,
       "schema": {
-        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "version": { "type": "text", "pos": 2, "required": true },
-        "date": { "type": "text", "pos": 3 },
-        "entries": { "type": "bloks", "pos": 4, "restrict_components": true, "component_whitelist": ["changelog_entry"] }
-      }
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "version": {
+          "type": "text",
+          "pos": 2,
+          "required": true
+        },
+        "date": {
+          "type": "text",
+          "pos": 3
+        },
+        "entries": {
+          "type": "bloks",
+          "pos": 4,
+          "restrict_components": true,
+          "component_whitelist": [
+            "changelog_entry"
+          ]
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
     },
-
     {
       "name": "dashboard_metric",
       "display_name": "Dashboard metric",
       "is_nestable": true,
       "schema": {
-        "label": { "type": "text", "pos": 0, "required": true, "translatable": true },
-        "value": { "type": "text", "pos": 1, "required": true },
-        "delta": { "type": "text", "pos": 2 },
-        "sparkline": { "type": "text", "pos": 3, "description": "Comma-separated numbers, e.g. 4,7,3,9,6" },
-        "accent": { "type": "boolean", "pos": 4 }
-      }
+        "label": {
+          "type": "text",
+          "pos": 0,
+          "required": true,
+          "translatable": true
+        },
+        "value": {
+          "type": "text",
+          "pos": 1,
+          "required": true
+        },
+        "delta": {
+          "type": "text",
+          "pos": 2
+        },
+        "sparkline": {
+          "type": "text",
+          "pos": 3,
+          "description": "Comma-separated numbers, e.g. 4,7,3,9,6"
+        },
+        "accent": {
+          "type": "boolean",
+          "pos": 4
+        }
+      },
+      "component_group_uuid": "4cbd5422-97b8-4372-9cdf-aa69469e4884"
     },
-
     {
       "name": "slide_dashboard",
-      "display_name": "Slide — Live Dashboard",
+      "display_name": "Slide \u2014 Live Dashboard",
       "is_nestable": true,
       "schema": {
-        "eyebrow": { "type": "text", "pos": 0, "translatable": true },
-        "title": { "type": "text", "pos": 1, "required": true, "translatable": true },
-        "timestamp": { "type": "text", "pos": 2, "description": "e.g. UPDATED 14:22:08 UTC" },
-        "metrics": { "type": "bloks", "pos": 3, "restrict_components": true, "component_whitelist": ["dashboard_metric"], "maximum": 6 }
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "metrics": {
+          "type": "bloks",
+          "pos": 3,
+          "restrict_components": true,
+          "component_whitelist": [
+            "dashboard_metric"
+          ],
+          "maximum": 6
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
+    },
+    {
+      "name": "slide_livedemo",
+      "display_name": "Slide \u2014 Live Vue Demo",
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true,
+          "default_value": "Live demo"
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "badge_text": {
+          "type": "text",
+          "pos": 2,
+          "default_value": "Vue 3 \u00b7 Composition API",
+          "translatable": true,
+          "description": "Pill text shown on the right of the heading row."
+        },
+        "vue_code": {
+          "type": "textarea",
+          "pos": 3,
+          "required": true,
+          "description": "Single-file Vue component source. Sandbox-rendered in the stage. Use storyblok-code-block field below for plugin-assisted editing."
+        },
+        "code_plugin": {
+          "type": "custom",
+          "pos": 4,
+          "field_type": "storyblok-code-block",
+          "options": [
+            {
+              "name": "enableTitle",
+              "value": ""
+            },
+            {
+              "name": "enableLineNumberStart",
+              "value": ""
+            },
+            {
+              "name": "languages",
+              "value": ""
+            },
+            {
+              "name": "highlightStates",
+              "value": ""
+            }
+          ],
+          "description": "Optional: same Vue source via the storyblok-code-block plugin (overrides Vue Code if both are set)."
+        },
+        "fallback_html": {
+          "type": "textarea",
+          "pos": 5,
+          "description": "Plain HTML rendered as a static fallback when Vue compilation fails or is disabled."
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "is_nestable": true,
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
+    },
+    {
+      "name": "slide_codedemo",
+      "display_name": "Slide \u2014 Code + Live Demo",
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true,
+          "default_value": "Component example"
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "filename": {
+          "type": "text",
+          "pos": 2,
+          "default_value": "Component.vue",
+          "description": "Shown in the source-pane header."
+        },
+        "vue_code": {
+          "type": "textarea",
+          "pos": 3,
+          "description": "Vue source rendered live in the right pane and shown verbatim in the left pane."
+        },
+        "code_plugin": {
+          "type": "custom",
+          "pos": 4,
+          "field_type": "storyblok-code-block",
+          "options": [
+            {
+              "name": "enableTitle",
+              "value": ""
+            },
+            {
+              "name": "enableLineNumberStart",
+              "value": ""
+            },
+            {
+              "name": "languages",
+              "value": ""
+            },
+            {
+              "name": "highlightStates",
+              "value": ""
+            }
+          ],
+          "description": "Optional: same Vue source via the storyblok-code-block plugin (overrides Vue Code if both are set)."
+        },
+        "preview_label": {
+          "type": "text",
+          "pos": 5,
+          "default_value": "Preview"
+        },
+        "live_label": {
+          "type": "text",
+          "pos": 6,
+          "default_value": "Live"
+        },
+        "fallback_html": {
+          "type": "textarea",
+          "pos": 7,
+          "description": "Plain HTML rendered as a static fallback when Vue compilation fails."
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "is_nestable": true,
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
+    },
+    {
+      "name": "gantt_task",
+      "display_name": "Gantt task",
+      "schema": {
+        "title": {
+          "type": "text",
+          "pos": 0,
+          "required": true,
+          "translatable": true
+        },
+        "owner": {
+          "type": "text",
+          "pos": 1,
+          "description": "Initials shown in the row label."
+        },
+        "start_pct": {
+          "type": "number",
+          "pos": 2,
+          "required": true,
+          "default_value": 0,
+          "description": "Bar start, % from left (0\u2013100)."
+        },
+        "duration_pct": {
+          "type": "number",
+          "pos": 3,
+          "required": true,
+          "default_value": 25,
+          "description": "Bar width, % of total chart (0\u2013100)."
+        },
+        "color": {
+          "type": "option",
+          "pos": 4,
+          "default_value": "accent",
+          "options": [
+            {
+              "name": "Accent",
+              "value": "accent"
+            },
+            {
+              "name": "Alt",
+              "value": "alt"
+            },
+            {
+              "name": "Muted (at risk)",
+              "value": "muted"
+            }
+          ]
+        },
+        "progress_pct": {
+          "type": "number",
+          "pos": 5,
+          "description": "Optional 0\u2013100 progress fill rendered inside the bar."
+        },
+        "bar_label": {
+          "type": "text",
+          "pos": 6,
+          "translatable": true,
+          "description": "Short label inside the bar, e.g. \"Build \u00b7 ship\"."
+        }
+      },
+      "is_nestable": true,
+      "component_group_uuid": "4cbd5422-97b8-4372-9cdf-aa69469e4884"
+    },
+    {
+      "name": "slide_gantt",
+      "display_name": "Slide \u2014 Gantt Chart",
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "months": {
+          "type": "textarea",
+          "pos": 2,
+          "required": true,
+          "default_value": "Jan\nFeb\nMar\nApr\nMay\nJun\nJul\nAug",
+          "description": "Column headers, one per line. Drives the number of grid columns."
+        },
+        "today_pct": {
+          "type": "number",
+          "pos": 3,
+          "description": "Position of the dashed TODAY line, % from left (0\u2013100). Leave blank to hide."
+        },
+        "legend_design_label": {
+          "type": "text",
+          "pos": 4,
+          "default_value": "Design",
+          "translatable": true
+        },
+        "legend_engineering_label": {
+          "type": "text",
+          "pos": 5,
+          "default_value": "Engineering",
+          "translatable": true
+        },
+        "legend_risk_label": {
+          "type": "text",
+          "pos": 6,
+          "default_value": "At risk",
+          "translatable": true
+        },
+        "tasks": {
+          "type": "bloks",
+          "pos": 7,
+          "restrict_components": true,
+          "component_whitelist": [
+            "gantt_task"
+          ],
+          "maximum": 8
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "is_nestable": true,
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
+    },
+    {
+      "name": "kanban_card",
+      "display_name": "Kanban card",
+      "schema": {
+        "tag_kind": {
+          "type": "option",
+          "pos": 0,
+          "default_value": "feat",
+          "options": [
+            {
+              "name": "Feature",
+              "value": "feat"
+            },
+            {
+              "name": "Bug",
+              "value": "bug"
+            },
+            {
+              "name": "Chore",
+              "value": "chore"
+            }
+          ]
+        },
+        "tag_label": {
+          "type": "text",
+          "pos": 1,
+          "default_value": "Feature",
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 2,
+          "required": true,
+          "translatable": true
+        },
+        "ticket": {
+          "type": "text",
+          "pos": 3,
+          "description": "e.g. HAL-412"
+        },
+        "assignee_initials": {
+          "type": "text",
+          "pos": 4,
+          "description": "1\u20133 chars rendered inside the avatar circle."
+        }
+      },
+      "is_nestable": true,
+      "component_group_uuid": "4cbd5422-97b8-4372-9cdf-aa69469e4884"
+    },
+    {
+      "name": "kanban_column",
+      "display_name": "Kanban column",
+      "schema": {
+        "kind": {
+          "type": "option",
+          "pos": 0,
+          "default_value": "todo",
+          "options": [
+            {
+              "name": "To do",
+              "value": "todo"
+            },
+            {
+              "name": "In progress",
+              "value": "doing"
+            },
+            {
+              "name": "In review",
+              "value": "review"
+            },
+            {
+              "name": "Shipped",
+              "value": "done"
+            }
+          ]
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "default_value": "To do",
+          "translatable": true
+        },
+        "count_label": {
+          "type": "text",
+          "pos": 2,
+          "description": "Small count chip in the column header."
+        },
+        "cards": {
+          "type": "bloks",
+          "pos": 3,
+          "restrict_components": true,
+          "component_whitelist": [
+            "kanban_card"
+          ]
+        }
+      },
+      "is_nestable": true,
+      "component_group_uuid": "4cbd5422-97b8-4372-9cdf-aa69469e4884"
+    },
+    {
+      "name": "slide_kanban",
+      "display_name": "Slide \u2014 Kanban Board",
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "meta_label": {
+          "type": "text",
+          "pos": 2,
+          "translatable": true,
+          "description": "e.g. \"23 tickets \u00b7 4 in flight\""
+        },
+        "columns": {
+          "type": "bloks",
+          "pos": 3,
+          "restrict_components": true,
+          "component_whitelist": [
+            "kanban_column"
+          ],
+          "maximum": 4
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "is_nestable": true,
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
+    },
+    {
+      "name": "swimlane_step",
+      "display_name": "Swimlane step",
+      "schema": {
+        "number_label": {
+          "type": "text",
+          "pos": 0,
+          "description": "e.g. \"01\""
+        },
+        "label": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "kind": {
+          "type": "option",
+          "pos": 2,
+          "default_value": "default",
+          "options": [
+            {
+              "name": "Default",
+              "value": "default"
+            },
+            {
+              "name": "Primary (filled)",
+              "value": "primary"
+            },
+            {
+              "name": "Alt (outlined)",
+              "value": "alt"
+            },
+            {
+              "name": "Decision (dashed)",
+              "value": "decision"
+            }
+          ]
+        }
+      },
+      "is_nestable": true,
+      "component_group_uuid": "4cbd5422-97b8-4372-9cdf-aa69469e4884"
+    },
+    {
+      "name": "swimlane_lane",
+      "display_name": "Swimlane lane",
+      "schema": {
+        "icon": {
+          "type": "text",
+          "pos": 0,
+          "default_value": "D",
+          "description": "Single character shown in the icon circle."
+        },
+        "label": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "kind": {
+          "type": "option",
+          "pos": 2,
+          "default_value": "primary",
+          "options": [
+            {
+              "name": "Primary (accent)",
+              "value": "primary"
+            },
+            {
+              "name": "Alt (accent-2)",
+              "value": "alt"
+            },
+            {
+              "name": "Neutral (muted)",
+              "value": "neutral"
+            }
+          ]
+        },
+        "lead_spacer": {
+          "type": "number",
+          "pos": 3,
+          "default_value": 0,
+          "description": "Flex value for the leading spacer (0 = none, 0.4 = small, 1 = full). Use to stagger lanes."
+        },
+        "steps": {
+          "type": "bloks",
+          "pos": 4,
+          "restrict_components": true,
+          "component_whitelist": [
+            "swimlane_step"
+          ]
+        }
+      },
+      "is_nestable": true,
+      "component_group_uuid": "4cbd5422-97b8-4372-9cdf-aa69469e4884"
+    },
+    {
+      "name": "slide_swimlane",
+      "display_name": "Slide \u2014 Swimlane / Workflow",
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "lanes": {
+          "type": "bloks",
+          "pos": 2,
+          "restrict_components": true,
+          "component_whitelist": [
+            "swimlane_lane"
+          ],
+          "maximum": 4
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "is_nestable": true,
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
+    },
+    {
+      "name": "sprint_event",
+      "display_name": "Sprint event",
+      "schema": {
+        "day_index": {
+          "type": "number",
+          "pos": 0,
+          "required": true,
+          "default_value": 0,
+          "description": "0-indexed column (0 = first day in `days`)."
+        },
+        "time_index": {
+          "type": "number",
+          "pos": 1,
+          "required": true,
+          "default_value": 0,
+          "description": "0-indexed row (0 = first time-slot in `times`)."
+        },
+        "who": {
+          "type": "text",
+          "pos": 2,
+          "translatable": true,
+          "description": "Top label inside the event chip."
+        },
+        "title": {
+          "type": "text",
+          "pos": 3,
+          "required": true,
+          "translatable": true
+        },
+        "kind": {
+          "type": "option",
+          "pos": 4,
+          "default_value": "default",
+          "options": [
+            {
+              "name": "Default (accent tint)",
+              "value": "default"
+            },
+            {
+              "name": "Alt (accent-2 tint)",
+              "value": "alt"
+            },
+            {
+              "name": "Muted",
+              "value": "muted"
+            },
+            {
+              "name": "Solid (pinned)",
+              "value": "solid"
+            }
+          ]
+        }
+      },
+      "is_nestable": true,
+      "component_group_uuid": "4cbd5422-97b8-4372-9cdf-aa69469e4884"
+    },
+    {
+      "name": "slide_sprint",
+      "display_name": "Slide \u2014 Sprint Calendar",
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "sprint_meta": {
+          "type": "text",
+          "pos": 2,
+          "translatable": true,
+          "description": "e.g. \"Apr 21\u201325 \u00b7 day 7 of 10\". HTML allowed for highlighted spans."
+        },
+        "corner_label": {
+          "type": "text",
+          "pos": 3,
+          "default_value": "PT"
+        },
+        "days": {
+          "type": "textarea",
+          "pos": 4,
+          "required": true,
+          "default_value": "Mon|21|false\nTue|22|false\nWed|23|true\nThu|24|false\nFri|25|false",
+          "description": "One day per line, format: \"Label|Number|isToday\" (isToday = true|false)."
+        },
+        "times": {
+          "type": "textarea",
+          "pos": 5,
+          "required": true,
+          "default_value": "9 AM\n11 AM\n2 PM",
+          "description": "Time-slot labels, one per line."
+        },
+        "events": {
+          "type": "bloks",
+          "pos": 6,
+          "restrict_components": true,
+          "component_whitelist": [
+            "sprint_event"
+          ]
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "is_nestable": true,
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
+    },
+    {
+      "name": "scorecard_kpi",
+      "display_name": "Scorecard KPI",
+      "schema": {
+        "label": {
+          "type": "text",
+          "pos": 0,
+          "required": true,
+          "translatable": true
+        },
+        "value": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "description": "Big value, e.g. \"1,284\" or \"118%\"."
+        },
+        "value_suffix": {
+          "type": "text",
+          "pos": 2,
+          "translatable": true,
+          "description": "Tiny suffix appended to the value, e.g. \"mo\"."
+        },
+        "delta": {
+          "type": "text",
+          "pos": 3,
+          "translatable": true,
+          "description": "Pill text, e.g. \"\u2191 12.4%\" or \"\u2192 unchanged\"."
+        },
+        "delta_dir": {
+          "type": "option",
+          "pos": 4,
+          "default_value": "up",
+          "options": [
+            {
+              "name": "Up (positive)",
+              "value": "up"
+            },
+            {
+              "name": "Down (negative)",
+              "value": "down"
+            },
+            {
+              "name": "Flat",
+              "value": "flat"
+            }
+          ]
+        },
+        "bar_pct": {
+          "type": "number",
+          "pos": 5,
+          "description": "Filler bar width, % (0\u2013100)."
+        },
+        "alt": {
+          "type": "boolean",
+          "pos": 6,
+          "description": "Use accent-2 fill on the bar."
+        }
+      },
+      "is_nestable": true,
+      "component_group_uuid": "4cbd5422-97b8-4372-9cdf-aa69469e4884"
+    },
+    {
+      "name": "slide_scorecard",
+      "display_name": "Slide \u2014 Metrics Scorecard",
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "period_label": {
+          "type": "text",
+          "pos": 2,
+          "translatable": true,
+          "description": "Pill in the heading row, e.g. \"Oct 1 \u2014 Dec 31\"."
+        },
+        "hero_label": {
+          "type": "text",
+          "pos": 3,
+          "required": true,
+          "translatable": true
+        },
+        "hero_number": {
+          "type": "text",
+          "pos": 4,
+          "required": true,
+          "description": "Display number without unit, e.g. \"$4.82\"."
+        },
+        "hero_unit": {
+          "type": "text",
+          "pos": 5,
+          "description": "Tiny unit shown after the number, e.g. \"M\"."
+        },
+        "hero_delta": {
+          "type": "text",
+          "pos": 6,
+          "translatable": true,
+          "description": "Pill text, e.g. \"\u2191 38% YoY\"."
+        },
+        "hero_delta_dir": {
+          "type": "option",
+          "pos": 7,
+          "default_value": "up",
+          "options": [
+            {
+              "name": "Up (positive)",
+              "value": "up"
+            },
+            {
+              "name": "Down (negative)",
+              "value": "down"
+            }
+          ]
+        },
+        "hero_trend": {
+          "type": "text",
+          "pos": 8,
+          "default_value": "20,18,16,17,14,12,10,11,8,6,5,3,2",
+          "description": "Comma-separated y-points for the trend line (lower = up). 0\u201324 range."
+        },
+        "hero_desc": {
+          "type": "textarea",
+          "pos": 9,
+          "translatable": true,
+          "description": "Supporting paragraph below the hero number. <strong> tags are honoured."
+        },
+        "kpis": {
+          "type": "bloks",
+          "pos": 10,
+          "restrict_components": true,
+          "component_whitelist": [
+            "scorecard_kpi"
+          ],
+          "maximum": 4
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "is_nestable": true,
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
+    },
+    {
+      "name": "map_state",
+      "display_name": "Map \u2014 State entry",
+      "schema": {
+        "state_id": {
+          "type": "option",
+          "pos": 0,
+          "required": true,
+          "default_value": "CA",
+          "options": [
+            {
+              "name": "Alabama (AL)",
+              "value": "AL"
+            },
+            {
+              "name": "Alaska (AK)",
+              "value": "AK"
+            },
+            {
+              "name": "Arizona (AZ)",
+              "value": "AZ"
+            },
+            {
+              "name": "Arkansas (AR)",
+              "value": "AR"
+            },
+            {
+              "name": "California (CA)",
+              "value": "CA"
+            },
+            {
+              "name": "Colorado (CO)",
+              "value": "CO"
+            },
+            {
+              "name": "Connecticut (CT)",
+              "value": "CT"
+            },
+            {
+              "name": "Delaware (DE)",
+              "value": "DE"
+            },
+            {
+              "name": "Florida (FL)",
+              "value": "FL"
+            },
+            {
+              "name": "Georgia (GA)",
+              "value": "GA"
+            },
+            {
+              "name": "Hawaii (HI)",
+              "value": "HI"
+            },
+            {
+              "name": "Idaho (ID)",
+              "value": "ID"
+            },
+            {
+              "name": "Illinois (IL)",
+              "value": "IL"
+            },
+            {
+              "name": "Indiana (IN)",
+              "value": "IN"
+            },
+            {
+              "name": "Iowa (IA)",
+              "value": "IA"
+            },
+            {
+              "name": "Kansas (KS)",
+              "value": "KS"
+            },
+            {
+              "name": "Kentucky (KY)",
+              "value": "KY"
+            },
+            {
+              "name": "Louisiana (LA)",
+              "value": "LA"
+            },
+            {
+              "name": "Maine (ME)",
+              "value": "ME"
+            },
+            {
+              "name": "Maryland (MD)",
+              "value": "MD"
+            },
+            {
+              "name": "Massachusetts (MA)",
+              "value": "MA"
+            },
+            {
+              "name": "Michigan (MI)",
+              "value": "MI"
+            },
+            {
+              "name": "Minnesota (MN)",
+              "value": "MN"
+            },
+            {
+              "name": "Mississippi (MS)",
+              "value": "MS"
+            },
+            {
+              "name": "Missouri (MO)",
+              "value": "MO"
+            },
+            {
+              "name": "Montana (MT)",
+              "value": "MT"
+            },
+            {
+              "name": "Nebraska (NE)",
+              "value": "NE"
+            },
+            {
+              "name": "Nevada (NV)",
+              "value": "NV"
+            },
+            {
+              "name": "New Hampshire (NH)",
+              "value": "NH"
+            },
+            {
+              "name": "New Jersey (NJ)",
+              "value": "NJ"
+            },
+            {
+              "name": "New Mexico (NM)",
+              "value": "NM"
+            },
+            {
+              "name": "New York (NY)",
+              "value": "NY"
+            },
+            {
+              "name": "North Carolina (NC)",
+              "value": "NC"
+            },
+            {
+              "name": "North Dakota (ND)",
+              "value": "ND"
+            },
+            {
+              "name": "Ohio (OH)",
+              "value": "OH"
+            },
+            {
+              "name": "Oklahoma (OK)",
+              "value": "OK"
+            },
+            {
+              "name": "Oregon (OR)",
+              "value": "OR"
+            },
+            {
+              "name": "Pennsylvania (PA)",
+              "value": "PA"
+            },
+            {
+              "name": "Rhode Island (RI)",
+              "value": "RI"
+            },
+            {
+              "name": "South Carolina (SC)",
+              "value": "SC"
+            },
+            {
+              "name": "South Dakota (SD)",
+              "value": "SD"
+            },
+            {
+              "name": "Tennessee (TN)",
+              "value": "TN"
+            },
+            {
+              "name": "Texas (TX)",
+              "value": "TX"
+            },
+            {
+              "name": "Utah (UT)",
+              "value": "UT"
+            },
+            {
+              "name": "Vermont (VT)",
+              "value": "VT"
+            },
+            {
+              "name": "Virginia (VA)",
+              "value": "VA"
+            },
+            {
+              "name": "Washington (WA)",
+              "value": "WA"
+            },
+            {
+              "name": "West Virginia (WV)",
+              "value": "WV"
+            },
+            {
+              "name": "Wisconsin (WI)",
+              "value": "WI"
+            },
+            {
+              "name": "Wyoming (WY)",
+              "value": "WY"
+            },
+            {
+              "name": "District of Columbia (DC)",
+              "value": "DC"
+            }
+          ]
+        },
+        "tier": {
+          "type": "option",
+          "pos": 1,
+          "default_value": "1",
+          "options": [
+            {
+              "name": "Tier 1 \u2014 emerging (lightest)",
+              "value": "1"
+            },
+            {
+              "name": "Tier 2 \u2014 growing",
+              "value": "2"
+            },
+            {
+              "name": "Tier 3 \u2014 strong",
+              "value": "3"
+            },
+            {
+              "name": "Tier 4 \u2014 top (full accent)",
+              "value": "4"
+            }
+          ]
+        },
+        "headline": {
+          "type": "text",
+          "pos": 2,
+          "translatable": true,
+          "description": "Replaces the side-panel heading when this state is active. Defaults to the state name."
+        },
+        "tier_label": {
+          "type": "text",
+          "pos": 3,
+          "translatable": true,
+          "description": "Override for the panel eyebrow (e.g. \"Top region\"). Auto-derived from tier if blank."
+        },
+        "customers": {
+          "type": "text",
+          "pos": 4,
+          "default_value": "\u2014"
+        },
+        "revenue": {
+          "type": "text",
+          "pos": 5,
+          "default_value": "\u2014"
+        },
+        "growth": {
+          "type": "text",
+          "pos": 6,
+          "default_value": "\u2014"
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 7,
+          "translatable": true,
+          "description": "Side-panel paragraph shown when this state is active."
+        }
+      },
+      "is_nestable": true,
+      "component_group_uuid": "4cbd5422-97b8-4372-9cdf-aa69469e4884"
+    },
+    {
+      "name": "slide_usmap",
+      "display_name": "Slide \u2014 US State Map",
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true,
+          "default_value": "Customers by state"
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "scale_low_label": {
+          "type": "text",
+          "pos": 2,
+          "default_value": "Fewer",
+          "translatable": true
+        },
+        "scale_high_label": {
+          "type": "text",
+          "pos": 3,
+          "default_value": "More",
+          "translatable": true
+        },
+        "default_state_id": {
+          "type": "text",
+          "pos": 4,
+          "default_value": "NY",
+          "description": "2-letter state code shown when no state is hovered (e.g. \"NY\")."
+        },
+        "panel_eyebrow_default": {
+          "type": "text",
+          "pos": 5,
+          "default_value": "Top region",
+          "translatable": true,
+          "description": "Eyebrow shown in the side panel before any state is hovered."
+        },
+        "states": {
+          "type": "bloks",
+          "pos": 6,
+          "restrict_components": true,
+          "component_whitelist": [
+            "map_state"
+          ]
+        },
+        "panel_hint": {
+          "type": "text",
+          "pos": 7,
+          "default_value": "Hover any state to inspect",
+          "translatable": true
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "is_nestable": true,
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
+    },
+    {
+      "name": "codeSnippet",
+      "display_name": "Code snippet (plugin)",
+      "is_nestable": true,
+      "component_group_uuid": "4cbd5422-97b8-4372-9cdf-aa69469e4884",
+      "schema": {
+        "code": {
+          "type": "custom",
+          "pos": 0,
+          "field_type": "storyblok-code-block",
+          "options": [
+            {
+              "name": "enableTitle",
+              "value": ""
+            },
+            {
+              "name": "enableLineNumberStart",
+              "value": ""
+            },
+            {
+              "name": "languages",
+              "value": ""
+            },
+            {
+              "name": "highlightStates",
+              "value": ""
+            }
+          ],
+          "description": "Code rendered with the storyblok-code-block plugin (syntax-aware editor in Storyblok)."
+        }
+      }
+    },
+    {
+      "name": "image",
+      "display_name": "Image (nestable)",
+      "is_nestable": true,
+      "component_group_uuid": "4cbd5422-97b8-4372-9cdf-aa69469e4884",
+      "schema": {
+        "image": {
+          "type": "asset",
+          "pos": 0,
+          "filetypes": [
+            "images"
+          ]
+        }
       }
     }
   ]

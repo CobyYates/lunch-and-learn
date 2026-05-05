@@ -12,6 +12,7 @@ const props = defineProps<{
     version?: string;
     date?: string;
     entries?: ChangelogEntry[];
+    repo_url?: string;
   };
 }>();
 
@@ -60,5 +61,6 @@ const tagLabel: Record<ChangelogEntry["kind"], string> = {
         </div>
       </div>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>

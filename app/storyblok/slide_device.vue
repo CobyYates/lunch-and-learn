@@ -9,6 +9,7 @@ const props = defineProps<{
     mock_sub?: string;
     mock_number?: string;
     mock_label?: string;
+    repo_url?: string;
   };
 }>();
 
@@ -45,5 +46,6 @@ const featureList = computed(() =>
         </div>
       </div>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>

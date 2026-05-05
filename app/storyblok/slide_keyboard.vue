@@ -6,23 +6,12 @@ const props = defineProps<{
     title?: string;
     description?: string;
     keys?: string; // plus-separated, e.g. "Cmd + K"
-    more?: string; // one combo per line, format: "Cmd+K | description"
+    repo_url?: string;
   };
 }>();
 
 const keyList = computed(() =>
   (props.blok.keys ?? "").split("+").map((k) => k.trim()).filter(Boolean),
-);
-
-const moreList = computed(() =>
-  (props.blok.more ?? "")
-    .split("\n")
-    .map((l) => l.trim())
-    .filter(Boolean)
-    .map((l) => {
-      const [combo, ...rest] = l.split("|").map((s) => s.trim());
-      return { combo, description: rest.join(" | ") };
-    }),
 );
 </script>
 
@@ -38,11 +27,7 @@ const moreList = computed(() =>
         </template>
       </div>
       <p v-if="blok.description" class="desc">{{ blok.description }}</p>
-      <div v-if="moreList.length" class="more">
-        <span v-for="(m, i) in moreList" :key="i">
-          <kbd>{{ m.combo }}</kbd> {{ m.description }}
-        </span>
-      </div>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>

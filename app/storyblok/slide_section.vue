@@ -5,6 +5,7 @@ defineProps<{
     eyebrow?: string; // e.g. "Chapter Two"
     title?: string;
     description?: string;
+    repo_url?: string;
   };
 }>();
 </script>
@@ -19,5 +20,6 @@ defineProps<{
         <p v-if="blok.description" class="muted">{{ blok.description }}</p>
       </div>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>

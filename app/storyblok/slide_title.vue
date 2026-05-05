@@ -10,6 +10,7 @@ defineProps<{
     presenter_role?: string;
     date_label?: string;
     date_sub?: string;
+    repo_url?: string;
   };
 }>();
 </script>
@@ -36,5 +37,6 @@ defineProps<{
         </div>
       </div>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>

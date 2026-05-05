@@ -11,6 +11,7 @@ defineProps<{
     title?: string;
     title_accent?: string; // styled in accent color
     foot_items?: FootItem[]; // up to 3 footer items (name/email/web, etc.)
+    repo_url?: string;
   };
 }>();
 </script>
@@ -30,5 +31,6 @@ defineProps<{
         </div>
       </div>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>

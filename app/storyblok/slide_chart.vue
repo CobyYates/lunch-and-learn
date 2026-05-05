@@ -14,6 +14,7 @@ const props = defineProps<{
     series_b_label?: string;
     y_max?: number;
     groups?: ChartGroup[];
+    repo_url?: string;
   };
 }>();
 
@@ -70,5 +71,6 @@ const pct = (v: number | undefined) =>
         </div>
       </div>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>

@@ -13,7 +13,6 @@
               class="pill"
               :class="item.kind !== 'default' ? item.kind : ''"
               variant="outlined"
-              size="large"
               label
             >
               {{ item.name }}
@@ -22,7 +21,8 @@
         </div>
       </div>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>
 
 <script setup lang="ts">
@@ -39,6 +39,7 @@ const props = defineProps<{
     eyebrow?: string;
     title?: string;
     stack?: string; // one tech per line: "Category | Name | primary|accent|default"
+    repo_url?: string;
   };
 }>();
 

@@ -11,6 +11,7 @@ defineProps<{
     title?: string;
     subtitle?: string;
     items?: BulletItem[];
+    repo_url?: string;
   };
 }>();
 </script>
@@ -30,5 +31,6 @@ defineProps<{
         </li>
       </ul>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>

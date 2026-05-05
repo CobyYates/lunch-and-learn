@@ -647,6 +647,43 @@ body {
 }
 
 /* =========================================================
+   SLIDE GITHUB MARK  (bottom-right watermark, theme-aware)
+   ========================================================= */
+.slide-mark {
+  position: absolute;
+  bottom: 1.4cqw;
+  right: 1.8cqw;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55cqw;
+  font-family: var(--font-mono);
+  font-size: 0.95cqw;
+  color: var(--fg-muted);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  opacity: 0.35;
+  transition: opacity 0.25s ease, color 0.2s ease;
+  z-index: 5;
+  line-height: 1;
+}
+.slide-mark svg {
+  width: 1.4cqw;
+  height: 1.4cqw;
+  flex-shrink: 0;
+}
+.slide-card:hover .slide-mark,
+.modal .slide-mark { opacity: 0.65; }
+.slide-mark:hover {
+  opacity: 1 !important;
+  color: var(--accent);
+}
+/* Hide on slides whose bottom is already a designed footer area */
+.layout-title .slide-mark,
+.layout-closing .slide-mark { display: none; }
+/* Hero slide has dark overlay at bottom — keep mark light on hover */
+.layout-hero .slide-mark { color: rgba(255,255,255,0.7); }
+
+/* =========================================================
    LAYOUT 01 — TITLE / COVER
    ========================================================= */
 .layout-title .slide-inner { justify-content: space-between; }
@@ -2403,6 +2440,1113 @@ body {
 .layout-dashboard .metric.accent .spark { color: var(--accent-2); }
 
 /* =========================================================
+   LAYOUT 36 — LIVE VUE DEMO  (full-bleed, rendered only)
+   ========================================================= */
+.layout-livedemo .slide-inner { padding: 4cqw; gap: 1.4cqw; }
+.layout-livedemo .head { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 1cqw; }
+.layout-livedemo .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5cqw;
+  margin-bottom: 0.2cqw;
+}
+.layout-livedemo .eyebrow::before {
+  content: '';
+  width: 0.8cqw; height: 0.8cqw;
+  border-radius: 50%;
+  background: var(--accent-2);
+  box-shadow: 0 0 0 0.4cqw color-mix(in srgb, var(--accent-2) 18%, transparent);
+  animation: pulse 2s ease-out infinite;
+}
+.layout-livedemo h3 { font-size: 3.2cqw; }
+.layout-livedemo .badge {
+  font-family: var(--font-mono);
+  font-size: 0.95cqw;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6cqw;
+  padding: 0.5cqw 0.9cqw;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+.layout-livedemo .badge .vue-mark {
+  width: 1cqw; height: 0.85cqw;
+  display: inline-block;
+  /* Vue logo shape via clip-path */
+  background: var(--accent-2);
+  clip-path: polygon(0 0, 18% 0, 50% 56%, 82% 0, 100% 0, 50% 100%);
+}
+.layout-livedemo .stage {
+  flex: 1;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  display: grid;
+  place-items: center;
+  padding: 3cqw;
+  position: relative;
+  overflow: hidden;
+}
+.layout-livedemo .stage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at 1px 1px, var(--rule) 1px, transparent 0);
+  background-size: 1.5cqw 1.5cqw;
+  opacity: 0.5;
+  pointer-events: none;
+}
+.layout-livedemo .stage > * { position: relative; z-index: 1; }
+
+/* =========================================================
+   LAYOUT 37 — CODE + LIVE DEMO  (split, source on left, output on right)
+   ========================================================= */
+.layout-codedemo .slide-inner { padding: 4cqw; gap: 1.4cqw; }
+.layout-codedemo .head { display: flex; justify-content: space-between; align-items: baseline; gap: 1cqw; }
+.layout-codedemo h3 { font-size: 2.8cqw; }
+.layout-codedemo .panes {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 1.5cqw;
+  flex: 1;
+  min-height: 0;
+}
+.layout-codedemo .pane {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-alt);
+  min-width: 0;
+}
+.layout-codedemo .pane-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5cqw;
+  padding: 0.85cqw 1.4cqw;
+  border-bottom: 1px solid var(--border);
+  background: var(--slide-bg, var(--bg));
+  font-family: var(--font-mono);
+  font-size: 1cqw;
+  color: var(--fg-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.layout-codedemo .pane-head .file {
+  color: var(--fg);
+  text-transform: none;
+  letter-spacing: 0;
+}
+.layout-codedemo .pane-head .live-dot {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4cqw;
+  color: var(--accent-2);
+}
+.layout-codedemo .pane-head .live-dot::before {
+  content: '';
+  width: 0.6cqw; height: 0.6cqw;
+  border-radius: 50%;
+  background: var(--accent-2);
+  animation: pulse 2s ease-out infinite;
+}
+.layout-codedemo .pane.code pre {
+  flex: 1;
+  padding: 1.4cqw 1.6cqw;
+  font-family: var(--font-mono);
+  font-size: 1.15cqw;
+  line-height: 1.55;
+  overflow: hidden;
+  white-space: pre;
+  color: var(--fg);
+  margin: 0;
+}
+.layout-codedemo .pane.code pre .tk-tag  { color: var(--syn-key, var(--accent)); }
+.layout-codedemo .pane.code pre .tk-attr { color: var(--syn-fn, var(--accent-2)); }
+.layout-codedemo .pane.code pre .tk-str  { color: var(--syn-str, var(--accent-2)); }
+.layout-codedemo .pane.code pre .tk-com  { color: var(--syn-com, var(--fg-muted)); font-style: italic; }
+.layout-codedemo .pane.code pre .tk-key  { color: var(--syn-key, var(--accent)); }
+.layout-codedemo .pane.code pre .tk-num  { color: var(--syn-num, var(--accent)); }
+.layout-codedemo .pane.code pre .tk-fn   { color: var(--syn-fn, var(--accent-2)); }
+.layout-codedemo .pane.code pre .tk-pun  { color: var(--fg-muted); }
+.layout-codedemo .pane.demo .stage {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 2cqw;
+  position: relative;
+  background-image: radial-gradient(circle at 1px 1px, var(--rule) 1px, transparent 0);
+  background-size: 1.5cqw 1.5cqw;
+}
+.layout-codedemo .pane.demo .stage > * { position: relative; z-index: 1; }
+
+/* =========================================================
+   SHARED DEMO-WIDGET STYLES  (themed via CSS vars)
+   These mock what a rendered Vue component would look like.
+   ========================================================= */
+
+/* Demo: Article card with reactions (slide 36) */
+.demo-article {
+  width: 88%;
+  max-width: 56cqw;
+  background: var(--slide-bg, var(--bg));
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 4px);
+  padding: 2.4cqw;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2cqw;
+  box-shadow: 0 1.2cqw 3cqw rgba(0,0,0,0.18);
+  transition: transform 0.2s ease;
+}
+.demo-article:hover { transform: translateY(-2px); }
+.demo-article .meta-top {
+  display: flex;
+  align-items: center;
+  gap: 0.8cqw;
+}
+.demo-article .meta-top .av {
+  width: 2.6cqw; height: 2.6cqw;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  display: grid;
+  place-items: center;
+  color: var(--bg);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.1cqw;
+}
+.demo-article .meta-top .who {
+  font-size: 1.1cqw;
+  font-weight: 600;
+  color: var(--fg);
+}
+.demo-article .meta-top .when {
+  font-family: var(--font-mono);
+  font-size: 0.95cqw;
+  color: var(--fg-muted);
+  margin-left: auto;
+}
+.demo-article h4 {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  font-size: 2.4cqw;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.demo-article p {
+  font-size: 1.2cqw;
+  color: var(--fg-muted);
+  line-height: 1.5;
+}
+.demo-article .actions {
+  display: flex;
+  gap: 0.6cqw;
+  align-items: center;
+  padding-top: 1cqw;
+  border-top: 1px solid var(--rule);
+}
+.demo-article .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5cqw;
+  font-family: var(--font-body);
+  font-size: 1.15cqw;
+  padding: 0.7cqw 1.1cqw;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--fg-muted);
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.18s ease;
+  user-select: none;
+}
+.demo-article .btn:hover { color: var(--fg); border-color: var(--fg-muted); }
+.demo-article .btn.like { transition: all 0.18s ease, transform 0.15s ease; }
+.demo-article .btn.like .heart {
+  display: inline-block;
+  width: 1.4cqw; height: 1.4cqw;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'><path d='M12 21s-7-4.5-9.5-9C1 8 3 4 7 4c2 0 3.5 1 5 3 1.5-2 3-3 5-3 4 0 6 4 4.5 8-2.5 4.5-9.5 9-9.5 9z' fill='none' stroke='currentColor' stroke-width='2' stroke-linejoin='round'/></svg>") center/contain no-repeat;
+          mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'><path d='M12 21s-7-4.5-9.5-9C1 8 3 4 7 4c2 0 3.5 1 5 3 1.5-2 3-3 5-3 4 0 6 4 4.5 8-2.5 4.5-9.5 9-9.5 9z' fill='none' stroke='currentColor' stroke-width='2' stroke-linejoin='round'/></svg>") center/contain no-repeat;
+}
+.demo-article .btn.like.liked {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+.demo-article .btn.like.liked .heart {
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 21s-7-4.5-9.5-9C1 8 3 4 7 4c2 0 3.5 1 5 3 1.5-2 3-3 5-3 4 0 6 4 4.5 8-2.5 4.5-9.5 9-9.5 9z'/></svg>") center/contain no-repeat;
+          mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 21s-7-4.5-9.5-9C1 8 3 4 7 4c2 0 3.5 1 5 3 1.5-2 3-3 5-3 4 0 6 4 4.5 8-2.5 4.5-9.5 9-9.5 9z'/></svg>") center/contain no-repeat;
+  animation: pop 0.32s ease;
+}
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.4); }
+  100% { transform: scale(1); }
+}
+.demo-article .btn.save.saved {
+  color: var(--accent-2);
+  border-color: var(--accent-2);
+  background: color-mix(in srgb, var(--accent-2) 12%, transparent);
+}
+.demo-article .footer {
+  font-family: var(--font-mono);
+  font-size: 0.95cqw;
+  color: var(--fg-muted);
+  letter-spacing: 0.02em;
+}
+.demo-article .footer b { color: var(--fg); font-weight: 600; }
+
+/* Demo: Counter (slide 37) */
+.demo-counter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5cqw;
+  padding: 2cqw;
+}
+.demo-counter .label {
+  font-family: var(--font-mono);
+  font-size: 1cqw;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.demo-counter .display {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  font-size: 11cqw;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--accent);
+  min-width: 14cqw;
+  text-align: center;
+  transition: transform 0.15s ease;
+}
+.demo-counter .display.bumped { transform: scale(1.08); }
+.demo-counter .controls {
+  display: flex;
+  gap: 0.7cqw;
+}
+.demo-counter button {
+  font-family: var(--font-mono);
+  font-size: 1.6cqw;
+  font-weight: 600;
+  width: 4.5cqw;
+  height: 4.5cqw;
+  display: grid;
+  place-items: center;
+  border-radius: calc(var(--radius) / 2 + 2px);
+  border: 1px solid var(--border);
+  background: var(--bg-alt);
+  color: var(--fg);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+.demo-counter button:hover { border-color: var(--accent); color: var(--accent); }
+.demo-counter button:active { transform: translateY(1px); }
+.demo-counter button.reset {
+  width: auto;
+  padding: 0 1.4cqw;
+  font-size: 1.1cqw;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   LAYOUT 38 — GANTT CHART
+   ========================================================= */
+.layout-gantt .slide-inner { padding: 4cqw 4cqw 3.5cqw; gap: 1.5cqw; }
+.layout-gantt .head { display: flex; justify-content: space-between; align-items: flex-end; gap: 1cqw; }
+.layout-gantt .eyebrow { margin-bottom: 0.2cqw; }
+.layout-gantt h3 { font-size: 3cqw; }
+.layout-gantt .legend { display: flex; gap: 1.2cqw; font-family: var(--font-mono); font-size: 1cqw; color: var(--fg-muted); letter-spacing: 0.04em; }
+.layout-gantt .legend span { display: inline-flex; align-items: center; gap: 0.4cqw; }
+.layout-gantt .legend i {
+  width: 0.9cqw; height: 0.9cqw;
+  border-radius: 2px;
+  background: var(--accent);
+  display: inline-block;
+}
+.layout-gantt .legend i.alt { background: var(--accent-2); }
+.layout-gantt .legend i.muted { background: var(--fg-muted); }
+
+.layout-gantt .chart {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 11cqw 1fr;
+  font-family: var(--font-body);
+  min-height: 0;
+}
+.layout-gantt .gantt-header,
+.layout-gantt .gantt-row {
+  display: contents;
+}
+.layout-gantt .gantt-months {
+  grid-column: 2;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.6cqw;
+  font-family: var(--font-mono);
+  font-size: 1cqw;
+  color: var(--fg-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.layout-gantt .gantt-months span {
+  text-align: center;
+  border-left: 1px solid var(--rule);
+  padding: 0 0.4cqw;
+}
+.layout-gantt .gantt-months span:first-child { border-left: none; }
+.layout-gantt .gantt-task-label {
+  padding: 1cqw 1cqw 1cqw 0;
+  font-size: 1.2cqw;
+  color: var(--fg);
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  gap: 0.6cqw;
+  min-width: 0;
+}
+.layout-gantt .gantt-task-label .owner {
+  font-family: var(--font-mono);
+  font-size: 0.85cqw;
+  color: var(--fg-muted);
+  background: var(--bg-alt);
+  padding: 0.15cqw 0.5cqw;
+  border-radius: 3px;
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+.layout-gantt .gantt-track {
+  position: relative;
+  border-bottom: 1px solid var(--rule);
+  border-left: 1px solid var(--rule);
+  background-image: repeating-linear-gradient(90deg, transparent 0, transparent calc(12.5% - 1px), var(--rule) calc(12.5% - 1px), var(--rule) 12.5%);
+  display: flex;
+  align-items: center;
+  padding: 0.7cqw 0;
+}
+.layout-gantt .bar {
+  position: absolute;
+  height: 1.6cqw;
+  background: var(--accent);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  padding: 0 0.6cqw;
+  font-family: var(--font-mono);
+  font-size: 0.85cqw;
+  color: var(--bg);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.layout-gantt .bar.alt { background: var(--accent-2); color: var(--bg); }
+.layout-gantt .bar.muted {
+  background: transparent;
+  border: 1px dashed var(--fg-muted);
+  color: var(--fg-muted);
+}
+.layout-gantt .bar.progress {
+  background: linear-gradient(to right, var(--accent) var(--p, 60%), color-mix(in srgb, var(--accent) 30%, transparent) var(--p, 60%));
+}
+.layout-gantt .today-line {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: var(--accent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+.layout-gantt .today-line::before {
+  content: 'TODAY';
+  position: absolute;
+  top: -1.3cqw;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.75cqw;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  background: var(--slide-bg, var(--bg));
+  padding: 0 0.3cqw;
+}
+
+/* =========================================================
+   LAYOUT 39 — KANBAN BOARD
+   ========================================================= */
+.layout-kanban .slide-inner { padding: 4cqw; gap: 1.5cqw; }
+.layout-kanban .head { display: flex; justify-content: space-between; align-items: flex-end; gap: 1cqw; }
+.layout-kanban .eyebrow { margin-bottom: 0.2cqw; }
+.layout-kanban h3 { font-size: 3cqw; }
+.layout-kanban .meta {
+  font-family: var(--font-mono);
+  font-size: 1cqw;
+  color: var(--fg-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.layout-kanban .board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.2cqw;
+  flex: 1;
+  min-height: 0;
+}
+.layout-kanban .col {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.2cqw;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8cqw;
+  min-height: 0;
+}
+.layout-kanban .col-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.7cqw;
+  border-bottom: 1px solid var(--border);
+}
+.layout-kanban .col-head h5 {
+  font-family: var(--font-mono);
+  font-size: 1cqw;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5cqw;
+}
+.layout-kanban .col-head h5::before {
+  content: '';
+  width: 0.7cqw; height: 0.7cqw;
+  border-radius: 50%;
+  background: var(--fg-muted);
+}
+.layout-kanban .col.todo .col-head h5::before { background: var(--fg-muted); }
+.layout-kanban .col.doing .col-head h5::before { background: var(--accent); }
+.layout-kanban .col.review .col-head h5::before { background: var(--accent-2); }
+.layout-kanban .col.done .col-head h5::before { background: var(--accent-2); }
+.layout-kanban .col-head .count {
+  font-family: var(--font-mono);
+  font-size: 0.85cqw;
+  color: var(--fg-muted);
+  background: var(--slide-bg, var(--bg));
+  padding: 0.15cqw 0.5cqw;
+  border-radius: 3px;
+}
+.layout-kanban .card {
+  background: var(--slide-bg, var(--bg));
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) / 2 + 2px);
+  padding: 1cqw;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5cqw;
+}
+.layout-kanban .card .tag {
+  align-self: flex-start;
+  font-family: var(--font-mono);
+  font-size: 0.75cqw;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.15cqw 0.5cqw;
+  border-radius: 3px;
+  font-weight: 700;
+}
+.layout-kanban .card .tag.feat { background: var(--accent); color: var(--bg); }
+.layout-kanban .card .tag.bug { background: var(--syn-key, var(--accent)); color: var(--bg); }
+.layout-kanban .card .tag.chore { background: transparent; color: var(--fg-muted); border: 1px solid var(--border); }
+.layout-kanban .card h6 {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  font-size: 1.15cqw;
+  line-height: 1.2;
+  color: var(--fg);
+}
+.layout-kanban .card .footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.2cqw;
+}
+.layout-kanban .card .ticket {
+  font-family: var(--font-mono);
+  font-size: 0.85cqw;
+  color: var(--fg-muted);
+}
+.layout-kanban .card .av {
+  width: 1.6cqw; height: 1.6cqw;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.7cqw;
+  color: var(--bg);
+  font-weight: 700;
+}
+
+/* =========================================================
+   LAYOUT 40 — SWIMLANE / WORKFLOW PROCESS
+   ========================================================= */
+.layout-swimlane .slide-inner { padding: 4cqw; gap: 1.4cqw; }
+.layout-swimlane .head { display: flex; justify-content: space-between; align-items: flex-end; gap: 1cqw; }
+.layout-swimlane .eyebrow { margin-bottom: 0.2cqw; }
+.layout-swimlane h3 { font-size: 3cqw; }
+.layout-swimlane .lanes {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 9cqw 1fr;
+  grid-auto-rows: 1fr;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  font-family: var(--font-body);
+  min-height: 0;
+}
+.layout-swimlane .lane-label {
+  padding: 1cqw 1.2cqw;
+  background: var(--bg-alt);
+  border-right: 1px solid var(--border);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 0.6cqw;
+  font-family: var(--font-mono);
+  font-size: 1cqw;
+  color: var(--fg);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.layout-swimlane .lane-label:nth-of-type(1) { border-top: none; }
+.layout-swimlane .lane-label .icon {
+  width: 1.6cqw; height: 1.6cqw;
+  border-radius: 50%;
+  background: var(--accent);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: 0.9cqw;
+  color: var(--bg);
+  font-weight: 700;
+}
+.layout-swimlane .lane-label.alt .icon { background: var(--accent-2); }
+.layout-swimlane .lane-label.neutral .icon { background: var(--fg-muted); }
+.layout-swimlane .lane {
+  padding: 1cqw;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 0.7cqw;
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+}
+.layout-swimlane .lane:nth-of-type(2) { border-top: none; }
+.layout-swimlane .lane .step {
+  background: var(--slide-bg, var(--bg));
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) / 2 + 2px);
+  padding: 0.7cqw 1cqw;
+  font-size: 1.1cqw;
+  color: var(--fg);
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5cqw;
+}
+.layout-swimlane .lane .step .num {
+  font-family: var(--font-mono);
+  font-size: 0.85cqw;
+  color: var(--fg-muted);
+  font-weight: 400;
+}
+.layout-swimlane .lane .step.primary {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+.layout-swimlane .lane .step.primary .num { color: color-mix(in srgb, var(--bg) 70%, var(--accent)); }
+.layout-swimlane .lane .step.alt {
+  background: transparent;
+  border: 1px solid var(--accent-2);
+  color: var(--accent-2);
+}
+.layout-swimlane .lane .step.decision {
+  border: 1px dashed var(--fg-muted);
+  background: transparent;
+  color: var(--fg-muted);
+  font-style: italic;
+}
+.layout-swimlane .lane .arrow {
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: 1.2cqw;
+  flex-shrink: 0;
+}
+.layout-swimlane .lane .spacer { flex: 1; min-width: 1cqw; }
+
+/* =========================================================
+   LAYOUT 41 — SPRINT CALENDAR / WEEKLY GRID
+   ========================================================= */
+.layout-sprint .slide-inner { padding: 4cqw; gap: 1.5cqw; }
+.layout-sprint .head { display: flex; justify-content: space-between; align-items: flex-end; gap: 1cqw; }
+.layout-sprint .eyebrow { margin-bottom: 0.2cqw; }
+.layout-sprint h3 { font-size: 3cqw; }
+.layout-sprint .sprint-meta {
+  font-family: var(--font-mono);
+  font-size: 1cqw;
+  color: var(--fg-muted);
+  letter-spacing: 0.06em;
+}
+.layout-sprint .sprint-meta b { color: var(--accent); font-weight: 600; }
+
+.layout-sprint .calendar {
+  display: grid;
+  grid-template-columns: 5cqw repeat(5, 1fr);
+  grid-auto-rows: minmax(0, 1fr);
+  gap: 0;
+  flex: 1;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--bg-alt);
+  min-height: 0;
+}
+.layout-sprint .day-head {
+  padding: 0.8cqw 1cqw;
+  background: var(--slide-bg, var(--bg));
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: 0.95cqw;
+  color: var(--fg-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1cqw;
+}
+.layout-sprint .day-head .num {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  font-size: 1.7cqw;
+  color: var(--fg);
+  letter-spacing: -0.02em;
+}
+.layout-sprint .day-head.today .num { color: var(--accent); }
+.layout-sprint .day-head:last-child { border-right: none; }
+.layout-sprint .corner {
+  padding: 0.8cqw;
+  background: var(--slide-bg, var(--bg));
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.85cqw;
+  color: var(--fg-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.layout-sprint .time-label {
+  padding: 0.6cqw;
+  border-right: 1px solid var(--border);
+  border-top: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: 0.85cqw;
+  color: var(--fg-muted);
+  letter-spacing: 0.06em;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+.layout-sprint .cell {
+  border-right: 1px solid var(--rule);
+  border-top: 1px solid var(--rule);
+  padding: 0.4cqw;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3cqw;
+  min-height: 0;
+  overflow: hidden;
+}
+.layout-sprint .cell:last-child { border-right: none; }
+.layout-sprint .event {
+  font-size: 0.95cqw;
+  padding: 0.35cqw 0.55cqw;
+  border-radius: 3px;
+  border-left: 2px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
+  color: var(--fg);
+  line-height: 1.25;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1cqw;
+  min-width: 0;
+  overflow: hidden;
+}
+.layout-sprint .event .who {
+  font-family: var(--font-mono);
+  font-size: 0.7cqw;
+  color: var(--fg-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.layout-sprint .event.alt {
+  border-left-color: var(--accent-2);
+  background: color-mix(in srgb, var(--accent-2) 15%, transparent);
+}
+.layout-sprint .event.muted {
+  border-left-color: var(--fg-muted);
+  background: color-mix(in srgb, var(--fg-muted) 12%, transparent);
+  color: var(--fg-muted);
+}
+.layout-sprint .event.solid {
+  background: var(--accent);
+  color: var(--bg);
+  border-left: 2px solid color-mix(in srgb, var(--accent) 70%, var(--bg));
+}
+.layout-sprint .event.solid .who { color: color-mix(in srgb, var(--bg) 70%, var(--accent)); }
+
+/* =========================================================
+   LAYOUT 42 — METRICS SCORECARD
+   Snapshot reporting — different from layout 35's live dashboard.
+   Mixes a hero metric, a comparison row, and a categorical breakdown.
+   ========================================================= */
+.layout-scorecard .slide-inner { padding: 4cqw; gap: 1.6cqw; }
+.layout-scorecard .head { display: flex; justify-content: space-between; align-items: flex-end; gap: 1cqw; }
+.layout-scorecard .head .eyebrow { margin-bottom: 0.2cqw; }
+.layout-scorecard h3 { font-size: 3cqw; }
+.layout-scorecard .period {
+  font-family: var(--font-mono);
+  font-size: 1cqw;
+  color: var(--fg-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.5cqw 0.9cqw;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.layout-scorecard .grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 1.4cqw;
+  flex: 1;
+  min-height: 0;
+}
+/* Hero metric — spans both rows of left column */
+.layout-scorecard .hero {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2.2cqw;
+  display: flex;
+  flex-direction: column;
+  gap: 1cqw;
+  position: relative;
+  overflow: hidden;
+}
+.layout-scorecard .hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 100% 100%, color-mix(in srgb, var(--accent) 18%, transparent) 0%, transparent 60%);
+  pointer-events: none;
+}
+.layout-scorecard .hero > * { position: relative; z-index: 1; }
+.layout-scorecard .hero .lbl {
+  font-family: var(--font-mono);
+  font-size: 1.05cqw;
+  color: var(--fg-muted);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.layout-scorecard .hero .num {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  font-size: 14cqw;
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  color: var(--fg);
+  display: flex;
+  align-items: baseline;
+  gap: 0.5cqw;
+}
+.layout-scorecard .hero .num .unit { color: var(--accent); font-size: 7cqw; }
+.layout-scorecard .hero .delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5cqw;
+  font-family: var(--font-mono);
+  font-size: 1.4cqw;
+  color: var(--accent-2);
+  font-weight: 600;
+  align-self: flex-start;
+  padding: 0.5cqw 0.9cqw;
+  background: color-mix(in srgb, var(--accent-2) 15%, transparent);
+  border-radius: 999px;
+}
+.layout-scorecard .hero .delta.down { color: var(--syn-key, var(--accent)); background: color-mix(in srgb, var(--syn-key, var(--accent)) 15%, transparent); }
+.layout-scorecard .hero .desc {
+  font-size: 1.25cqw;
+  color: var(--fg-muted);
+  line-height: 1.45;
+  margin-top: auto;
+}
+.layout-scorecard .hero .desc strong { color: var(--fg); }
+.layout-scorecard .hero .trend {
+  width: 100%;
+  height: 6cqw;
+  color: var(--accent);
+}
+
+/* Right column: small KPI cards */
+.layout-scorecard .kpi {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.4cqw 1.6cqw;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5cqw;
+}
+.layout-scorecard .kpi .lbl {
+  font-family: var(--font-mono);
+  font-size: 0.95cqw;
+  color: var(--fg-muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.layout-scorecard .kpi .row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.6cqw;
+}
+.layout-scorecard .kpi .v {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  font-size: 4.2cqw;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--fg);
+}
+.layout-scorecard .kpi .d {
+  font-family: var(--font-mono);
+  font-size: 1cqw;
+  font-weight: 600;
+  padding: 0.25cqw 0.6cqw;
+  border-radius: 999px;
+}
+.layout-scorecard .kpi .d.up { color: var(--accent-2); background: color-mix(in srgb, var(--accent-2) 14%, transparent); }
+.layout-scorecard .kpi .d.down { color: var(--syn-key, var(--accent)); background: color-mix(in srgb, var(--syn-key, var(--accent)) 14%, transparent); }
+.layout-scorecard .kpi .d.flat { color: var(--fg-muted); background: var(--bg); border: 1px solid var(--border); }
+.layout-scorecard .kpi .bar {
+  height: 0.5cqw;
+  background: var(--bg);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 0.3cqw;
+}
+.layout-scorecard .kpi .bar > i {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  border-radius: inherit;
+}
+.layout-scorecard .kpi.alt .bar > i { background: var(--accent-2); }
+
+/* =========================================================
+   LAYOUT 43 — US STATE MAP  (interactive choropleth-style)
+   Uses inline SVG state paths. Click/hover any state to surface
+   data in the side panel.
+   ========================================================= */
+.layout-usmap .slide-inner { padding: 3.5cqw 4cqw; gap: 1.4cqw; }
+.layout-usmap .head { display: flex; justify-content: space-between; align-items: flex-end; gap: 1cqw; }
+.layout-usmap .eyebrow { margin-bottom: 0.2cqw; }
+.layout-usmap h3 { font-size: 2.8cqw; }
+.layout-usmap .scale {
+  display: flex;
+  align-items: center;
+  gap: 0.6cqw;
+  font-family: var(--font-mono);
+  font-size: 0.95cqw;
+  color: var(--fg-muted);
+  letter-spacing: 0.06em;
+}
+.layout-usmap .scale .swatches {
+  display: flex;
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.layout-usmap .scale .swatches i {
+  width: 1.6cqw;
+  height: 1cqw;
+  display: block;
+}
+
+.layout-usmap .body {
+  display: grid;
+  grid-template-columns: 1.7fr 1fr;
+  gap: 2cqw;
+  flex: 1;
+  min-height: 0;
+  align-items: stretch;
+}
+
+.layout-usmap .map-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.layout-usmap svg.us {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  display: block;
+}
+.layout-usmap svg.us path.state {
+  fill: var(--bg-alt);
+  stroke: var(--slide-bg, var(--bg));
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+  cursor: pointer;
+  transition: fill 0.18s ease, transform 0.2s ease;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+.layout-usmap svg.us path.state:hover { filter: brightness(1.15); }
+/* Choropleth tiers — applied dynamically via class */
+.layout-usmap svg.us path.t1 { fill: color-mix(in srgb, var(--accent) 22%, var(--bg-alt)); }
+.layout-usmap svg.us path.t2 { fill: color-mix(in srgb, var(--accent) 45%, var(--bg-alt)); }
+.layout-usmap svg.us path.t3 { fill: color-mix(in srgb, var(--accent) 70%, var(--bg-alt)); }
+.layout-usmap svg.us path.t4 { fill: var(--accent); }
+.layout-usmap svg.us path.state.active {
+  stroke: var(--accent-2);
+  stroke-width: 2.2;
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--accent-2) 60%, transparent));
+}
+.layout-usmap svg.us .state-label {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  font-weight: 600;
+  fill: var(--fg);
+  pointer-events: none;
+  text-anchor: middle;
+  opacity: 0.5;
+}
+
+.layout-usmap .panel {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.8cqw 2cqw;
+  display: flex;
+  flex-direction: column;
+  gap: 1cqw;
+  min-width: 0;
+}
+.layout-usmap .panel .panel-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.95cqw;
+  color: var(--fg-muted);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.layout-usmap .panel h4 {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  font-size: 3cqw;
+  line-height: 1;
+  color: var(--fg);
+  letter-spacing: -0.02em;
+}
+.layout-usmap .panel .stat-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8cqw;
+  margin-top: 0.3cqw;
+}
+.layout-usmap .panel .stat-row .stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2cqw;
+  padding: 0.8cqw 0;
+  border-top: 1px solid var(--rule);
+}
+.layout-usmap .panel .stat-row .stat .k {
+  font-family: var(--font-mono);
+  font-size: 0.8cqw;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.layout-usmap .panel .stat-row .stat .v {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  font-style: var(--display-style);
+  font-size: 2.4cqw;
+  line-height: 1;
+  color: var(--fg);
+  letter-spacing: -0.02em;
+}
+.layout-usmap .panel .stat-row .stat .v.accent { color: var(--accent); }
+.layout-usmap .panel p {
+  font-size: 1.15cqw;
+  line-height: 1.45;
+  color: var(--fg-muted);
+}
+.layout-usmap .panel .hint {
+  margin-top: auto;
+  font-family: var(--font-mono);
+  font-size: 0.9cqw;
+  color: var(--fg-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding-top: 0.8cqw;
+  border-top: 1px dashed var(--rule);
+  text-align: center;
+}
+
+/* =========================================================
    THEME-SPECIFIC VISUAL DECOR  (decorations per theme)
    ========================================================= */
 
@@ -2833,7 +3977,7 @@ body {
     <div class="app-header-inner">
       <div class="brand">
         <span class="brand-title">Slide System</span>
-        <span class="brand-sub">35 layouts · 18 themes</span>
+        <span class="brand-sub">43 layouts · 18 themes</span>
       </div>
       <div class="theme-picker" id="themePicker">
         <button class="theme-btn active" data-theme="atelier" style="--sw-a:#f4efe6; --sw-b:#b94a2c;"><span class="swatch"></span><span>Atelier</span></button>
@@ -2866,7 +4010,7 @@ body {
   <section class="slides-outer">
     <div class="slides-intro">
       <h2>Theme: <em id="currentName">Atelier</em></h2>
-      <p>Click any slide to expand. Switch themes above to see every slide restyled. All 35 layouts accept the optional <code>title / subtitle / description</code> props you described, plus one content slot. <strong style="color:#ddd">Scroll down past the first ten themes for IDE-inspired palettes.</strong></p>
+      <p>Click any slide to expand. Switch themes above to see every slide restyled. All 43 layouts accept the optional <code>title / subtitle / description</code> props you described, plus one content slot. <strong style="color:#ddd">Scroll down past the first ten themes for IDE-inspired palettes.</strong></p>
     </div>
 
     <div class="slides-grid" id="slidesGrid" data-theme="atelier">
@@ -3914,6 +5058,551 @@ body {
         </div>
       </div>
 
+      <!-- 36 LIVE VUE DEMO -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">36</span><span class="name">Live Vue Demo</span></div>
+        <div class="slide layout-livedemo">
+          <div class="slide-inner">
+            <div class="head">
+              <div>
+                <div class="eyebrow">Live demo</div>
+                <h3>Try it yourself.</h3>
+              </div>
+              <span class="badge"><span class="vue-mark"></span>Vue 3 · Composition API</span>
+            </div>
+            <div class="stage">
+              <article class="demo-article" data-demo="article">
+                <div class="meta-top">
+                  <div class="av">EM</div>
+                  <span class="who">Eliza Monteiro</span>
+                  <span class="when">2h ago</span>
+                </div>
+                <h4>Designing forward motion.</h4>
+                <p>The best systems feel inevitable — as if they could not have been any other way. Here's what we learned from six months of rebuilding ours from scratch.</p>
+                <div class="actions">
+                  <button class="btn like" data-like type="button">
+                    <span class="heart"></span>
+                    <span data-likes-count>247</span>
+                  </button>
+                  <button class="btn save" data-save type="button">
+                    <span data-save-label>Save</span>
+                  </button>
+                  <button class="btn" type="button">↗ Share</button>
+                </div>
+                <div class="footer" data-footer><b>247</b> likes · <b>12</b> comments</div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 37 CODE + LIVE DEMO -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">37</span><span class="name">Code + Live Demo</span></div>
+        <div class="slide layout-codedemo">
+          <div class="slide-inner">
+            <div class="head">
+              <div>
+                <div class="eyebrow">Component example</div>
+                <h3>A reactive counter, in 14 lines.</h3>
+              </div>
+            </div>
+            <div class="panes">
+              <div class="pane code">
+                <div class="pane-head">
+                  <span class="file">Counter.vue</span>
+                </div>
+<pre><span class="tk-pun">&lt;</span><span class="tk-tag">template</span><span class="tk-pun">&gt;</span>
+  <span class="tk-pun">&lt;</span><span class="tk-tag">div</span> <span class="tk-attr">class</span><span class="tk-pun">=</span><span class="tk-str">"counter"</span><span class="tk-pun">&gt;</span>
+    <span class="tk-pun">&lt;</span><span class="tk-tag">output</span><span class="tk-pun">&gt;</span>{{ count }}<span class="tk-pun">&lt;/</span><span class="tk-tag">output</span><span class="tk-pun">&gt;</span>
+    <span class="tk-pun">&lt;</span><span class="tk-tag">button</span> <span class="tk-attr">@click</span><span class="tk-pun">=</span><span class="tk-str">"count--"</span><span class="tk-pun">&gt;</span>−<span class="tk-pun">&lt;/</span><span class="tk-tag">button</span><span class="tk-pun">&gt;</span>
+    <span class="tk-pun">&lt;</span><span class="tk-tag">button</span> <span class="tk-attr">@click</span><span class="tk-pun">=</span><span class="tk-str">"count++"</span><span class="tk-pun">&gt;</span>+<span class="tk-pun">&lt;/</span><span class="tk-tag">button</span><span class="tk-pun">&gt;</span>
+    <span class="tk-pun">&lt;</span><span class="tk-tag">button</span> <span class="tk-attr">@click</span><span class="tk-pun">=</span><span class="tk-str">"count = 0"</span><span class="tk-pun">&gt;</span>Reset<span class="tk-pun">&lt;/</span><span class="tk-tag">button</span><span class="tk-pun">&gt;</span>
+  <span class="tk-pun">&lt;/</span><span class="tk-tag">div</span><span class="tk-pun">&gt;</span>
+<span class="tk-pun">&lt;/</span><span class="tk-tag">template</span><span class="tk-pun">&gt;</span>
+
+<span class="tk-pun">&lt;</span><span class="tk-tag">script</span> <span class="tk-attr">setup</span><span class="tk-pun">&gt;</span>
+<span class="tk-key">import</span> { <span class="tk-fn">ref</span> } <span class="tk-key">from</span> <span class="tk-str">'vue'</span>
+
+<span class="tk-key">const</span> count <span class="tk-pun">=</span> <span class="tk-fn">ref</span>(<span class="tk-num">0</span>)
+<span class="tk-pun">&lt;/</span><span class="tk-tag">script</span><span class="tk-pun">&gt;</span></pre>
+              </div>
+              <div class="pane demo">
+                <div class="pane-head">
+                  <span>Preview</span>
+                  <span class="live-dot">Live</span>
+                </div>
+                <div class="stage">
+                  <div class="demo-counter" data-demo="counter">
+                    <span class="label">Count</span>
+                    <output class="display" data-display>0</output>
+                    <div class="controls">
+                      <button data-action="dec" type="button">−</button>
+                      <button data-action="inc" type="button">+</button>
+                      <button class="reset" data-action="reset" type="button">Reset</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 38 GANTT CHART -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">38</span><span class="name">Gantt Chart</span></div>
+        <div class="slide layout-gantt">
+          <div class="slide-inner">
+            <div class="head">
+              <div>
+                <div class="eyebrow">Roadmap · Q1–Q2 2026</div>
+                <h3>Where the work lands.</h3>
+              </div>
+              <div class="legend">
+                <span><i></i>Design</span>
+                <span><i class="alt"></i>Engineering</span>
+                <span><i class="muted"></i>At risk</span>
+              </div>
+            </div>
+            <div class="chart">
+              <div class="gantt-months">
+                <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span>
+                <span>May</span><span>Jun</span><span>Jul</span><span>Aug</span>
+              </div>
+
+              <div class="gantt-task-label">Design system <span class="owner">EM</span></div>
+              <div class="gantt-track">
+                <div class="bar progress" style="left:0%; width:30%; --p: 80%">Foundations</div>
+                <div class="today-line" style="left:42%"></div>
+              </div>
+
+              <div class="gantt-task-label">Slide engine <span class="owner">JT</span></div>
+              <div class="gantt-track">
+                <div class="bar alt progress" style="left:14%; width:35%; --p: 70%">Build · ship</div>
+                <div class="today-line" style="left:42%"></div>
+              </div>
+
+              <div class="gantt-task-label">Storyblok schema <span class="owner">JT</span></div>
+              <div class="gantt-track">
+                <div class="bar alt" style="left:30%; width:18%">Schema v2</div>
+                <div class="today-line" style="left:42%"></div>
+              </div>
+
+              <div class="gantt-task-label">Theme library <span class="owner">EM</span></div>
+              <div class="gantt-track">
+                <div class="bar" style="left:38%; width:25%">18 themes</div>
+                <div class="today-line" style="left:42%"></div>
+              </div>
+
+              <div class="gantt-task-label">Beta program <span class="owner">AO</span></div>
+              <div class="gantt-track">
+                <div class="bar muted" style="left:50%; width:30%">Closed beta</div>
+                <div class="today-line" style="left:42%"></div>
+              </div>
+
+              <div class="gantt-task-label">Public launch <span class="owner">NK</span></div>
+              <div class="gantt-track">
+                <div class="bar alt" style="left:78%; width:18%">v1.0</div>
+                <div class="today-line" style="left:42%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 39 KANBAN BOARD -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">39</span><span class="name">Kanban Board</span></div>
+        <div class="slide layout-kanban">
+          <div class="slide-inner">
+            <div class="head">
+              <div>
+                <div class="eyebrow">Sprint 47</div>
+                <h3>This week's board.</h3>
+              </div>
+              <span class="meta">23 tickets · 4 in flight</span>
+            </div>
+            <div class="board">
+              <div class="col todo">
+                <div class="col-head">
+                  <h5>To do</h5>
+                  <span class="count">8</span>
+                </div>
+                <div class="card">
+                  <span class="tag feat">Feature</span>
+                  <h6>Add SSO support to workspace settings</h6>
+                  <div class="footer"><span class="ticket">HAL-412</span><span class="av">EM</span></div>
+                </div>
+                <div class="card">
+                  <span class="tag chore">Chore</span>
+                  <h6>Migrate to Nuxt 3.14 release</h6>
+                  <div class="footer"><span class="ticket">HAL-401</span><span class="av">JT</span></div>
+                </div>
+                <div class="card">
+                  <span class="tag feat">Feature</span>
+                  <h6>Speaker notes overlay</h6>
+                  <div class="footer"><span class="ticket">HAL-419</span><span class="av">EM</span></div>
+                </div>
+              </div>
+              <div class="col doing">
+                <div class="col-head">
+                  <h5>In progress</h5>
+                  <span class="count">4</span>
+                </div>
+                <div class="card">
+                  <span class="tag feat">Feature</span>
+                  <h6>Live Vue demo slide layout</h6>
+                  <div class="footer"><span class="ticket">HAL-388</span><span class="av">JT</span></div>
+                </div>
+                <div class="card">
+                  <span class="tag bug">Bug</span>
+                  <h6>Theme picker overflow on mobile</h6>
+                  <div class="footer"><span class="ticket">HAL-405</span><span class="av">AO</span></div>
+                </div>
+              </div>
+              <div class="col review">
+                <div class="col-head">
+                  <h5>In review</h5>
+                  <span class="count">3</span>
+                </div>
+                <div class="card">
+                  <span class="tag feat">Feature</span>
+                  <h6>Gantt chart layout component</h6>
+                  <div class="footer"><span class="ticket">HAL-396</span><span class="av">JT</span></div>
+                </div>
+                <div class="card">
+                  <span class="tag chore">Chore</span>
+                  <h6>Document theme variable contract</h6>
+                  <div class="footer"><span class="ticket">HAL-378</span><span class="av">EM</span></div>
+                </div>
+              </div>
+              <div class="col done">
+                <div class="col-head">
+                  <h5>Shipped</h5>
+                  <span class="count">8</span>
+                </div>
+                <div class="card">
+                  <span class="tag feat">Feature</span>
+                  <h6>IDE-inspired theme library (8 added)</h6>
+                  <div class="footer"><span class="ticket">HAL-371</span><span class="av">EM</span></div>
+                </div>
+                <div class="card">
+                  <span class="tag bug">Bug</span>
+                  <h6>Diff layout strikethrough alignment</h6>
+                  <div class="footer"><span class="ticket">HAL-384</span><span class="av">JT</span></div>
+                </div>
+                <div class="card">
+                  <span class="tag chore">Chore</span>
+                  <h6>Bump dependencies to latest minor</h6>
+                  <div class="footer"><span class="ticket">HAL-365</span><span class="av">JT</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 40 SWIMLANE -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">40</span><span class="name">Swimlane / Workflow</span></div>
+        <div class="slide layout-swimlane">
+          <div class="slide-inner">
+            <div class="head">
+              <div>
+                <div class="eyebrow">Process map</div>
+                <h3>How a slide goes from idea to live.</h3>
+              </div>
+            </div>
+            <div class="lanes">
+              <div class="lane-label"><span class="icon">D</span>Design</div>
+              <div class="lane">
+                <div class="step"><span class="num">01</span>Sketch</div>
+                <span class="arrow">→</span>
+                <div class="step primary"><span class="num">02</span>Design in Figma</div>
+                <span class="arrow">→</span>
+                <div class="step"><span class="num">03</span>Spec handoff</div>
+                <span class="spacer"></span>
+              </div>
+
+              <div class="lane-label alt"><span class="icon">E</span>Engineering</div>
+              <div class="lane">
+                <span class="spacer" style="flex: 0.4"></span>
+                <div class="step decision">Spec ready?</div>
+                <span class="arrow">→</span>
+                <div class="step alt"><span class="num">04</span>Build component</div>
+                <span class="arrow">→</span>
+                <div class="step alt"><span class="num">05</span>Storyblok schema</div>
+                <span class="arrow">→</span>
+                <div class="step alt"><span class="num">06</span>QA &amp; ship</div>
+              </div>
+
+              <div class="lane-label neutral"><span class="icon">C</span>Content</div>
+              <div class="lane">
+                <span class="spacer"></span>
+                <div class="step"><span class="num">07</span>Author writes</div>
+                <span class="arrow">→</span>
+                <div class="step"><span class="num">08</span>Editor approves</div>
+                <span class="arrow">→</span>
+                <div class="step primary"><span class="num">09</span>Publish</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 41 SPRINT CALENDAR -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">41</span><span class="name">Sprint Calendar</span></div>
+        <div class="slide layout-sprint">
+          <div class="slide-inner">
+            <div class="head">
+              <div>
+                <div class="eyebrow">Sprint 47 · Week 2</div>
+                <h3>This week at a glance.</h3>
+              </div>
+              <span class="sprint-meta">Apr 21–25 · <b>day 7 of 10</b></span>
+            </div>
+            <div class="calendar">
+              <div class="corner">PT</div>
+              <div class="day-head"><span>Mon</span><span class="num">21</span></div>
+              <div class="day-head"><span>Tue</span><span class="num">22</span></div>
+              <div class="day-head today"><span>Wed</span><span class="num">23</span></div>
+              <div class="day-head"><span>Thu</span><span class="num">24</span></div>
+              <div class="day-head"><span>Fri</span><span class="num">25</span></div>
+
+              <div class="time-label">9 AM</div>
+              <div class="cell">
+                <div class="event"><span class="who">All hands</span>Sprint planning</div>
+              </div>
+              <div class="cell">
+                <div class="event muted"><span class="who">Solo</span>Deep work block</div>
+              </div>
+              <div class="cell">
+                <div class="event alt"><span class="who">EM · JT</span>Design sync</div>
+              </div>
+              <div class="cell"></div>
+              <div class="cell">
+                <div class="event"><span class="who">All hands</span>Demo day</div>
+              </div>
+
+              <div class="time-label">11 AM</div>
+              <div class="cell">
+                <div class="event alt"><span class="who">JT</span>Code review</div>
+              </div>
+              <div class="cell">
+                <div class="event solid"><span class="who">Customer</span>Halcyon onboarding</div>
+              </div>
+              <div class="cell">
+                <div class="event muted"><span class="who">Solo</span>Deep work block</div>
+              </div>
+              <div class="cell">
+                <div class="event alt"><span class="who">EM</span>1:1 with NK</div>
+              </div>
+              <div class="cell">
+                <div class="event"><span class="who">Team</span>Retrospective</div>
+              </div>
+
+              <div class="time-label">2 PM</div>
+              <div class="cell">
+                <div class="event muted"><span class="who">Solo</span>Deep work block</div>
+              </div>
+              <div class="cell">
+                <div class="event"><span class="who">JT · AO</span>Schema review</div>
+              </div>
+              <div class="cell">
+                <div class="event solid"><span class="who">Stakeholders</span>Roadmap presentation</div>
+              </div>
+              <div class="cell">
+                <div class="event muted"><span class="who">Solo</span>Deep work block</div>
+              </div>
+              <div class="cell">
+                <div class="event alt"><span class="who">All</span>Beer o'clock</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 42 METRICS SCORECARD -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">42</span><span class="name">Metrics Scorecard</span></div>
+        <div class="slide layout-scorecard">
+          <div class="slide-inner">
+            <div class="head">
+              <div>
+                <div class="eyebrow">Q4 2025 · scorecard</div>
+                <h3>The numbers, in one place.</h3>
+              </div>
+              <span class="period">Oct 1 — Dec 31</span>
+            </div>
+            <div class="grid">
+              <div class="hero">
+                <span class="lbl">Annual Recurring Revenue</span>
+                <div class="num">$4.82<span class="unit">M</span></div>
+                <span class="delta">↑ 38% YoY</span>
+                <svg class="trend" viewBox="0 0 100 24" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="sc-grad-1" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stop-color="currentColor" stop-opacity="0.4"/>
+                      <stop offset="100%" stop-color="currentColor" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+                  <path d="M0,20 L8,18 L16,16 L24,17 L32,14 L40,12 L48,10 L56,11 L64,8 L72,6 L80,5 L88,3 L100,2 L100,24 L0,24 Z" fill="url(#sc-grad-1)"/>
+                  <path d="M0,20 L8,18 L16,16 L24,17 L32,14 L40,12 L48,10 L56,11 L64,8 L72,6 L80,5 L88,3 L100,2" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+                </svg>
+                <p class="desc">Driven by <strong>Agency tier expansion</strong> (+62% net new) and stronger Studio-tier renewals. NRR finished the quarter at <strong>118%</strong>.</p>
+              </div>
+              <div class="kpi">
+                <span class="lbl">Customers</span>
+                <div class="row">
+                  <span class="v">1,284</span>
+                  <span class="d up">↑ 12.4%</span>
+                </div>
+                <div class="bar"><i style="width: 78%"></i></div>
+              </div>
+              <div class="kpi alt">
+                <span class="lbl">Net Retention</span>
+                <div class="row">
+                  <span class="v">118%</span>
+                  <span class="d up">↑ 6 pts</span>
+                </div>
+                <div class="bar"><i style="width: 92%"></i></div>
+              </div>
+              <div class="kpi">
+                <span class="lbl">CAC Payback</span>
+                <div class="row">
+                  <span class="v">8.4<span style="font-size:0.5em;color:var(--fg-muted);"> mo</span></span>
+                  <span class="d up">↓ 2.1 mo</span>
+                </div>
+                <div class="bar"><i style="width: 45%"></i></div>
+              </div>
+              <div class="kpi alt">
+                <span class="lbl">NPS</span>
+                <div class="row">
+                  <span class="v">62</span>
+                  <span class="d flat">→ unchanged</span>
+                </div>
+                <div class="bar"><i style="width: 81%"></i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 43 US STATE MAP -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">43</span><span class="name">US State Map</span></div>
+        <div class="slide layout-usmap">
+          <div class="slide-inner">
+            <div class="head">
+              <div>
+                <div class="eyebrow">Customers by state · Q4 2025</div>
+                <h3>Where we're growing.</h3>
+              </div>
+              <div class="scale">
+                <span>Fewer</span>
+                <span class="swatches">
+                  <i style="background: color-mix(in srgb, var(--accent) 22%, var(--bg-alt))"></i>
+                  <i style="background: color-mix(in srgb, var(--accent) 45%, var(--bg-alt))"></i>
+                  <i style="background: color-mix(in srgb, var(--accent) 70%, var(--bg-alt))"></i>
+                  <i style="background: var(--accent)"></i>
+                </span>
+                <span>More</span>
+              </div>
+            </div>
+            <div class="body">
+              <div class="map-wrap">
+                <svg class="us" viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg" data-us-map>
+                  <!-- Simplified US state geometry, Albers-style projection -->
+                  <!-- West coast -->
+                  <path class="state t3" data-id="CA" data-name="California" data-customers="184" data-revenue="$1.42M" data-growth="+42%" d="M75,180 L130,170 L155,200 L165,260 L175,330 L165,400 L150,440 L120,460 L100,440 L85,400 L80,340 L70,280 L75,220 Z"/>
+                  <path class="state t2" data-id="OR" data-name="Oregon" data-customers="42" data-revenue="$310K" data-growth="+18%" d="M130,170 L210,165 L215,210 L155,200 Z"/>
+                  <path class="state t1" data-id="WA" data-name="Washington" data-customers="58" data-revenue="$420K" data-growth="+22%" d="M130,100 L210,95 L210,165 L130,170 Z"/>
+                  <path class="state t1" data-id="NV" data-name="Nevada" data-customers="22" data-revenue="$160K" data-growth="+12%" d="M155,200 L215,210 L235,300 L175,330 L165,260 Z"/>
+                  <path class="state t1" data-id="ID" data-name="Idaho" data-customers="14" data-revenue="$95K" data-growth="+8%" d="M210,95 L260,100 L255,200 L215,210 L210,165 Z"/>
+                  <path class="state t1" data-id="MT" data-name="Montana" data-customers="9" data-revenue="$62K" data-growth="+4%" d="M260,100 L390,95 L390,170 L255,170 Z"/>
+                  <path class="state t1" data-id="WY" data-name="Wyoming" data-customers="6" data-revenue="$42K" data-growth="+2%" d="M255,170 L390,170 L390,235 L255,235 Z"/>
+                  <path class="state t1" data-id="UT" data-name="Utah" data-customers="18" data-revenue="$130K" data-growth="+15%" d="M215,210 L290,235 L290,310 L235,300 Z"/>
+                  <path class="state t2" data-id="AZ" data-name="Arizona" data-customers="38" data-revenue="$280K" data-growth="+24%" d="M235,300 L290,310 L300,400 L240,420 L175,400 L175,330 Z"/>
+                  <path class="state t1" data-id="CO" data-name="Colorado" data-customers="34" data-revenue="$255K" data-growth="+19%" d="M290,235 L390,235 L390,310 L290,310 Z"/>
+                  <path class="state t1" data-id="NM" data-name="New Mexico" data-customers="11" data-revenue="$78K" data-growth="+9%" d="M290,310 L390,310 L390,400 L300,400 Z"/>
+                  <path class="state t1" data-id="ND" data-name="North Dakota" data-customers="4" data-revenue="$28K" data-growth="+1%" d="M390,170 L490,165 L490,210 L390,210 Z"/>
+                  <path class="state t1" data-id="SD" data-name="South Dakota" data-customers="5" data-revenue="$34K" data-growth="+3%" d="M390,210 L490,210 L490,260 L390,260 Z"/>
+                  <path class="state t1" data-id="NE" data-name="Nebraska" data-customers="8" data-revenue="$58K" data-growth="+6%" d="M390,260 L500,260 L500,310 L390,310 Z"/>
+                  <path class="state t2" data-id="KS" data-name="Kansas" data-customers="16" data-revenue="$118K" data-growth="+11%" d="M390,310 L500,310 L505,360 L390,360 Z"/>
+                  <path class="state t2" data-id="OK" data-name="Oklahoma" data-customers="14" data-revenue="$105K" data-growth="+9%" d="M390,360 L500,360 L505,400 L390,400 Z"/>
+                  <path class="state t3" data-id="TX" data-name="Texas" data-customers="142" data-revenue="$1.08M" data-growth="+34%" d="M390,400 L500,400 L520,470 L530,520 L470,560 L420,540 L370,490 L355,440 Z"/>
+                  <path class="state t1" data-id="MN" data-name="Minnesota" data-customers="22" data-revenue="$165K" data-growth="+14%" d="M490,165 L580,170 L580,235 L490,235 Z"/>
+                  <path class="state t1" data-id="IA" data-name="Iowa" data-customers="11" data-revenue="$78K" data-growth="+7%" d="M500,260 L580,260 L580,310 L500,310 Z"/>
+                  <path class="state t1" data-id="MO" data-name="Missouri" data-customers="19" data-revenue="$140K" data-growth="+12%" d="M500,310 L595,310 L600,375 L505,375 Z"/>
+                  <path class="state t2" data-id="AR" data-name="Arkansas" data-customers="13" data-revenue="$95K" data-growth="+8%" d="M505,375 L590,375 L590,430 L505,430 Z"/>
+                  <path class="state t2" data-id="LA" data-name="Louisiana" data-customers="17" data-revenue="$125K" data-growth="+11%" d="M505,430 L590,430 L590,500 L530,520 L520,470 Z"/>
+                  <path class="state t1" data-id="WI" data-name="Wisconsin" data-customers="18" data-revenue="$132K" data-growth="+11%" d="M580,170 L645,180 L640,250 L580,235 Z"/>
+                  <path class="state t2" data-id="IL" data-name="Illinois" data-customers="48" data-revenue="$355K" data-growth="+22%" d="M580,260 L640,260 L645,360 L595,355 Z"/>
+                  <path class="state t1" data-id="MI" data-name="Michigan" data-customers="32" data-revenue="$232K" data-growth="+16%" d="M645,180 L725,170 L740,235 L685,250 L640,250 Z M650,140 L700,135 L710,165 L660,170 Z"/>
+                  <path class="state t1" data-id="IN" data-name="Indiana" data-customers="16" data-revenue="$118K" data-growth="+10%" d="M640,260 L695,260 L700,355 L645,360 Z"/>
+                  <path class="state t2" data-id="OH" data-name="Ohio" data-customers="38" data-revenue="$280K" data-growth="+17%" d="M695,235 L770,230 L775,310 L700,315 Z"/>
+                  <path class="state t1" data-id="KY" data-name="Kentucky" data-customers="14" data-revenue="$102K" data-growth="+8%" d="M645,360 L745,355 L755,395 L650,400 Z"/>
+                  <path class="state t1" data-id="TN" data-name="Tennessee" data-customers="22" data-revenue="$162K" data-growth="+13%" d="M590,400 L750,395 L745,425 L590,430 Z"/>
+                  <path class="state t1" data-id="MS" data-name="Mississippi" data-customers="8" data-revenue="$58K" data-growth="+5%" d="M590,430 L660,430 L660,500 L590,500 Z"/>
+                  <path class="state t2" data-id="AL" data-name="Alabama" data-customers="15" data-revenue="$110K" data-growth="+10%" d="M660,430 L730,430 L730,500 L660,500 Z"/>
+                  <path class="state t3" data-id="GA" data-name="Georgia" data-customers="62" data-revenue="$465K" data-growth="+28%" d="M730,425 L800,425 L805,485 L755,510 L730,500 Z"/>
+                  <path class="state t4" data-id="FL" data-name="Florida" data-customers="118" data-revenue="$890K" data-growth="+31%" d="M755,510 L805,485 L860,505 L880,545 L850,560 L795,545 L770,540 Z"/>
+                  <path class="state t2" data-id="SC" data-name="South Carolina" data-customers="24" data-revenue="$178K" data-growth="+14%" d="M790,400 L840,420 L805,460 L765,440 Z"/>
+                  <path class="state t3" data-id="NC" data-name="North Carolina" data-customers="56" data-revenue="$420K" data-growth="+26%" d="M745,395 L850,385 L855,415 L840,420 L755,420 Z"/>
+                  <path class="state t2" data-id="VA" data-name="Virginia" data-customers="44" data-revenue="$330K" data-growth="+20%" d="M755,355 L860,345 L870,385 L750,395 Z"/>
+                  <path class="state t1" data-id="WV" data-name="West Virginia" data-customers="6" data-revenue="$42K" data-growth="+3%" d="M745,310 L800,305 L815,355 L755,355 Z"/>
+                  <path class="state t2" data-id="PA" data-name="Pennsylvania" data-customers="46" data-revenue="$340K" data-growth="+19%" d="M770,235 L860,225 L865,290 L775,300 Z"/>
+                  <path class="state t1" data-id="MD" data-name="Maryland" data-customers="22" data-revenue="$165K" data-growth="+13%" d="M820,300 L870,300 L880,330 L815,335 Z"/>
+                  <path class="state t1" data-id="DE" data-name="Delaware" data-customers="4" data-revenue="$28K" data-growth="+2%" d="M868,300 L878,300 L883,330 L873,330 Z"/>
+                  <path class="state t3" data-id="NJ" data-name="New Jersey" data-customers="58" data-revenue="$432K" data-growth="+24%" d="M868,260 L885,260 L890,310 L872,310 Z"/>
+                  <path class="state t4" data-id="NY" data-name="New York" data-customers="142" data-revenue="$1.06M" data-growth="+30%" d="M820,180 L900,170 L895,230 L865,250 L795,235 Z"/>
+                  <path class="state t1" data-id="VT" data-name="Vermont" data-customers="5" data-revenue="$36K" data-growth="+4%" d="M870,150 L890,148 L893,178 L873,178 Z"/>
+                  <path class="state t1" data-id="NH" data-name="New Hampshire" data-customers="7" data-revenue="$52K" data-growth="+5%" d="M893,150 L912,150 L912,180 L893,180 Z"/>
+                  <path class="state t1" data-id="ME" data-name="Maine" data-customers="6" data-revenue="$44K" data-growth="+4%" d="M905,90 L935,90 L940,160 L912,160 L908,120 Z"/>
+                  <path class="state t3" data-id="MA" data-name="Massachusetts" data-customers="68" data-revenue="$510K" data-growth="+27%" d="M885,180 L935,180 L940,205 L885,205 Z"/>
+                  <path class="state t1" data-id="CT" data-name="Connecticut" data-customers="24" data-revenue="$182K" data-growth="+15%" d="M885,210 L920,210 L920,235 L885,235 Z"/>
+                  <path class="state t1" data-id="RI" data-name="Rhode Island" data-customers="6" data-revenue="$48K" data-growth="+5%" d="M923,210 L935,210 L935,230 L923,230 Z"/>
+
+                  <!-- Alaska & Hawaii (insets, simplified) -->
+                  <path class="state t1" data-id="AK" data-name="Alaska" data-customers="3" data-revenue="$22K" data-growth="+2%" d="M85,490 L155,470 L165,500 L150,535 L100,540 L80,520 Z M165,540 L185,535 L185,555 L165,555 Z"/>
+                  <path class="state t1" data-id="HI" data-name="Hawaii" data-customers="5" data-revenue="$38K" data-growth="+3%" d="M205,540 L220,538 L225,548 L210,552 Z M232,545 L248,543 L252,555 L235,558 Z M260,548 L278,548 L282,562 L262,565 Z"/>
+
+                  <!-- Inset labels -->
+                  <text class="state-label" x="120" y="510">AK</text>
+                  <text class="state-label" x="240" y="555">HI</text>
+                </svg>
+              </div>
+              <div class="panel" data-panel>
+                <span class="panel-eyebrow" data-region>Top region</span>
+                <h4 data-state-name>New York</h4>
+                <p data-state-desc>Strongest market in the Northeast — driven by enterprise design teams and agencies. Active expansion focus through Q1.</p>
+                <div class="stat-row">
+                  <div class="stat">
+                    <span class="k">Customers</span>
+                    <span class="v" data-state-customers>142</span>
+                  </div>
+                  <div class="stat">
+                    <span class="k">Revenue</span>
+                    <span class="v accent" data-state-revenue>$1.06M</span>
+                  </div>
+                  <div class="stat">
+                    <span class="k">YoY Growth</span>
+                    <span class="v accent" data-state-growth>+30%</span>
+                  </div>
+                  <div class="stat">
+                    <span class="k">Tier</span>
+                    <span class="v" data-state-tier>Tier 4</span>
+                  </div>
+                </div>
+                <div class="hint">Hover any state to inspect</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <!-- THEME INSPECTOR -->
@@ -3958,6 +5647,13 @@ const grid = document.getElementById('slidesGrid');
 const currentName = document.getElementById('currentName');
 const themeInfoName = document.getElementById('themeInfoName');
 const themeVarsEl = document.getElementById('themeVars');
+
+// Inject a small GitHub mark into every slide. Done in JS so we don't
+// have to repeat 35 anchor tags in the markup, and the URL lives in one place.
+const REPO_URL  = 'https://github.com/halcyon-studio/slides';
+const REPO_NAME = 'halcyon-studio/slides';
+const ghMarkHTML = `<a class="slide-mark" href="${REPO_URL}" target="_blank" rel="noopener" aria-label="View source on GitHub" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.69-3.87-1.54-3.87-1.54-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.69 1.25 3.34.96.1-.74.4-1.25.73-1.54-2.55-.29-5.24-1.27-5.24-5.66 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.16 1.17.92-.26 1.9-.39 2.88-.39s1.96.13 2.88.39c2.2-1.48 3.16-1.17 3.16-1.17.62 1.58.23 2.75.11 3.04.74.8 1.18 1.82 1.18 3.07 0 4.4-2.69 5.37-5.25 5.65.41.36.78 1.06.78 2.13 0 1.54-.01 2.78-.01 3.16 0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg><span>${REPO_NAME}</span></a>`;
+document.querySelectorAll('.slide').forEach(slide => slide.insertAdjacentHTML('beforeend', ghMarkHTML));
 
 const varsToShow = ['--bg', '--bg-alt', '--fg', '--fg-muted', '--accent', '--accent-2', '--border', '--font-display', '--font-body', '--font-mono', '--radius'];
 
@@ -4013,6 +5709,84 @@ document.querySelectorAll('.slide').forEach(slide => {
 });
 document.getElementById('modalClose').addEventListener('click', () => modal.classList.remove('active'));
 modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('active'); });
+
+// Live demo widgets — wired with event delegation so the cloned modal copy works too.
+document.addEventListener('click', e => {
+  // Counter demo (slide 37)
+  const action = e.target.closest('[data-action]');
+  if (action && action.closest('[data-demo="counter"]')) {
+    e.stopPropagation();
+    const card = action.closest('[data-demo="counter"]');
+    const display = card.querySelector('[data-display]');
+    let n = parseInt(display.textContent, 10) || 0;
+    const a = action.dataset.action;
+    if (a === 'inc') n++;
+    else if (a === 'dec') n--;
+    else if (a === 'reset') n = 0;
+    display.textContent = n;
+    display.classList.add('bumped');
+    setTimeout(() => display.classList.remove('bumped'), 150);
+    return;
+  }
+
+  // Article demo (slide 36) — like button
+  const likeBtn = e.target.closest('[data-like]');
+  if (likeBtn) {
+    e.stopPropagation();
+    const card = likeBtn.closest('[data-demo="article"]');
+    const next = !likeBtn.classList.contains('liked');
+    likeBtn.classList.toggle('liked', next);
+    const baseLikes = 247;
+    const newCount = baseLikes + (next ? 1 : 0);
+    card.querySelector('[data-likes-count]').textContent = newCount;
+    const fb = card.querySelector('[data-footer]');
+    fb.innerHTML = next
+      ? `Liked by <b>you</b> and <b>${baseLikes}</b> others · <b>12</b> comments`
+      : `<b>${baseLikes}</b> likes · <b>12</b> comments`;
+    return;
+  }
+
+  // Article demo — save toggle
+  const saveBtn = e.target.closest('[data-save]');
+  if (saveBtn) {
+    e.stopPropagation();
+    const next = !saveBtn.classList.contains('saved');
+    saveBtn.classList.toggle('saved', next);
+    saveBtn.querySelector('[data-save-label]').textContent = next ? '✓ Saved' : 'Save';
+  }
+});
+
+// US map — hover (or click) any state to update the side panel
+function updateUsPanel(map, statePath) {
+  const panel = map.closest('.layout-usmap').querySelector('[data-panel]');
+  if (!panel) return;
+  const tier = (statePath.classList.contains('t4') && 4) ||
+               (statePath.classList.contains('t3') && 3) ||
+               (statePath.classList.contains('t2') && 2) || 1;
+  const tierLabel = tier === 4 ? 'Top region' : tier === 3 ? 'Strong market' : tier === 2 ? 'Growing market' : 'Emerging market';
+  panel.querySelector('[data-region]').textContent = tierLabel;
+  panel.querySelector('[data-state-name]').textContent = statePath.dataset.name || '';
+  panel.querySelector('[data-state-customers]').textContent = statePath.dataset.customers || '—';
+  panel.querySelector('[data-state-revenue]').textContent = statePath.dataset.revenue || '—';
+  panel.querySelector('[data-state-growth]').textContent = statePath.dataset.growth || '—';
+  panel.querySelector('[data-state-tier]').textContent = `Tier ${tier}`;
+  panel.querySelector('[data-state-desc]').textContent =
+    tier === 4 ? `${statePath.dataset.name} is one of our largest markets — sustained enterprise growth and strong renewal rates.`
+    : tier === 3 ? `${statePath.dataset.name} is performing above plan, with healthy expansion among mid-market customers.`
+    : tier === 2 ? `${statePath.dataset.name} is showing real traction, especially in design-led teams. Worth deeper investment.`
+    : `${statePath.dataset.name} is early-stage for us — small customer base but interesting recent signal.`;
+  // Update active state highlight within this map's SVG
+  map.querySelectorAll('path.state.active').forEach(s => s.classList.remove('active'));
+  statePath.classList.add('active');
+}
+
+// Use mouseover (event-delegated) so it works for all map instances including the cloned modal one
+document.addEventListener('mouseover', e => {
+  const state = e.target.closest('[data-us-map] path.state');
+  if (!state) return;
+  const map = state.closest('[data-us-map]');
+  updateUsPanel(map, state);
+}, true);
 
 // Keyboard shortcut: number keys 1-9, 0 switches themes
 document.addEventListener('keydown', e => {

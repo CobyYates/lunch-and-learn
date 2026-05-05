@@ -11,6 +11,7 @@ defineProps<{
     eyebrow?: string;
     title?: string;
     logos?: LogoItem[];
+    repo_url?: string;
   };
 }>();
 </script>
@@ -31,5 +32,6 @@ defineProps<{
         </div>
       </div>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>

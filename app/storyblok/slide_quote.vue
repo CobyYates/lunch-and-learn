@@ -5,7 +5,9 @@ defineProps<{
     author_name?: string;
     author_role?: string;
     author_initials?: string; // shown in the avatar circle if no image
-    author_image?: { filename?: string; alt?: string };
+    author_image?: { filename?: string; alt?: string
+    repo_url?: string;
+  };
   };
 }>();
 </script>
@@ -34,5 +36,6 @@ defineProps<{
         </div>
       </div>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>

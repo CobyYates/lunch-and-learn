@@ -9,13 +9,19 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "setup:certs": "mkcert -install && mkcert localhost",
-    "storyblok:push": "node scripts/push-storyblok-schema.mjs"
+    "storyblok:push": "node scripts/push-storyblok-schema.mjs",
+    "storyblok:screenshots": "node scripts/screenshot-slides.mjs",
+    "storyblok:thumbs": "node scripts/upload-screenshots.mjs",
+    "storyblok:bootstrap": "npm run storyblok:push && npm run storyblok:screenshots && npm run storyblok:thumbs"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
     "@nuxt/image": "^2.0.0",
     "@storyblok/nuxt": "^10.1.3",
+    "d3-geo": "^3.1.1",
     "nuxt": "4.4.2",
+    "topojson-client": "^3.1.0",
+    "us-atlas": "^3.0.1",
     "vue": "^3.5.32",
     "vue-router": "^5.0.4",
     "vuetify": "^3.12.5"
@@ -23,6 +29,10 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20260421.1",
     "@tailwindcss/vite": "^4.2.4",
+    "@types/d3-geo": "^3.1.0",
+    "@types/topojson-client": "^3.1.5",
+    "@types/topojson-specification": "^1.0.5",
+    "playwright": "^1.59.1",
     "sass-embedded": "^1.83.0",
     "tailwindcss": "^4.2.4",
     "vite-plugin-vuetify": "^2.1.3",

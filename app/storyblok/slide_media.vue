@@ -10,6 +10,7 @@ defineProps<{
     meta_value?: string;
     poster?: { filename?: string; alt?: string };
     video_url?: string;
+    repo_url?: string;
   };
 }>();
 </script>
@@ -42,5 +43,6 @@ defineProps<{
         </div>
       </div>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>

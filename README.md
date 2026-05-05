@@ -95,15 +95,23 @@ Storyblok dashboard → **Create new space**. Region: **EU** (matches `apiOption
 
 **Settings → Access Tokens** → copy the **Public** token + **Preview** token into your `.env`.
 
-### 3. Push the slide schema
+### 3. Bootstrap your Storyblok space (one command)
 
-This branch ships with a full slide-component schema (`storyblok-schema.json`) and a script to push it into your space:
+This branch ships with everything needed to populate a fresh space — schema, component groups, and per-component preview thumbnails. After your `.env` has `STORYBLOK_SPACE_ID` and `STORYBLOK_MANAGEMENT_TOKEN`, run:
 
 ```bash
-npm run storyblok:push
+npm run storyblok:bootstrap
 ```
 
-The script reads `STORYBLOK_MANAGEMENT_TOKEN` and `STORYBLOK_SPACE_ID` and creates/updates each component. Re-run it any time `storyblok-schema.json` changes.
+That runs three steps in sequence:
+
+| Step | What happens |
+| --- | --- |
+| `storyblok:push` | Pushes every component in `storyblok-schema.json` (slides, nested item bloks, the `slideshow` root, plus the `codeSnippet` plugin and `image` helper) into your space. Idempotent — re-run any time the schema changes. |
+| `storyblok:screenshots` | Renders every slide in `slide-design-system.html` at 1600×900 with the **paper** theme using headless Chromium and writes one PNG per component to `.storyblok-screenshots/`. First run downloads the Chromium binary (~150 MB, one-time). |
+| `storyblok:thumbs` | Uploads each PNG to your Storyblok asset library and attaches it to the matching component as the preview thumbnail authors see in the component picker. |
+
+You can also run them individually if you only need one (`npm run storyblok:push`, `npm run storyblok:screenshots`, `npm run storyblok:thumbs`). Override the screenshot theme with e.g. `THEME=midnight npm run storyblok:screenshots`.
 
 ### 4. Set the Visual Editor preview URL
 
@@ -229,7 +237,9 @@ Each Storyblok block type is mapped to a `.vue` file in `app/storyblok/`. The fi
 │       └── dates.ts
 ├── public/
 ├── scripts/
-│   └── push-storyblok-schema.mjs  # Pushes storyblok-schema.json to your space
+│   ├── push-storyblok-schema.mjs  # Pushes storyblok-schema.json to your space
+│   ├── screenshot-slides.mjs      # Renders each slide to a 1600×900 PNG via headless Chromium
+│   └── upload-screenshots.mjs     # Uploads PNGs and attaches them as component preview thumbs
 ├── server/
 │   ├── api/
 │   │   ├── story/[...slug].get.ts     # KV-cached story fetch
@@ -253,6 +263,9 @@ Each Storyblok block type is mapped to a `.vue` file in `app/storyblok/`. The fi
 | `npm run setup:certs` | One-time: generates `localhost.pem` + `localhost-key.pem` via mkcert |
 | `npm run build` | Cloudflare-Pages-ready build — outputs `dist/` |
 | `npm run storyblok:push` | Pushes `storyblok-schema.json` to your space (uses `STORYBLOK_MANAGEMENT_TOKEN`) |
+| `npm run storyblok:screenshots` | Renders each slide in `slide-design-system.html` to a 1600×900 PNG (paper theme; override via `THEME=…`) |
+| `npm run storyblok:thumbs` | Uploads the screenshots to Storyblok and attaches them as per-component preview thumbnails |
+| `npm run storyblok:bootstrap` | Runs push → screenshots → thumbs in one go (the "fresh fork" command) |
 | `npm run preview` | Nitro preview server. For full CF runtime, use `npx wrangler pages dev dist`. |
 
 ---

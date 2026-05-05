@@ -4,6 +4,7 @@ defineProps<{
     title?: string;
     language?: string;
     code?: string; // raw source; highlighting done via the theme's syntax vars
+    repo_url?: string;
   };
 }>();
 </script>
@@ -17,5 +18,6 @@ defineProps<{
       </div>
       <pre><code>{{ blok.code }}</code></pre>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>

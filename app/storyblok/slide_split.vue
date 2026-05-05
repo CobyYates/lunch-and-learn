@@ -5,7 +5,9 @@ defineProps<{
     title?: string;
     body?: string;
     body_muted?: string;
-    image?: { filename?: string; alt?: string };
+    image?: { filename?: string; alt?: string
+    repo_url?: string;
+  };
   };
 }>();
 </script>
@@ -30,5 +32,6 @@ defineProps<{
         <p v-if="blok.body_muted" class="muted">{{ blok.body_muted }}</p>
       </div>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>

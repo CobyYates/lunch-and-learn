@@ -7,6 +7,7 @@ defineProps<{
     label?: string;
     label_bold?: string;
     sub?: string;
+    repo_url?: string;
   };
 }>();
 </script>
@@ -25,5 +26,6 @@ defineProps<{
       </p>
       <p v-if="blok.sub" class="sub">{{ blok.sub }}</p>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>

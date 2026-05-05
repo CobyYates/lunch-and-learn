@@ -1,15 +1,27 @@
 <script setup lang="ts">
-defineProps<{
+// `request_sample` is a `storyblok-code-block` plugin field (returns an object
+// with a `code` string), but tolerate plain strings too in case Storyblok ever
+// flips it back to textarea.
+type CodeBlock = string | { code?: string; language?: string };
+
+const props = defineProps<{
   blok: {
     eyebrow?: string;
     title?: string;
     method?: "get" | "post" | "put" | "patch" | "delete";
     path?: string;
     description?: string;
-    request_sample?: string;
+    request_sample?: CodeBlock;
     response_sample?: string;
+    repo_url?: string;
   };
 }>();
+
+const requestCode = computed(() => {
+  const r = props.blok.request_sample;
+  if (!r) return "";
+  return typeof r === "string" ? r : r.code ?? "";
+});
 </script>
 
 <template>
@@ -25,9 +37,9 @@ defineProps<{
       </div>
       <p v-if="blok.description" class="desc">{{ blok.description }}</p>
       <div class="panels">
-        <div v-if="blok.request_sample" class="panel">
+        <div v-if="requestCode" class="panel">
           <h5>Request</h5>
-          <pre>{{ blok.request_sample }}</pre>
+          <pre>{{ requestCode }}</pre>
         </div>
         <div v-if="blok.response_sample" class="panel">
           <h5>Response</h5>
@@ -35,5 +47,6 @@ defineProps<{
         </div>
       </div>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>

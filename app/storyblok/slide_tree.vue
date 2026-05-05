@@ -5,6 +5,7 @@ const props = defineProps<{
     title?: string;
     tree?: string;
     callouts?: string; // one per line, format: "Key | body"
+    repo_url?: string;
   };
 }>();
 
@@ -35,5 +36,6 @@ const parsedCallouts = computed(() =>
         </div>
       </div>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>

@@ -15,6 +15,7 @@ defineProps<{
     eyebrow?: string;
     title?: string;
     tiers?: PricingTier[];
+    repo_url?: string;
   };
 }>();
 
@@ -54,5 +55,6 @@ const linesOf = (s: string | undefined) =>
         </div>
       </div>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>

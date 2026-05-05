@@ -4,7 +4,9 @@ defineProps<{
     tag?: string;
     title?: string;
     subtitle?: string;
-    image?: { filename?: string; alt?: string };
+    image?: { filename?: string; alt?: string
+    repo_url?: string;
+  };
   };
 }>();
 </script>
@@ -24,5 +26,6 @@ defineProps<{
       <h1 v-if="blok.title">{{ blok.title }}</h1>
       <p v-if="blok.subtitle" class="sub">{{ blok.subtitle }}</p>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>

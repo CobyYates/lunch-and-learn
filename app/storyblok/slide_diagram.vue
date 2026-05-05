@@ -12,6 +12,7 @@ defineProps<{
     title?: string;
     nodes?: DiagramNode[];
     caption?: string;
+    repo_url?: string;
   };
 }>();
 </script>
@@ -32,5 +33,6 @@ defineProps<{
       </div>
       <p v-if="blok.caption" class="caption">{{ blok.caption }}</p>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>

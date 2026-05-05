@@ -11,6 +11,7 @@ const props = defineProps<{
     title?: string;
     filename?: string;
     lines?: DiffLine[];
+    repo_url?: string;
   };
 }>();
 
@@ -53,5 +54,6 @@ const lineNumbers = computed(() => {
         </div>
       </div>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>

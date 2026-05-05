@@ -3,6 +3,7 @@ defineProps<{
   blok: {
     window_title?: string;
     content?: string;
+    repo_url?: string;
   };
 }>();
 </script>
@@ -20,5 +21,6 @@ defineProps<{
         <pre class="shell"><span v-html="blok.content" /><span class="cur"></span></pre>
       </div>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>

@@ -13,6 +13,7 @@ const props = defineProps<{
     title?: string;
     headers?: string; // one header per line
     rows?: TableRow[];
+    repo_url?: string;
   };
 }>();
 
@@ -62,5 +63,6 @@ const parsedRows = computed(() =>
         </tbody>
       </v-table>
     </div>
-  </div>
+    <SlideMark :url="blok.repo_url" />
+</div>
 </template>
