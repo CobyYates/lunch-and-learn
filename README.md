@@ -156,14 +156,25 @@ Pages project → **Settings → Bindings → Add → KV namespace**:
 | --- | --- | --- |
 | `STORYBLOK_CACHE` | `storyblok-cache-prod` | `storyblok-cache-preview` |
 
-### 5. Add Secrets
+### 5. Add environment variables
 
-Pages project → **Settings → Variables and Secrets → Secrets** for both Production and Preview:
+Pages project → **Settings → Variables and Secrets**, for **both Production and Preview**.
 
-- `STORYBLOK_SPACE_ID`
-- `STORYBLOK_PUBLIC_TOKEN`
-- `STORYBLOK_PREVIEW_TOKEN`
-- `STORYBLOK_WEBHOOK_SECRET`
+Each value can be added as a plain **Variable** or as a **Secret** — your choice. The two behave differently in one important way:
+
+- **Variables** (plaintext) are exposed during the build *and* at runtime. The original env-var names (`STORYBLOK_PREVIEW_TOKEN`, `STORYBLOK_PUBLIC_TOKEN`, `STORYBLOK_WEBHOOK_SECRET`) work directly because `nuxt.config.ts` reads them via `process.env.*` at build time.
+- **Secrets** are runtime-only — they're not exposed to the build. To make Secrets work, name them with the `NUXT_…` prefix so Nuxt's [runtime-config env override](https://nuxt.com/docs/guide/going-further/runtime-config#environment-variables) picks them up at request time.
+
+| What it's for | Variable name | Secret name |
+| --- | --- | --- |
+| Preview token (client bridge) | `STORYBLOK_PREVIEW_TOKEN` | `NUXT_PUBLIC_STORYBLOK_ACCESS_TOKEN` |
+| Public token (server API) | `STORYBLOK_PUBLIC_TOKEN` | `NUXT_STORYBLOK_PUBLIC_TOKEN` |
+| Webhook shared secret | `STORYBLOK_WEBHOOK_SECRET` | `NUXT_STORYBLOK_WEBHOOK_SECRET` |
+| Space ID (currently not used at runtime) | `STORYBLOK_SPACE_ID` | — |
+
+You can mix and match — e.g. preview token as a Variable, webhook secret as a Secret.
+
+> The preview token is **public by design** — it's embedded in the client bundle so the visual-editor bridge can read drafts. Marking it as a Secret in Cloudflare only encrypts dashboard storage; it still ships to the browser.
 
 > Don't add `STORYBLOK_MANAGEMENT_TOKEN` to Cloudflare — it's only used locally by `npm run storyblok:push`.
 
@@ -229,7 +240,6 @@ Each Storyblok block type is mapped to a `.vue` file in `app/storyblok/`. The fi
 ├── storyblok-schema.json          # Storyblok component definitions (pushed via npm run storyblok:push)
 ├── .env.example
 ├── nuxt.config.ts
-├── wrangler.toml
 └── package.json
 ```
 
@@ -251,7 +261,9 @@ Each Storyblok block type is mapped to a `.vue` file in `app/storyblok/`. The fi
 
 **Storyblok bridge doesn't update the component** — confirm (1) the URL has `?_storyblok=...` (the editor adds this), (2) the component is rendered through `useStory`, (3) each block template uses `v-editable="blok"`.
 
-**`/api/story/<slug>` returns 500 `STORYBLOK_TOKEN is not configured`** — env var isn't set. Double-check Pages **Variables and Secrets** for both Production and Preview.
+**`/api/story/<slug>` returns 500 `STORYBLOK_TOKEN is not configured`** — env var isn't set. Double-check Pages **Variables and Secrets** for both Production and Preview, and confirm you used the correct name for the type you chose (see step 5 of the deployment guide — Variables use the bare names, Secrets need the `NUXT_…` prefix).
+
+**Bridge or `/api/story` works locally but 404s on Cloudflare Preview** — almost always a missing or misnamed Pages env var. The catch-all page (`app/pages/[...slug].vue`) converts any fetch failure into a 404, so the underlying error gets masked. Open DevTools → Network and check the `/api/story/<slug>` response body for the real cause.
 
 **KV entries never expire** — they do (24h TTL, set in `server/utils/storyblok.ts`), but the publish webhook also deletes on demand. If webhook isn't firing, check Function logs and verify the `?secret=` query param matches `STORYBLOK_WEBHOOK_SECRET`.
 
