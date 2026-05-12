@@ -74,6 +74,8 @@ const SLIDE_NUM_TO_COMPONENT = {
   "41": "slide_sprint",
   "42": "slide_scorecard",
   "43": "slide_usmap",
+  "44": "slide_tutorial",
+  "45": "slide_tutorial_img",
 };
 
 function ensureChromium() {

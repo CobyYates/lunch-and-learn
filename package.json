@@ -10,9 +10,11 @@
     "postinstall": "nuxt prepare",
     "setup:certs": "mkcert -install && mkcert localhost",
     "storyblok:push": "node scripts/push-storyblok-schema.mjs",
+    "storyblok:datasources": "node scripts/sync-datasources.mjs",
+    "storyblok:stories": "node scripts/sync-stories.mjs",
     "storyblok:screenshots": "node scripts/screenshot-slides.mjs",
     "storyblok:thumbs": "node scripts/upload-screenshots.mjs",
-    "storyblok:bootstrap": "npm run storyblok:push && npm run storyblok:screenshots && npm run storyblok:thumbs"
+    "storyblok:bootstrap": "npm run storyblok:datasources && npm run storyblok:push && npm run storyblok:stories && npm run storyblok:screenshots && npm run storyblok:thumbs"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",

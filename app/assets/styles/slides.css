@@ -3374,6 +3374,207 @@
 }
 
 /* =========================================================
+   LAYOUT 44 — TUTORIAL STEP  (centered icon list, no media)
+   Title with accent-bar prefix, centered list of icon + richtext
+   rows. Each row is a single line so steps stay scannable.
+   ========================================================= */
+.layout-tutorial .slide-inner {
+  padding: 5cqw 5cqw 4cqw;
+  gap: 3cqw;
+}
+.layout-tutorial .title-row {
+  display: flex;
+  align-items: center;
+  gap: 1.2cqw;
+}
+.layout-tutorial .title-row .accent-bar {
+  width: 0.5cqw;
+  align-self: stretch;
+  min-height: 5cqw;
+  background: var(--accent);
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+.layout-tutorial .title-row .eyebrow-sm {
+  font-family: var(--font-mono);
+  font-size: 1.1cqw;
+  color: var(--accent);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 0.4cqw;
+  display: block;
+}
+.layout-tutorial .title-row h2 {
+  font-size: 5.5cqw;
+  line-height: 1;
+}
+.layout-tutorial .steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8cqw;
+  align-self: center;
+  max-width: 78%;
+  flex: 1;
+  justify-content: center;
+}
+.layout-tutorial .steps .step {
+  display: grid;
+  grid-template-columns: 3cqw 1fr;
+  gap: 1.6cqw;
+  align-items: center;
+  font-size: 1.7cqw;
+  line-height: 1.45;
+}
+.layout-tutorial .steps .step .ic {
+  display: grid;
+  place-items: center;
+  width: 3cqw;
+  height: 3cqw;
+  color: var(--accent);
+  font-size: 2.4cqw;
+  line-height: 1;
+}
+.layout-tutorial .steps .step .ic .mdi { font-size: inherit; }
+.layout-tutorial .steps .step .body { color: var(--fg-muted); }
+.layout-tutorial .steps .step .body p { margin: 0; }
+.layout-tutorial .steps .step .body strong { color: var(--fg); font-weight: 700; }
+.layout-tutorial code,
+.layout-tutorial .chip {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: color-mix(in srgb, var(--accent) 15%, var(--bg-alt));
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border));
+  color: var(--accent);
+  padding: 0.15em 0.5em;
+  border-radius: 3px;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  vertical-align: baseline;
+}
+
+/* =========================================================
+   LAYOUT 45 — TUTORIAL STEP + IMAGE
+   Same title treatment, icon list on the left, image on the right
+   inside a chrome-bar frame.
+   ========================================================= */
+.layout-tutorial-img .slide-inner { padding: 4cqw; gap: 2.5cqw; }
+.layout-tutorial-img .title-row {
+  display: flex;
+  align-items: center;
+  gap: 1.2cqw;
+}
+.layout-tutorial-img .title-row .accent-bar {
+  width: 0.5cqw;
+  align-self: stretch;
+  min-height: 5cqw;
+  background: var(--accent);
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+.layout-tutorial-img .title-row .eyebrow-sm {
+  font-family: var(--font-mono);
+  font-size: 1.1cqw;
+  color: var(--accent);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 0.4cqw;
+  display: block;
+}
+.layout-tutorial-img .title-row h2 { font-size: 5cqw; line-height: 1; }
+.layout-tutorial-img > .slide-inner > .body {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 3cqw;
+  flex: 1;
+  align-items: center;
+  min-height: 0;
+}
+.layout-tutorial-img .steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6cqw;
+}
+.layout-tutorial-img .steps .step {
+  display: flex;
+  align-items: center;
+  gap: 1.2cqw;
+  font-size: 1.5cqw;
+  line-height: 1.3;
+}
+.layout-tutorial-img .steps .step .ic {
+  display: grid;
+  place-items: center;
+  width: 2.4cqw;
+  height: 2.4cqw;
+  color: var(--accent);
+  font-size: 2cqw;
+  flex-shrink: 0;
+}
+.layout-tutorial-img .steps .step .ic .mdi { font-size: inherit; line-height: 1; }
+.layout-tutorial-img .steps .step .body {
+  color: var(--fg-muted);
+  min-width: 0;
+}
+.layout-tutorial-img .steps .step .body p { margin: 0; }
+.layout-tutorial-img .steps .step .body strong { color: var(--fg); font-weight: 700; }
+.layout-tutorial-img code,
+.layout-tutorial-img .chip {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: color-mix(in srgb, var(--accent) 15%, var(--bg-alt));
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border));
+  color: var(--accent);
+  padding: 0.15em 0.5em;
+  border-radius: 3px;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  vertical-align: baseline;
+}
+.layout-tutorial-img .shot {
+  aspect-ratio: 16 / 11;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 2px);
+  overflow: hidden;
+  box-shadow: 0 1.2cqw 3cqw rgba(0, 0, 0, 0.22);
+  display: flex;
+  flex-direction: column;
+}
+.layout-tutorial-img .shot .shot-chrome {
+  display: flex;
+  align-items: center;
+  gap: 0.5cqw;
+  padding: 0.7cqw 1cqw;
+  background: color-mix(in srgb, var(--accent) 60%, var(--bg));
+  flex-shrink: 0;
+}
+.layout-tutorial-img .shot .shot-chrome .dot {
+  width: 0.6cqw;
+  height: 0.6cqw;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+}
+.layout-tutorial-img .shot .shot-chrome .label {
+  margin-left: 0.6cqw;
+  font-family: var(--font-mono);
+  font-size: 0.85cqw;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.layout-tutorial-img .shot .shot-img {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* =========================================================
    THEME-SPECIFIC VISUAL DECOR  (decorations per theme)
    ========================================================= */
 

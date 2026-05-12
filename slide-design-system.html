@@ -3547,6 +3547,292 @@ body {
 }
 
 /* =========================================================
+   LAYOUT 44 — TUTORIAL STEP  (centered icon list, no media)
+   Matches the "Step 2: CLI Initialization" pattern — title with
+   accent bar prefix, centered list of icon + bold-label + body
+   sentences with inline code chips.
+   ========================================================= */
+.layout-tutorial .slide-inner {
+  padding: 5cqw 5cqw 4cqw;
+  gap: 3cqw;
+}
+.layout-tutorial .title-row {
+  display: flex;
+  align-items: center;
+  gap: 1.2cqw;
+}
+.layout-tutorial .title-row .accent-bar {
+  width: 0.5cqw;
+  align-self: stretch;
+  min-height: 5cqw;
+  background: var(--accent);
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+.layout-tutorial .title-row .eyebrow-sm {
+  font-family: var(--font-mono);
+  font-size: 1.1cqw;
+  color: var(--accent);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 0.4cqw;
+  display: block;
+}
+.layout-tutorial .title-row h2 {
+  font-size: 5.5cqw;
+  line-height: 1;
+}
+.layout-tutorial .steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8cqw;
+  align-self: center;
+  max-width: 78%;
+  flex: 1;
+  justify-content: center;
+}
+.layout-tutorial .steps .step {
+  display: grid;
+  grid-template-columns: 3cqw 1fr;
+  gap: 1.6cqw;
+  align-items: baseline;
+  font-size: 1.7cqw;
+  line-height: 1.45;
+}
+.layout-tutorial .steps .step .ic {
+  display: grid;
+  place-items: center;
+  width: 3cqw;
+  height: 3cqw;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 1.6cqw;
+  font-weight: 700;
+  line-height: 1;
+  align-self: center;
+}
+.layout-tutorial .steps .step .ic svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.layout-tutorial .steps .step strong {
+  color: var(--fg);
+  font-weight: 700;
+}
+.layout-tutorial .steps .step .body { color: var(--fg-muted); }
+.layout-tutorial .steps .step .body strong { color: var(--fg); font-weight: 700; }
+.layout-tutorial code.chip,
+.layout-tutorial .chip {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: color-mix(in srgb, var(--accent) 15%, var(--bg-alt));
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border));
+  color: var(--accent);
+  padding: 0.15em 0.5em;
+  border-radius: 3px;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  vertical-align: baseline;
+}
+
+/* =========================================================
+   LAYOUT 45 — TUTORIAL STEP + SCREENSHOT
+   Matches the "Step 1: Console Configuration" pattern — same
+   title treatment, icon list on the left, image/screenshot on
+   the right (with optional annotation arrow).
+   ========================================================= */
+.layout-tutorial-img .slide-inner { padding: 4cqw; gap: 2.5cqw; }
+.layout-tutorial-img .title-row {
+  display: flex;
+  align-items: center;
+  gap: 1.2cqw;
+}
+.layout-tutorial-img .title-row .accent-bar {
+  width: 0.5cqw;
+  align-self: stretch;
+  min-height: 5cqw;
+  background: var(--accent);
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+.layout-tutorial-img .title-row .eyebrow-sm {
+  font-family: var(--font-mono);
+  font-size: 1.1cqw;
+  color: var(--accent);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 0.4cqw;
+  display: block;
+}
+.layout-tutorial-img .title-row h2 { font-size: 5cqw; line-height: 1; }
+.layout-tutorial-img .body {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 3cqw;
+  flex: 1;
+  align-items: center;
+  min-height: 0;
+}
+.layout-tutorial-img .steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6cqw;
+}
+.layout-tutorial-img .steps .step {
+  display: flex;
+  align-items: center;
+  gap: 1.2cqw;
+  font-size: 1.35cqw;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.layout-tutorial-img .steps .step .ic {
+  display: grid;
+  place-items: center;
+  width: 2.4cqw;
+  height: 2.4cqw;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.layout-tutorial-img .steps .step .ic svg { width: 100%; height: 100%; display: block; }
+.layout-tutorial-img .steps .step .body {
+  color: var(--fg-muted);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.layout-tutorial-img .steps .step strong { color: var(--fg); font-weight: 700; }
+.layout-tutorial-img .steps .step .body strong { color: var(--fg); font-weight: 700; }
+.layout-tutorial-img code.chip,
+.layout-tutorial-img .chip {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: color-mix(in srgb, var(--accent) 15%, var(--bg-alt));
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border));
+  color: var(--accent);
+  padding: 0.15em 0.5em;
+  border-radius: 3px;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  vertical-align: baseline;
+}
+.layout-tutorial-img .shot {
+  position: relative;
+  aspect-ratio: 16 / 11;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 2px);
+  overflow: hidden;
+  box-shadow: 0 1.2cqw 3cqw rgba(0,0,0,0.22);
+  display: flex;
+  flex-direction: column;
+}
+.layout-tutorial-img .shot .shot-chrome {
+  display: flex;
+  align-items: center;
+  gap: 0.5cqw;
+  padding: 0.7cqw 1cqw;
+  background: color-mix(in srgb, var(--accent) 60%, #1e88e5);
+  flex-shrink: 0;
+}
+.layout-tutorial-img .shot .shot-chrome .dot {
+  width: 0.6cqw;
+  height: 0.6cqw;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.5);
+}
+.layout-tutorial-img .shot .shot-chrome .label {
+  margin-left: 0.6cqw;
+  font-family: var(--font-mono);
+  font-size: 0.85cqw;
+  color: rgba(255,255,255,0.85);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.layout-tutorial-img .shot .shot-body {
+  flex: 1;
+  background: #fafafa;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  position: relative;
+  overflow: hidden;
+}
+.layout-tutorial-img .shot .shot-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5cqw;
+  padding: 1.6cqw;
+  background: #fff;
+  border-bottom: 1px solid #eaeaea;
+}
+.layout-tutorial-img .shot .shot-top .pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4cqw;
+}
+.layout-tutorial-img .shot .shot-top .pill .circle {
+  width: 3cqw;
+  height: 3cqw;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 1.1cqw;
+  font-weight: 700;
+}
+.layout-tutorial-img .shot .shot-top .pill .circle.android { background: #26a69a; }
+.layout-tutorial-img .shot .shot-top .pill .circle.ios { background: #42a5f5; }
+.layout-tutorial-img .shot .shot-top .pill .circle.web { background: #d81b60; }
+.layout-tutorial-img .shot .shot-top .pill .lbl {
+  font-family: var(--font-body);
+  font-size: 0.7cqw;
+  color: #666;
+  line-height: 1.2;
+  text-align: center;
+  max-width: 6cqw;
+}
+.layout-tutorial-img .shot .shot-bot {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8cqw;
+  padding: 1cqw;
+  background: #f0f0f0;
+}
+.layout-tutorial-img .shot .shot-bot .tile {
+  aspect-ratio: 4 / 3;
+  border-radius: 4px;
+  display: flex;
+  align-items: flex-end;
+  padding: 0.5cqw;
+  font-family: var(--font-body);
+  font-size: 0.7cqw;
+  color: #fff;
+  font-weight: 700;
+  line-height: 1;
+}
+.layout-tutorial-img .shot .shot-bot .tile.o { background: linear-gradient(135deg, #f57c00, #e64a19); }
+.layout-tutorial-img .shot .shot-bot .tile.p { background: linear-gradient(135deg, #8e24aa, #5e35b1); }
+.layout-tutorial-img .shot .shot-bot .tile.y { background: linear-gradient(135deg, #fbc02d, #f57f17); color: #4a3000; }
+.layout-tutorial-img .shot .shot-arrow {
+  position: absolute;
+  top: 38%;
+  left: 6%;
+  width: 14%;
+  height: 12%;
+  color: var(--accent);
+  pointer-events: none;
+}
+.layout-tutorial-img .shot .shot-arrow svg { width: 100%; height: 100%; }
+
+/* =========================================================
    THEME-SPECIFIC VISUAL DECOR  (decorations per theme)
    ========================================================= */
 
@@ -3977,7 +4263,7 @@ body {
     <div class="app-header-inner">
       <div class="brand">
         <span class="brand-title">Slide System</span>
-        <span class="brand-sub">43 layouts · 18 themes</span>
+        <span class="brand-sub">45 layouts · 18 themes</span>
       </div>
       <div class="theme-picker" id="themePicker">
         <button class="theme-btn active" data-theme="atelier" style="--sw-a:#f4efe6; --sw-b:#b94a2c;"><span class="swatch"></span><span>Atelier</span></button>
@@ -4010,7 +4296,7 @@ body {
   <section class="slides-outer">
     <div class="slides-intro">
       <h2>Theme: <em id="currentName">Atelier</em></h2>
-      <p>Click any slide to expand. Switch themes above to see every slide restyled. All 43 layouts accept the optional <code>title / subtitle / description</code> props you described, plus one content slot. <strong style="color:#ddd">Scroll down past the first ten themes for IDE-inspired palettes.</strong></p>
+      <p>Click any slide to expand. Switch themes above to see every slide restyled. All 45 layouts accept the optional <code>title / subtitle / description</code> props you described, plus one content slot. <strong style="color:#ddd">Scroll down past the first ten themes for IDE-inspired palettes.</strong></p>
     </div>
 
     <div class="slides-grid" id="slidesGrid" data-theme="atelier">
@@ -5597,6 +5883,125 @@ body {
                   </div>
                 </div>
                 <div class="hint">Hover any state to inspect</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 44 TUTORIAL STEP (text only) -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">44</span><span class="name">Tutorial Step</span></div>
+        <div class="slide layout-tutorial">
+          <div class="slide-inner">
+            <div class="title-row">
+              <div class="accent-bar"></div>
+              <div>
+                <span class="eyebrow-sm">Step 2</span>
+                <h2>CLI Initialization</h2>
+              </div>
+            </div>
+            <div class="steps">
+              <div class="step">
+                <span class="ic">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><polyline points="4 7 9 12 4 17"/><line x1="11" y1="17" x2="20" y2="17"/></svg>
+                </span>
+                <span class="body"><strong>Login:</strong> Run <code class="chip">firebase login</code> to authenticate your machine.</span>
+              </div>
+              <div class="step">
+                <span class="ic">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                </span>
+                <span class="body"><strong>Init:</strong> Run <code class="chip">firebase init</code> in your project root to link the cloud project.</span>
+              </div>
+              <div class="step">
+                <span class="ic">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"><polyline points="4 12 9 17 20 6"/></svg>
+                </span>
+                <span class="body"><strong>Features:</strong> Select <strong>Firestore</strong> and <strong>Emulators</strong>.</span>
+              </div>
+              <div class="step">
+                <span class="ic">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><polyline points="14 3 14 8 19 8"/><polyline points="10 13 8 15 10 17" /><polyline points="14 13 16 15 14 17"/></svg>
+                </span>
+                <span class="body"><strong>Local Rules:</strong> This creates <code class="chip">firestore.rules</code> locally for version control.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 45 TUTORIAL STEP + SCREENSHOT -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">45</span><span class="name">Tutorial Step + Image</span></div>
+        <div class="slide layout-tutorial-img">
+          <div class="slide-inner">
+            <div class="title-row">
+              <div class="accent-bar"></div>
+              <div>
+                <span class="eyebrow-sm">Step 1</span>
+                <h2>Console Configuration</h2>
+              </div>
+            </div>
+            <div class="body">
+              <div class="steps">
+                <div class="step">
+                  <span class="ic">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M18 10a5 5 0 0 0-9.5-1.5A4 4 0 0 0 6 16h12a3.5 3.5 0 0 0 0-7z"/></svg>
+                  </span>
+                  <span class="body">Create project at <code class="chip">console.firebase.google.com</code></span>
+                </div>
+                <div class="step">
+                  <span class="ic">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><ellipse cx="12" cy="5" rx="8" ry="2.5"/><path d="M4 5v6c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5V5"/><path d="M4 11v6c0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5v-6"/></svg>
+                  </span>
+                  <span class="body">Provision <strong>Firestore</strong> in <strong>Production Mode</strong></span>
+                </div>
+                <div class="step">
+                  <span class="ic">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><circle cx="8" cy="14" r="4"/><path d="M10.8 11.2 20 2"/><path d="M17 5l3 3"/><path d="M15 7l2.5 2.5"/></svg>
+                  </span>
+                  <span class="body">Register a Web App to get your API keys</span>
+                </div>
+                <div class="step">
+                  <span class="ic">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M12 2 4 6v6c0 5 3.4 9.3 8 10 4.6-.7 8-5 8-10V6z"/></svg>
+                  </span>
+                  <span class="body">Set your initial region <em style="color:var(--fg-muted)">(cannot be changed)</em></span>
+                </div>
+              </div>
+              <div class="shot">
+                <div class="shot-chrome">
+                  <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                  <span class="label">Overview</span>
+                </div>
+                <div class="shot-body">
+                  <div class="shot-top">
+                    <div class="pill">
+                      <div class="circle android">▲</div>
+                      <span class="lbl">Add to Android app</span>
+                    </div>
+                    <div class="pill">
+                      <div class="circle ios">iOS</div>
+                      <span class="lbl">Add to iOS app</span>
+                    </div>
+                    <div class="pill">
+                      <div class="circle web">&lt;/&gt;</div>
+                      <span class="lbl">Add to web app</span>
+                    </div>
+                  </div>
+                  <div class="shot-bot">
+                    <div class="tile o">Analytics</div>
+                    <div class="tile p">Auth</div>
+                    <div class="tile y">Database</div>
+                  </div>
+                  <div class="shot-arrow">
+                    <svg viewBox="0 0 100 50" fill="none">
+                      <path d="M5 10 Q 50 5, 85 28" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/>
+                      <path d="M85 28 L 76 22 M85 28 L 78 36" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/>
+                    </svg>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -103,15 +103,17 @@ This branch ships with everything needed to populate a fresh space — schema, c
 npm run storyblok:bootstrap
 ```
 
-That runs three steps in sequence:
+That runs five steps in sequence — each is idempotent and safe to re-run:
 
 | Step | What happens |
 | --- | --- |
-| `storyblok:push` | Pushes every component in `storyblok-schema.json` (slides, nested item bloks, the `slideshow` root, plus the `codeSnippet` plugin and `image` helper) into your space. Idempotent — re-run any time the schema changes. |
+| `storyblok:datasources` | Creates/updates the `themes` datasource from `theme_options` in the schema. The `slideshow.theme` field reads its dropdown from this datasource so authors and editors see the same list. |
+| `storyblok:push` | Pushes every component in `storyblok-schema.json` (slides, nested item bloks, the `slideshow` and `page` root types, plus the `codeSnippet` plugin and `image` helper) into your space, tagged into the right component groups. |
+| `storyblok:stories` | Bootstraps the foundational content: a **Home** story (content type `page`), a **Slide Shows** folder (slug `slide-shows`, default content type `slideshow`), and an **Admin** story (content type `page`). Existing stories at those slugs are left untouched. |
 | `storyblok:screenshots` | Renders every slide in `slide-design-system.html` at 1600×900 with the **paper** theme using headless Chromium and writes one PNG per component to `.storyblok-screenshots/`. First run downloads the Chromium binary (~150 MB, one-time). |
 | `storyblok:thumbs` | Uploads each PNG to your Storyblok asset library and attaches it to the matching component as the preview thumbnail authors see in the component picker. |
 
-You can also run them individually if you only need one (`npm run storyblok:push`, `npm run storyblok:screenshots`, `npm run storyblok:thumbs`). Override the screenshot theme with e.g. `THEME=midnight npm run storyblok:screenshots`.
+You can also run them individually if you only need one — every step is its own npm script (`storyblok:datasources`, `storyblok:push`, `storyblok:stories`, `storyblok:screenshots`, `storyblok:thumbs`). Override the screenshot theme with e.g. `THEME=midnight npm run storyblok:screenshots`.
 
 ### 4. Set the Visual Editor preview URL
 
@@ -238,6 +240,8 @@ Each Storyblok block type is mapped to a `.vue` file in `app/storyblok/`. The fi
 ├── public/
 ├── scripts/
 │   ├── push-storyblok-schema.mjs  # Pushes storyblok-schema.json to your space
+│   ├── sync-datasources.mjs       # Creates the `themes` datasource from theme_options
+│   ├── sync-stories.mjs           # Bootstraps Home / Slide Shows folder / Admin stories
 │   ├── screenshot-slides.mjs      # Renders each slide to a 1600×900 PNG via headless Chromium
 │   └── upload-screenshots.mjs     # Uploads PNGs and attaches them as component preview thumbs
 ├── server/
@@ -263,9 +267,11 @@ Each Storyblok block type is mapped to a `.vue` file in `app/storyblok/`. The fi
 | `npm run setup:certs` | One-time: generates `localhost.pem` + `localhost-key.pem` via mkcert |
 | `npm run build` | Cloudflare-Pages-ready build — outputs `dist/` |
 | `npm run storyblok:push` | Pushes `storyblok-schema.json` to your space (uses `STORYBLOK_MANAGEMENT_TOKEN`) |
+| `npm run storyblok:datasources` | Syncs the `themes` datasource from `theme_options` in the schema (idempotent) |
+| `npm run storyblok:stories` | Creates Home / Slide Shows folder / Admin stories if they don't exist |
 | `npm run storyblok:screenshots` | Renders each slide in `slide-design-system.html` to a 1600×900 PNG (paper theme; override via `THEME=…`) |
 | `npm run storyblok:thumbs` | Uploads the screenshots to Storyblok and attaches them as per-component preview thumbnails |
-| `npm run storyblok:bootstrap` | Runs push → screenshots → thumbs in one go (the "fresh fork" command) |
+| `npm run storyblok:bootstrap` | Runs datasources → push → stories → screenshots → thumbs in one go (the "fresh fork" command) |
 | `npm run preview` | Nitro preview server. For full CF runtime, use `npx wrangler pages dev dist`. |
 
 ---

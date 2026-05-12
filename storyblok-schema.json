@@ -92,7 +92,9 @@
           "pos": 1,
           "required": true,
           "default_value": "atelier",
-          "options": "__THEME_OPTIONS__"
+          "source": "internal",
+          "datasource_slug": "themes",
+          "description": "Themes are managed via the 'themes' datasource (Storyblok → Datasources). Run `npm run storyblok:datasources` after editing theme_options in storyblok-schema.json."
         },
         "image": {
           "type": "asset",
@@ -109,6 +111,31 @@
           "component_group_whitelist": [
             "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
           ]
+        },
+        "requireAuthentication": {
+          "type": "boolean",
+          "pos": 4,
+          "default_value": false,
+          "description": "When true, viewers must request access from the Admin page before this slideshow renders."
+        }
+      }
+    },
+    {
+      "name": "page",
+      "display_name": "Page",
+      "is_root": true,
+      "is_nestable": false,
+      "schema": {
+        "sections": {
+          "type": "bloks",
+          "pos": 0,
+          "description": "Page sections. Drop in any nestable block — slides, content blocks, or future page-section components."
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "translatable": true,
+          "description": "Optional page title (used for the browser tab and any future SEO render)."
         }
       }
     },
@@ -3182,6 +3209,106 @@
       },
       "is_nestable": true,
       "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
+    },
+    {
+      "name": "tutorial_step",
+      "display_name": "Tutorial step",
+      "is_nestable": true,
+      "component_group_uuid": "4cbd5422-97b8-4372-9cdf-aa69469e4884",
+      "schema": {
+        "icon": {
+          "type": "text",
+          "pos": 0,
+          "default_value": "mdi-arrow-right-bold",
+          "description": "Material Design Icon name (e.g. `mdi-check`, `mdi-folder-open`, `mdi-rocket`). Renders via the @mdi/font web font."
+        },
+        "text": {
+          "type": "richtext",
+          "pos": 1,
+          "required": true,
+          "translatable": true,
+          "description": "Single line of step text. Inline `<strong>` and `<code>` are supported via the rich-text toolbar."
+        }
+      }
+    },
+    {
+      "name": "slide_tutorial",
+      "display_name": "Slide — Tutorial Step",
+      "is_nestable": true,
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c",
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true,
+          "default_value": "Step 1",
+          "description": "Small uppercase prefix shown above the title (e.g. \"Step 2\")."
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "steps": {
+          "type": "bloks",
+          "pos": 2,
+          "restrict_components": true,
+          "component_whitelist": ["tutorial_step"],
+          "maximum": 6
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      }
+    },
+    {
+      "name": "slide_tutorial_img",
+      "display_name": "Slide — Tutorial + Image",
+      "is_nestable": true,
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c",
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true,
+          "default_value": "Step 1",
+          "description": "Small uppercase prefix shown above the title (e.g. \"Step 1\")."
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "steps": {
+          "type": "bloks",
+          "pos": 2,
+          "restrict_components": true,
+          "component_whitelist": ["tutorial_step"],
+          "maximum": 6
+        },
+        "image": {
+          "type": "asset",
+          "filetypes": ["images"],
+          "pos": 3,
+          "description": "Screenshot or visual shown to the right of the steps."
+        },
+        "image_label": {
+          "type": "text",
+          "pos": 4,
+          "translatable": true,
+          "default_value": "Overview",
+          "description": "Tiny label shown in the image's chrome bar. Leave blank to hide."
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      }
     },
     {
       "name": "codeSnippet",
