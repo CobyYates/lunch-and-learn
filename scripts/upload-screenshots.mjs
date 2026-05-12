@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Upload every PNG in .storyblok-screenshots/ to your Storyblok space and
+ * Upload every PNG in storyblok-thumbnails/ to your Storyblok space and
  * attach it as the matching component's preview thumbnail.
  *
  * Each filename is treated as the component name — e.g. `slide_bullets.png`
@@ -28,7 +28,7 @@ import process from "node:process";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
-const SCREENSHOTS = resolve(ROOT, ".storyblok-screenshots");
+const SCREENSHOTS = resolve(ROOT, "storyblok-thumbnails");
 const API = "https://mapi.storyblok.com/v1";
 
 // Auto-load .env at the repo root, mirroring push-storyblok-schema.mjs so the
@@ -137,7 +137,7 @@ async function attachThumbnail(component, imageUrl) {
 async function main() {
   if (!existsSync(SCREENSHOTS)) {
     console.error(
-      `Missing ${SCREENSHOTS}. Run \`npm run storyblok:screenshots\` first.`,
+      `Missing ${SCREENSHOTS}. Run \`npm run storyblok:screenshots\` first to generate them.`,
     );
     process.exit(1);
   }

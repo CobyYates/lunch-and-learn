@@ -110,8 +110,8 @@ That runs five steps in sequence — each is idempotent and safe to re-run:
 | `storyblok:datasources` | Creates/updates the `themes` datasource from `theme_options` in the schema. The `slideshow.theme` field reads its dropdown from this datasource so authors and editors see the same list. |
 | `storyblok:push` | Pushes every component in `storyblok-schema.json` (slides, nested item bloks, the `slideshow` and `page` root types, plus the `codeSnippet` plugin and `image` helper) into your space, tagged into the right component groups. |
 | `storyblok:stories` | Bootstraps the foundational content: a **Home** story (content type `page`), a **Slide Shows** folder (slug `slide-shows`, default content type `slideshow`), and an **Admin** story (content type `page`). Existing stories at those slugs are left untouched. |
-| `storyblok:screenshots` | Renders every slide in `slide-design-system.html` at 1600×900 with the **paper** theme using headless Chromium and writes one PNG per component to `.storyblok-screenshots/`. First run downloads the Chromium binary (~150 MB, one-time). |
-| `storyblok:thumbs` | Uploads each PNG to your Storyblok asset library and attaches it to the matching component as the preview thumbnail authors see in the component picker. |
+| `storyblok:screenshots` | Renders every slide in `slide-design-system.html` at 1600×900 with the **paper** theme using headless Chromium and writes one PNG per component to `storyblok-thumbnails/` (gitignored). First run downloads the Chromium binary (~150 MB, one-time). |
+| `storyblok:thumbs` | Uploads each PNG from `storyblok-thumbnails/` to your Storyblok asset library and attaches it to the matching component as the preview thumbnail authors see in the component picker. |
 
 You can also run them individually if you only need one — every step is its own npm script (`storyblok:datasources`, `storyblok:push`, `storyblok:stories`, `storyblok:screenshots`, `storyblok:thumbs`). Override the screenshot theme with e.g. `THEME=midnight npm run storyblok:screenshots`.
 

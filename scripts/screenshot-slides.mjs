@@ -9,7 +9,9 @@
  *   node scripts/screenshot-slides.mjs
  *   THEME=midnight node scripts/screenshot-slides.mjs   # override theme
  *
- * Idempotent: clears .storyblok-screenshots/ on each run.
+ * Idempotent: clears storyblok-thumbnails/ on each run. The folder is
+ * gitignored — `npm run storyblok:bootstrap` regenerates it on every fresh
+ * fork before uploading.
  */
 
 import { chromium } from "playwright";
@@ -22,7 +24,7 @@ import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
 const HTML_FILE = resolve(ROOT, "slide-design-system.html");
-const OUT_DIR = resolve(ROOT, ".storyblok-screenshots");
+const OUT_DIR = resolve(ROOT, "storyblok-thumbnails");
 const THEME = process.env.THEME || "paper";
 const TARGET_WIDTH = 1600;
 const TARGET_HEIGHT = 900;

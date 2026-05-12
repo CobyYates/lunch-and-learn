@@ -3593,24 +3593,21 @@ body {
   justify-content: center;
 }
 .layout-tutorial .steps .step {
-  display: grid;
-  grid-template-columns: 3cqw 1fr;
-  gap: 1.6cqw;
-  align-items: baseline;
+  display: flex;
+  align-items: center;
+  gap: 1.2cqw;
   font-size: 1.7cqw;
   line-height: 1.45;
 }
 .layout-tutorial .steps .step .ic {
-  display: grid;
-  place-items: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 3cqw;
   height: 3cqw;
   color: var(--accent);
-  font-family: var(--font-mono);
-  font-size: 1.6cqw;
-  font-weight: 700;
+  flex-shrink: 0;
   line-height: 1;
-  align-self: center;
 }
 .layout-tutorial .steps .step .ic svg {
   width: 100%;
@@ -3686,13 +3683,13 @@ body {
   display: flex;
   align-items: center;
   gap: 1.2cqw;
-  font-size: 1.35cqw;
-  line-height: 1.2;
-  white-space: nowrap;
+  font-size: 1.5cqw;
+  line-height: 1.4;
 }
 .layout-tutorial-img .steps .step .ic {
-  display: grid;
-  place-items: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 2.4cqw;
   height: 2.4cqw;
   color: var(--accent);
@@ -3702,8 +3699,6 @@ body {
 .layout-tutorial-img .steps .step .body {
   color: var(--fg-muted);
   min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 .layout-tutorial-img .steps .step strong { color: var(--fg); font-weight: 700; }
 .layout-tutorial-img .steps .step .body strong { color: var(--fg); font-weight: 700; }
@@ -5949,7 +5944,7 @@ body {
                   <span class="ic">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M18 10a5 5 0 0 0-9.5-1.5A4 4 0 0 0 6 16h12a3.5 3.5 0 0 0 0-7z"/></svg>
                   </span>
-                  <span class="body">Create project at <code class="chip">console.firebase.google.com</code></span>
+                  <span class="body">Create project at console.firebase.google.com</span>
                 </div>
                 <div class="step">
                   <span class="ic">
