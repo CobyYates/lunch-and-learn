@@ -1,27 +1,7 @@
-<template>
-  <div
-    v-editable="blok"
-    class="slideshow"
-    :data-theme="blok.theme || 'atelier'"
-  >
-    <div class="slides-stack">
-      <StoryblokComponent
-        v-for="slide in blok.Slides ?? []"
-        :key="slide._uid"
-        :blok="slide"
-      />
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
-interface SlideBlok {
-  _uid: string;
-  component: string;
-  [k: string]: unknown;
-}
+import type { SlideBlok } from "~/composables/useSlideshow";
 
-defineProps<{
+const props = defineProps<{
   blok: {
     title?: string;
     theme?: string; // one of the THEMES keys in useThemes
@@ -29,22 +9,15 @@ defineProps<{
     Slides?: SlideBlok[]; // existing Storyblok field name (capital S)
   };
 }>();
+
+const slides = computed<SlideBlok[]>(() => props.blok.Slides ?? []);
+const theme = computed(() => props.blok.theme || "atelier");
+const ctl = useSlideshow(slides);
 </script>
 
-<style scoped>
-.slideshow {
-  display: block;
-  /*
-   * Inherit slide styling from ~/assets/styles/slides.css, scoped under the
-   * data-theme attribute set above. Each child slide component renders the
-   * exact markup that file's selectors target.
-   */
-}
-.slides-stack {
-  display: grid;
-  gap: 2rem;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
-}
-</style>
+<template>
+  <div v-editable="blok" class="slideshow" :data-theme="theme">
+    <SlideshowOverview :ctl="ctl" />
+    <PresentationView :ctl="ctl" :theme="theme" />
+  </div>
+</template>
