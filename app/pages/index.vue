@@ -2,6 +2,23 @@
   <div>
     <v-toolbar color="primary" density="comfortable" flat>
       <v-toolbar-title>Slideshows</v-toolbar-title>
+      <v-spacer />
+      <v-btn
+        v-if="isAdmin"
+        to="/admin"
+        variant="text"
+        prepend-icon="mdi-shield-account"
+      >
+        Admin
+      </v-btn>
+      <v-btn
+        v-if="isAuthenticated"
+        variant="text"
+        prepend-icon="mdi-logout"
+        @click="signOut"
+      >
+        Sign out
+      </v-btn>
     </v-toolbar>
 
     <v-progress-linear v-if="pending" indeterminate color="primary" />
@@ -99,6 +116,8 @@ const { stories, pending, error } = await useStories({
   starts_with: "slide-shows/",
   content_type: "slideshow",
 });
+
+const { isAuthenticated, isAdmin, signOut } = useAuth();
 
 interface SlideshowContent {
   title?: string;

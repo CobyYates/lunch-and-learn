@@ -7,6 +7,7 @@ const props = defineProps<{
     theme?: string; // one of the THEMES keys in useThemes
     image?: { filename?: string; alt?: string };
     Slides?: SlideBlok[]; // existing Storyblok field name (capital S)
+    requireAuthentication?: boolean; // gate viewing behind login + approval
   };
 }>();
 
@@ -17,7 +18,9 @@ const ctl = useSlideshow(slides);
 
 <template>
   <div v-editable="blok" class="slideshow" :data-theme="theme">
-    <SlideshowOverview :ctl="ctl" />
-    <PresentationView :ctl="ctl" :theme="theme" />
+    <SlideshowGate :required="blok.requireAuthentication">
+      <SlideshowOverview :ctl="ctl" />
+      <PresentationView :ctl="ctl" :theme="theme" />
+    </SlideshowGate>
   </div>
 </template>

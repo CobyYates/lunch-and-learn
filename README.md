@@ -212,6 +212,48 @@ Each Storyblok block type is mapped to a `.vue` file in `app/storyblok/`. The fi
 
 ---
 
+## Part 5 — Gated slideshows (Firebase auth + approval)
+
+Any slideshow with the **Require authentication** toggle on (the
+`requireAuthentication` field) is hidden until the viewer signs in **and** an
+admin approves their account. Everything runs on the Firebase **client SDK**
+(this app is a Cloudflare SPA — no Admin SDK / service account needed).
+
+**How it works**
+
+- `app/plugins/firebase.client.ts` initialises Firebase from the
+  `NUXT_PUBLIC_FIREBASE_*` env vars and provides `$firebaseAuth` / `$firebaseDb`.
+- `useAuth()` handles Google + email/password sign-in/sign-up and tracks the
+  signed-in user plus their Firestore profile (`users/{uid}`) live. New accounts
+  are created with `status: "pending"`, `role: "user"`.
+- `<SlideshowGate>` wraps each slideshow: not signed in → login form; signed in
+  but pending/rejected → status notice (updates live on approval); approved or
+  admin → the slideshow renders.
+- `/admin` lists every account and lets admins approve / reject / reset access
+  and promote/demote admins. It reads the `users` collection (the client SDK
+  can't list Auth accounts directly, so this collection mirrors them).
+
+**Setup**
+
+1. In the Firebase console enable **Authentication → Sign-in method →**
+   **Email/Password** and **Google**, and create a **Firestore** database.
+2. Add the web app's config values to `.env` (`NUXT_PUBLIC_FIREBASE_*`). On
+   Cloudflare Pages add the same vars.
+3. Deploy the security rules in `firestore.rules`
+   (`firebase deploy --only firestore:rules`, or paste them in the console).
+   **These rules are what actually enforce access** — the client checks are just
+   UX.
+4. **Bootstrap the first admin**, either:
+   - add their email to both `NUXT_PUBLIC_ADMIN_EMAILS` and the `isAdminEmail()`
+     list in `firestore.rules`, then sign in (their `users` doc is created as an
+     approved admin automatically); **or**
+   - sign in once, then in the Firebase console set that user's `users/{uid}`
+     doc to `role: "admin"`, `status: "approved"`.
+
+   Once one admin exists, everyone else is managed from `/admin` — no console needed.
+
+---
+
 ## Project structure
 
 ```

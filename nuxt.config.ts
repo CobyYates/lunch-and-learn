@@ -62,6 +62,21 @@ export default defineNuxtConfig({
     storyblokPreviewToken: process.env.STORYBLOK_PREVIEW_TOKEN,
     storyblokSpaceId: process.env.STORYBLOK_SPACE_ID,
     storyblokWebhookSecret: process.env.STORYBLOK_WEBHOOK_SECRET,
+
+    // Exposed to the browser. Nuxt maps each NUXT_PUBLIC_* env var onto the
+    // matching camelCased key below, so these defaults stay empty here.
+    public: {
+      firebaseApiKey: "",
+      firebaseAuthDomain: "",
+      firebaseProjectId: "",
+      firebaseStorageBucket: "",
+      firebaseMessagingSenderId: "",
+      firebaseAppId: "",
+      // Optional comma-separated allowlist that bootstraps the first admin(s)
+      // before any `role: "admin"` doc exists in Firestore. Maps from
+      // NUXT_PUBLIC_ADMIN_EMAILS.
+      adminEmails: "",
+    },
   },
 
   nitro: {

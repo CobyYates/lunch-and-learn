@@ -1,0 +1,60 @@
+rules_version = '2';
+
+// Security rules for the slideshow access-control system.
+//
+// Deploy with the Firebase CLI:  firebase deploy --only firestore:rules
+// (or paste into Firebase console → Firestore Database → Rules).
+//
+// Data model: one doc per account at users/{uid} with shape
+//   { uid, email, displayName, photoURL, status, role, createdAt, updatedAt }
+//   status: "pending" | "approved" | "rejected"
+//   role:   "user" | "admin"
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Bootstrap admins WITHOUT touching the console: list the same emails here
+    // that you put in NUXT_PUBLIC_ADMIN_EMAILS, then redeploy these rules.
+    // Anyone matching may create their own admin doc and manage other users.
+    // Leave empty (and promote your first admin from the console) if you'd
+    // rather not hardcode emails in source control.
+    function isAdminEmail() {
+      return isSignedIn() && request.auth.token.email in [
+        // 'you@example.com',
+      ];
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        isAdminEmail() ||
+        (
+          exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'
+        )
+      );
+    }
+
+    match /users/{userId} {
+      // Read your own doc (to learn your status); admins read everyone.
+      allow read: if isSignedIn() && (request.auth.uid == userId || isAdmin());
+
+      // You may create ONLY your own doc. Regular users must start as a pending
+      // normal user — this blocks self-approval / self-promotion. Allowlisted
+      // bootstrap admins may create themselves with any role/status.
+      allow create: if isSignedIn()
+        && request.auth.uid == userId
+        && (
+          isAdminEmail() ||
+          (request.resource.data.role == 'user'
+            && request.resource.data.status == 'pending')
+        );
+
+      // Only admins change status/role or remove accounts.
+      allow update, delete: if isAdmin();
+    }
+  }
+}
