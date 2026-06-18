@@ -29,6 +29,9 @@ const sourceCode = computed(() => {
   return (fromPlugin || props.blok.vue_code || "").trim();
 });
 
+const { highlight } = useHighlight();
+const highlightedSource = computed(() => highlight(sourceCode.value, "vue"));
+
 const stage = ref<HTMLDivElement | null>(null);
 const compileError = ref<string>("");
 let mountedApp: { unmount(): void } | null = null;
@@ -121,7 +124,7 @@ onBeforeUnmount(() => {
           <div class="pane-head">
             <span class="file">{{ blok.filename || "Component.vue" }}</span>
           </div>
-          <pre>{{ sourceCode }}</pre>
+          <pre class="hljs" v-html="highlightedSource" />
         </div>
         <div class="pane demo">
           <div class="pane-head">

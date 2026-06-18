@@ -1,12 +1,17 @@
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   blok: {
     title?: string;
     language?: string;
-    code?: string; // raw source; highlighting done via the theme's syntax vars
+    code?: string; // raw source; highlighted per `language`, coloured by the theme
     repo_url?: string;
   };
 }>();
+
+const { highlight } = useHighlight();
+const highlighted = computed(() =>
+  highlight(props.blok.code, props.blok.language),
+);
 </script>
 
 <template>
@@ -16,7 +21,7 @@ defineProps<{
         <h3 v-if="blok.title">{{ blok.title }}</h3>
         <span v-if="blok.language" class="lang">{{ blok.language }}</span>
       </div>
-      <pre><code>{{ blok.code }}</code></pre>
+      <pre><code class="hljs" v-html="highlighted" /></pre>
     </div>
     <SlideMark :url="blok.repo_url" />
 </div>

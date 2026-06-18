@@ -3828,6 +3828,108 @@ body {
 .layout-tutorial-img .shot .shot-arrow svg { width: 100%; height: 100%; }
 
 /* =========================================================
+   LAYOUT 46 — FILE TREE + CODE  (project structure + file contents)
+   Left pane shows directory tree with one file highlighted; right pane
+   shows that file's source. Great for "here's the structure / here's
+   the implementation" walkthroughs.
+   ========================================================= */
+.layout-tree-code .slide-inner { padding: 3.5cqw 4cqw; gap: 1.4cqw; }
+.layout-tree-code .head { display: flex; justify-content: space-between; align-items: flex-end; gap: 1cqw; }
+.layout-tree-code .eyebrow { margin-bottom: 0.2cqw; }
+.layout-tree-code h3 { font-size: 2.8cqw; }
+.layout-tree-code .panes {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 1.4cqw;
+  flex: 1;
+  min-height: 0;
+}
+.layout-tree-code .pane {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-alt);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+.layout-tree-code .pane-head {
+  display: flex;
+  align-items: center;
+  gap: 0.6cqw;
+  padding: 0.85cqw 1.4cqw;
+  border-bottom: 1px solid var(--border);
+  background: var(--slide-bg, var(--bg));
+  font-family: var(--font-mono);
+  font-size: 0.95cqw;
+  color: var(--fg-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.layout-tree-code .pane-head .filename {
+  color: var(--fg);
+  text-transform: none;
+  letter-spacing: 0;
+}
+.layout-tree-code .pane-head .path-crumb {
+  margin-left: auto;
+  color: var(--fg-muted);
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.9cqw;
+}
+.layout-tree-code .pane.tree-pane pre.tree {
+  flex: 1;
+  padding: 1.4cqw 1.4cqw 1.4cqw 2.4cqw;
+  font-family: var(--font-mono);
+  font-size: 1.1cqw;
+  line-height: 1.75;
+  color: var(--fg);
+  white-space: pre;
+  margin: 0;
+  overflow: hidden;
+}
+.layout-tree-code .pane.tree-pane pre.tree .dir { color: var(--accent); font-weight: 500; }
+.layout-tree-code .pane.tree-pane pre.tree .file { color: var(--fg); }
+.layout-tree-code .pane.tree-pane pre.tree .note { color: var(--fg-muted); font-style: italic; }
+.layout-tree-code .pane.tree-pane pre.tree .active {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  color: var(--accent);
+  font-weight: 600;
+  padding: 0.05cqw 0.4cqw;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent);
+  position: relative;
+}
+.layout-tree-code .pane.tree-pane pre.tree .active::before {
+  content: '▸';
+  position: absolute;
+  left: -1.4cqw;
+  color: var(--accent);
+  font-weight: 700;
+}
+.layout-tree-code .pane.code-pane pre {
+  flex: 1;
+  padding: 1.4cqw 1.6cqw;
+  font-family: var(--font-mono);
+  font-size: 1cqw;
+  line-height: 1.6;
+  color: var(--fg);
+  white-space: pre;
+  margin: 0;
+  overflow: hidden;
+}
+.layout-tree-code .pane.code-pane pre .tk-tag  { color: var(--syn-key, var(--accent)); }
+.layout-tree-code .pane.code-pane pre .tk-attr { color: var(--syn-fn, var(--accent-2)); }
+.layout-tree-code .pane.code-pane pre .tk-str  { color: var(--syn-str, var(--accent-2)); }
+.layout-tree-code .pane.code-pane pre .tk-com  { color: var(--syn-com, var(--fg-muted)); font-style: italic; }
+.layout-tree-code .pane.code-pane pre .tk-key  { color: var(--syn-key, var(--accent)); }
+.layout-tree-code .pane.code-pane pre .tk-num  { color: var(--syn-num, var(--accent)); }
+.layout-tree-code .pane.code-pane pre .tk-fn   { color: var(--syn-fn, var(--accent-2)); }
+.layout-tree-code .pane.code-pane pre .tk-pun  { color: var(--fg-muted); }
+.layout-tree-code .pane.code-pane pre .tk-type { color: var(--syn-fn, var(--accent-2)); }
+
+/* =========================================================
    THEME-SPECIFIC VISUAL DECOR  (decorations per theme)
    ========================================================= */
 
@@ -5997,6 +6099,69 @@ body {
                     </svg>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 46 FILE TREE + CODE -->
+      <div class="slide-card">
+        <div class="slide-caption"><span class="num">46</span><span class="name">File Tree + Code</span></div>
+        <div class="slide layout-tree-code">
+          <div class="slide-inner">
+            <div class="head">
+              <div>
+                <div class="eyebrow">Project walkthrough</div>
+                <h3>Where the theme logic lives.</h3>
+              </div>
+            </div>
+            <div class="panes">
+              <div class="pane tree-pane">
+                <div class="pane-head">
+                  <span>Explorer</span>
+                  <span class="path-crumb">halcyon/</span>
+                </div>
+<pre class="tree"><span class="dir">halcyon/</span>
+├── <span class="dir">components/</span>
+│   ├── <span class="file">Slide.vue</span>
+│   ├── <span class="file">SlideFrame.vue</span>
+│   └── <span class="dir">layouts/</span>
+├── <span class="dir">composables/</span>
+│   ├── <span class="active">useTheme.ts</span>
+│   ├── <span class="file">useSlides.ts</span>
+│   └── <span class="file">useStoryblok.ts</span>
+├── <span class="dir">pages/</span>
+│   └── <span class="file">[slug].vue</span>
+├── <span class="file">halcyon.config.ts</span>
+└── <span class="file">nuxt.config.ts</span>
+</pre>
+              </div>
+              <div class="pane code-pane">
+                <div class="pane-head">
+                  <span class="filename">useTheme.ts</span>
+                  <span class="path-crumb">composables/</span>
+                </div>
+<pre><span class="tk-com">// Reactive theme state, persisted to localStorage.</span>
+<span class="tk-key">import</span> { <span class="tk-fn">useStorage</span> } <span class="tk-key">from</span> <span class="tk-str">'@vueuse/core'</span>
+
+<span class="tk-key">export type</span> <span class="tk-type">ThemeName</span> <span class="tk-pun">=</span>
+  <span class="tk-pun">|</span> <span class="tk-str">'atelier'</span> <span class="tk-pun">|</span> <span class="tk-str">'midnight'</span> <span class="tk-pun">|</span> <span class="tk-str">'dracula'</span>
+  <span class="tk-pun">|</span> <span class="tk-str">'tokyo'</span>   <span class="tk-pun">|</span> <span class="tk-str">'nord'</span>     <span class="tk-pun">|</span> <span class="tk-str">'github'</span>
+
+<span class="tk-key">export const</span> <span class="tk-fn">useTheme</span> <span class="tk-pun">=</span> () <span class="tk-pun">=&gt;</span> {
+  <span class="tk-key">const</span> current <span class="tk-pun">=</span> <span class="tk-fn">useStorage</span>&lt;<span class="tk-type">ThemeName</span>&gt;(
+    <span class="tk-str">'halcyon-theme'</span>,
+    <span class="tk-str">'atelier'</span>,
+  )
+
+  <span class="tk-key">const</span> <span class="tk-fn">setTheme</span> <span class="tk-pun">=</span> (name<span class="tk-pun">:</span> <span class="tk-type">ThemeName</span>) <span class="tk-pun">=&gt;</span> {
+    current.value <span class="tk-pun">=</span> name
+    document.documentElement.dataset.theme <span class="tk-pun">=</span> name
+  }
+
+  <span class="tk-key">return</span> { current, setTheme }
+}</pre>
               </div>
             </div>
           </div>

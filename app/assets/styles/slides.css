@@ -51,6 +51,11 @@
   --slide-bg: var(--bg);
   --display-weight: 400;
   --display-style: italic;
+  --syn-key: #b94a2c;
+  --syn-str: #5a7d3a;
+  --syn-com: #6b5e4f;
+  --syn-fn:  #2f6f6a;
+  --syn-num: #9a6a2c;
 }
 
 /* ---- 2. MIDNIGHT (deep dark + electric blue) ---- */
@@ -70,6 +75,11 @@
   --slide-bg: radial-gradient(120% 80% at 0% 0%, #1a1f2e 0%, #0d0f14 55%);
   --display-weight: 700;
   --display-style: normal;
+  --syn-key: #4d7cff;
+  --syn-str: #00e5c7;
+  --syn-com: #7b8398;
+  --syn-fn:  #c792ea;
+  --syn-num: #ffb454;
 }
 
 /* ---- 3. BRUTALIST (cream + thick black + yellow) ---- */
@@ -89,6 +99,11 @@
   --slide-bg: var(--bg);
   --display-weight: 900;
   --display-style: normal;
+  --syn-key: #d12800;
+  --syn-str: #1c6b1c;
+  --syn-com: #57502a;
+  --syn-fn:  #0a3aa0;
+  --syn-num: #7a2ea0;
 }
 
 /* ---- 4. SAGE (earthy organic, warm cream + green) ---- */
@@ -108,6 +123,11 @@
   --slide-bg: var(--bg);
   --display-weight: 400;
   --display-style: italic;
+  --syn-key: #8a5a2a;
+  --syn-str: #4a6b3a;
+  --syn-com: #6b7360;
+  --syn-fn:  #3a6b66;
+  --syn-num: #9a5a3a;
 }
 
 /* ---- 5. MONARCH (luxury dark, plum + gold) ---- */
@@ -127,6 +147,11 @@
   --slide-bg: radial-gradient(140% 90% at 100% 0%, #3a1f3e 0%, #1a0f1e 60%);
   --display-weight: 400;
   --display-style: normal;
+  --syn-key: #d4a93f;
+  --syn-str: #c78bb5;
+  --syn-com: #b8a78a;
+  --syn-fn:  #7fb3c9;
+  --syn-num: #e0926a;
 }
 
 /* ---- 6. NEBULA (vibrant gradient + magenta/cyan) ---- */
@@ -146,6 +171,11 @@
   --slide-bg: linear-gradient(135deg, #0a0820 0%, #1a0d3d 40%, #3d1a5c 100%);
   --display-weight: 800;
   --display-style: normal;
+  --syn-key: #ff3d8a;
+  --syn-str: #40e0ff;
+  --syn-com: #a8a0d8;
+  --syn-fn:  #b388ff;
+  --syn-num: #ffd166;
 }
 
 /* ---- 7. PAPER (Swiss minimalist, white + black + red) ---- */
@@ -165,6 +195,11 @@
   --slide-bg: var(--bg);
   --display-weight: 700;
   --display-style: normal;
+  --syn-key: #d6336c;
+  --syn-str: #2b8a3e;
+  --syn-com: #666666;
+  --syn-fn:  #1971c2;
+  --syn-num: #e8590c;
 }
 
 /* ---- 8. TERMINAL (pure dark + amber mono) ---- */
@@ -184,6 +219,11 @@
   --slide-bg: var(--bg);
   --display-weight: 500;
   --display-style: normal;
+  --syn-key: #ffb84d;
+  --syn-str: #7cb342;
+  --syn-com: #8a7840;
+  --syn-fn:  #ffd98a;
+  --syn-num: #ff9e5c;
 }
 
 /* ---- 9. BLOSSOM (soft pastel, blush + lavender) ---- */
@@ -203,6 +243,11 @@
   --slide-bg: linear-gradient(165deg, #fdeef0 0%, #f5e3f0 100%);
   --display-weight: 400;
   --display-style: italic;
+  --syn-key: #c2557f;
+  --syn-str: #6a8f4a;
+  --syn-com: #8e7686;
+  --syn-fn:  #7b5ea8;
+  --syn-num: #c77d3a;
 }
 
 /* ---- 10. STEEL (corporate modern, navy + orange) ---- */
@@ -622,6 +667,45 @@
 .layout-code pre .tk-com { color: var(--syn-com, var(--fg-muted)); font-style: italic; }
 .layout-code pre .tk-fn { color: var(--syn-fn, var(--accent-2)); }
 .layout-code pre .tk-num { color: var(--syn-num, var(--accent)); }
+
+/* highlight.js token classes mapped onto each theme's syntax palette.
+   Scoped to `.slide pre` so it covers both the Code slide (<code class="hljs">)
+   and the Code-Demo source pane (<pre class="hljs">). No hljs theme stylesheet
+   is imported — only these colour mappings, so every theme stays consistent. */
+.slide pre .hljs-keyword,
+.slide pre .hljs-built_in,
+.slide pre .hljs-literal,
+.slide pre .hljs-type,
+.slide pre .hljs-name,
+.slide pre .hljs-tag,
+.slide pre .hljs-selector-tag,
+.slide pre .hljs-doctag,
+.slide pre .hljs-meta { color: var(--syn-key, var(--accent)); font-weight: 500; }
+
+.slide pre .hljs-string,
+.slide pre .hljs-regexp,
+.slide pre .hljs-symbol,
+.slide pre .hljs-char,
+.slide pre .hljs-addition,
+.slide pre .hljs-selector-attr,
+.slide pre .hljs-selector-pseudo { color: var(--syn-str, var(--accent-2)); }
+
+.slide pre .hljs-comment,
+.slide pre .hljs-quote { color: var(--syn-com, var(--fg-muted)); font-style: italic; }
+
+.slide pre .hljs-title,
+.slide pre .hljs-section,
+.slide pre .hljs-function,
+.slide pre .hljs-attr,
+.slide pre .hljs-attribute,
+.slide pre .hljs-property,
+.slide pre .hljs-variable,
+.slide pre .hljs-params,
+.slide pre .hljs-selector-class,
+.slide pre .hljs-selector-id { color: var(--syn-fn, var(--accent-2)); }
+
+.slide pre .hljs-number,
+.slide pre .hljs-bullet { color: var(--syn-num, var(--accent)); }
 
 /* =========================================================
    LAYOUT 07 — TWO-COLUMN COMPARISON
@@ -3917,3 +4001,105 @@
 [data-theme="github"] .layout-split .visual {
   background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%);
 }
+
+/* =========================================================
+   LAYOUT 46 — FILE TREE + CODE  (project structure + file contents)
+   Left pane shows directory tree with one file highlighted; right pane
+   shows that file's source. Great for "here's the structure / here's
+   the implementation" walkthroughs.
+   ========================================================= */
+.layout-tree-code .slide-inner { padding: 3.5cqw 4cqw; gap: 1.4cqw; }
+.layout-tree-code .head { display: flex; justify-content: space-between; align-items: flex-end; gap: 1cqw; }
+.layout-tree-code .eyebrow { margin-bottom: 0.2cqw; }
+.layout-tree-code h3 { font-size: 2.8cqw; }
+.layout-tree-code .panes {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 1.4cqw;
+  flex: 1;
+  min-height: 0;
+}
+.layout-tree-code .pane {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-alt);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+.layout-tree-code .pane-head {
+  display: flex;
+  align-items: center;
+  gap: 0.6cqw;
+  padding: 0.85cqw 1.4cqw;
+  border-bottom: 1px solid var(--border);
+  background: var(--slide-bg, var(--bg));
+  font-family: var(--font-mono);
+  font-size: 0.95cqw;
+  color: var(--fg-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.layout-tree-code .pane-head .filename {
+  color: var(--fg);
+  text-transform: none;
+  letter-spacing: 0;
+}
+.layout-tree-code .pane-head .path-crumb {
+  margin-left: auto;
+  color: var(--fg-muted);
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.9cqw;
+}
+.layout-tree-code .pane.tree-pane pre.tree {
+  flex: 1;
+  padding: 1.4cqw 1.4cqw 1.4cqw 2.4cqw;
+  font-family: var(--font-mono);
+  font-size: 1.1cqw;
+  line-height: 1.75;
+  color: var(--fg);
+  white-space: pre;
+  margin: 0;
+  overflow: hidden;
+}
+.layout-tree-code .pane.tree-pane pre.tree .dir { color: var(--accent); font-weight: 500; }
+.layout-tree-code .pane.tree-pane pre.tree .file { color: var(--fg); }
+.layout-tree-code .pane.tree-pane pre.tree .note { color: var(--fg-muted); font-style: italic; }
+.layout-tree-code .pane.tree-pane pre.tree .active {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  color: var(--accent);
+  font-weight: 600;
+  padding: 0.05cqw 0.4cqw;
+  border-radius: 3px;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent);
+  position: relative;
+}
+.layout-tree-code .pane.tree-pane pre.tree .active::before {
+  content: '▸';
+  position: absolute;
+  left: -1.4cqw;
+  color: var(--accent);
+  font-weight: 700;
+}
+.layout-tree-code .pane.code-pane pre {
+  flex: 1;
+  padding: 1.4cqw 1.6cqw;
+  font-family: var(--font-mono);
+  font-size: 1cqw;
+  line-height: 1.6;
+  color: var(--fg);
+  white-space: pre;
+  margin: 0;
+  overflow: hidden;
+}
+.layout-tree-code .pane.code-pane pre .tk-tag  { color: var(--syn-key, var(--accent)); }
+.layout-tree-code .pane.code-pane pre .tk-attr { color: var(--syn-fn, var(--accent-2)); }
+.layout-tree-code .pane.code-pane pre .tk-str  { color: var(--syn-str, var(--accent-2)); }
+.layout-tree-code .pane.code-pane pre .tk-com  { color: var(--syn-com, var(--fg-muted)); font-style: italic; }
+.layout-tree-code .pane.code-pane pre .tk-key  { color: var(--syn-key, var(--accent)); }
+.layout-tree-code .pane.code-pane pre .tk-num  { color: var(--syn-num, var(--accent)); }
+.layout-tree-code .pane.code-pane pre .tk-fn   { color: var(--syn-fn, var(--accent-2)); }
+.layout-tree-code .pane.code-pane pre .tk-pun  { color: var(--fg-muted); }
+.layout-tree-code .pane.code-pane pre .tk-type { color: var(--syn-fn, var(--accent-2)); }

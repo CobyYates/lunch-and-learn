@@ -368,15 +368,134 @@
           "translatable": true
         },
         "language": {
-          "type": "text",
+          "type": "option",
           "pos": 1,
-          "default_value": "typescript"
+          "default_value": "typescript",
+          "options": [
+            {
+              "name": "Auto-detect",
+              "value": ""
+            },
+            {
+              "name": "Plain text",
+              "value": "plaintext"
+            },
+            {
+              "name": "JavaScript",
+              "value": "javascript"
+            },
+            {
+              "name": "TypeScript",
+              "value": "typescript"
+            },
+            {
+              "name": "Vue",
+              "value": "vue"
+            },
+            {
+              "name": "React (JSX)",
+              "value": "jsx"
+            },
+            {
+              "name": "React (TSX)",
+              "value": "tsx"
+            },
+            {
+              "name": "Angular",
+              "value": "angular"
+            },
+            {
+              "name": "Svelte",
+              "value": "svelte"
+            },
+            {
+              "name": "HTML",
+              "value": "html"
+            },
+            {
+              "name": "CSS",
+              "value": "css"
+            },
+            {
+              "name": "SCSS",
+              "value": "scss"
+            },
+            {
+              "name": "JSON",
+              "value": "json"
+            },
+            {
+              "name": "Bash / Shell",
+              "value": "bash"
+            },
+            {
+              "name": "Python",
+              "value": "python"
+            },
+            {
+              "name": "Go",
+              "value": "go"
+            },
+            {
+              "name": "Rust",
+              "value": "rust"
+            },
+            {
+              "name": "Java",
+              "value": "java"
+            },
+            {
+              "name": "C",
+              "value": "c"
+            },
+            {
+              "name": "C++",
+              "value": "cpp"
+            },
+            {
+              "name": "C#",
+              "value": "csharp"
+            },
+            {
+              "name": "PHP",
+              "value": "php"
+            },
+            {
+              "name": "Ruby",
+              "value": "ruby"
+            },
+            {
+              "name": "Kotlin",
+              "value": "kotlin"
+            },
+            {
+              "name": "Swift",
+              "value": "swift"
+            },
+            {
+              "name": "SQL",
+              "value": "sql"
+            },
+            {
+              "name": "YAML",
+              "value": "yaml"
+            },
+            {
+              "name": "Markdown",
+              "value": "markdown"
+            },
+            {
+              "name": "GraphQL",
+              "value": "graphql"
+            }
+          ],
+          "description": "Language for syntax highlighting — colours follow the active slide theme. Pick Auto-detect to let highlight.js guess."
         },
         "code": {
           "type": "textarea",
           "pos": 2,
           "required": true,
-          "description": "Raw source. Theme provides syntax highlighting via CSS variables."
+          "description": "Raw source code. Automatically syntax-highlighted based on the Language field and coloured to match the slide theme. Paste exactly as-is \u2014 indentation is preserved."
         },
         "repo_url": {
           "type": "text",
@@ -413,6 +532,7 @@
           "description": "Shown when featured"
         },
         "items": {
+          "description": "Bullet points listed under this column, one entry per value.",
           "type": "options",
           "pos": 4,
           "source": "internal",
@@ -706,11 +826,13 @@
           "required": true
         },
         "value_a": {
+          "description": "Height of the first (primary) bar, in the same units as Y max.",
           "type": "number",
           "pos": 1,
           "required": true
         },
         "value_b": {
+          "description": "Optional height of the second bar. Filling this on any group turns on the second series and its legend.",
           "type": "number",
           "pos": 2
         }
@@ -739,11 +861,13 @@
           "translatable": true
         },
         "series_b_label": {
+          "description": "Legend label for the second series. The second series only appears when groups have value_b filled in.",
           "type": "text",
           "pos": 3,
           "translatable": true
         },
         "y_max": {
+          "description": "Top value of the Y axis (defaults to 100). Bar heights are read relative to this.",
           "type": "number",
           "pos": 4,
           "default_value": 100
@@ -832,13 +956,14 @@
         "cells": {
           "type": "textarea",
           "pos": 0,
-          "description": "One cell per line"
+          "description": "Cell values for this row, one per line, in the same order as the headers. Note: if you set a Pill label below, it replaces the third cell."
         },
         "highlight": {
           "type": "boolean",
           "pos": 1
         },
         "pill_label": {
+          "description": "Optional pill/badge text. When set, it replaces the third cell of this row.",
           "type": "text",
           "pos": 2
         },
@@ -882,7 +1007,7 @@
         "headers": {
           "type": "textarea",
           "pos": 2,
-          "description": "One header per line"
+          "description": "Column headers, one per line. Each line becomes one column, in order."
         },
         "rows": {
           "type": "bloks",
@@ -1653,7 +1778,7 @@
           "type": "textarea",
           "pos": 1,
           "required": true,
-          "description": "Raw shell transcript. Rendered as HTML \u2014 wrap tokens in <span class=\"\u2026\"> for color: prompt, host, cmd, flag, out, ok, err, url."
+          "description": "Terminal transcript, rendered as raw HTML. Wrap parts in a <span> with one of these classes to colour them: prompt, host, cmd, flag, out, ok, err, url. A blinking cursor is appended automatically. Example: <span class=\"prompt\">$</span> <span class=\"cmd\">npm run build</span>"
         },
         "image": {
           "type": "asset",
@@ -1677,6 +1802,7 @@
       "is_nestable": true,
       "schema": {
         "kind": {
+          "description": "Line type: add (added / green), rem (removed / struck-through), or context (unchanged). The +, \u2212 or space marker is added automatically.",
           "type": "option",
           "pos": 0,
           "default_value": "context",
@@ -1696,6 +1822,7 @@
           ]
         },
         "line": {
+          "description": "The line's text only \u2014 do NOT type a leading +, \u2212 or space; the marker comes from Kind.",
           "type": "text",
           "pos": 1,
           "required": true
@@ -1817,6 +1944,7 @@
           "description": "Request body sample. Uses the storyblok-code-block plugin for syntax-aware editing."
         },
         "response_sample": {
+          "description": "Response body, shown verbatim in the Response panel (monospace). Paste JSON or any text \u2014 indentation is preserved.",
           "type": "textarea",
           "pos": 6
         },
@@ -1848,13 +1976,196 @@
           "type": "textarea",
           "pos": 2,
           "required": true,
-          "description": "Raw ASCII tree"
+          "description": "ASCII file tree, shown verbatim in monospace. Build it with indentation and box-drawing characters (\u251c\u2500\u2500  \u2514\u2500\u2500  \u2502). Example lines: 'src/', '\u251c\u2500\u2500 components/', '\u2502   \u2514\u2500\u2500 Button.vue', '\u2514\u2500\u2500 main.ts'."
         },
         "callouts": {
           "type": "textarea",
           "pos": 3,
           "translatable": true,
-          "description": "One callout per line"
+          "description": "Annotations beside the tree, one per line, format: Key | body text. The Key renders as a bold tag. Example: 'main.ts | App entry point'."
+        },
+        "repo_url": {
+          "type": "text",
+          "pos": 99,
+          "description": "Optional GitHub/GitLab URL. Renders a small repo mark in the bottom-right of the slide. Leave blank to hide."
+        }
+      },
+      "component_group_uuid": "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
+    },
+    {
+      "name": "slide_tree_code",
+      "display_name": "Slide \u2014 File Tree + Code",
+      "is_nestable": true,
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true,
+          "description": "Small uppercase kicker above the title (e.g. 'Project walkthrough')."
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true,
+          "description": "Slide heading."
+        },
+        "tree_label": {
+          "type": "text",
+          "pos": 2,
+          "description": "Label on the left of the tree pane's header bar. Defaults to 'Explorer'."
+        },
+        "tree_root": {
+          "type": "text",
+          "pos": 3,
+          "description": "Right-hand crumb in the tree pane header \u2014 usually the root folder, e.g. 'halcyon/'."
+        },
+        "tree": {
+          "type": "textarea",
+          "pos": 4,
+          "required": true,
+          "description": "File tree for the left pane, one entry per line. Keep the \u251c\u2500\u2500, \u2514\u2500\u2500 and \u2502 characters + spaces to draw the branches. Mark a folder by ending its name with '/'. Highlight the focused file by wrapping it in *asterisks* (adds an accent highlight + \u25b8 marker). Add a muted note with '  # your note'. Example: '\u2502   \u251c\u2500\u2500 *useTheme.ts*  # the active file'."
+        },
+        "filename": {
+          "type": "text",
+          "pos": 5,
+          "required": true,
+          "description": "Filename shown in the code pane header, e.g. 'useTheme.ts'."
+        },
+        "file_path": {
+          "type": "text",
+          "pos": 6,
+          "description": "Folder crumb shown on the right of the code pane header, e.g. 'composables/'."
+        },
+        "language": {
+          "type": "option",
+          "pos": 7,
+          "default_value": "typescript",
+          "options": [
+            {
+              "name": "Auto-detect",
+              "value": ""
+            },
+            {
+              "name": "Plain text",
+              "value": "plaintext"
+            },
+            {
+              "name": "JavaScript",
+              "value": "javascript"
+            },
+            {
+              "name": "TypeScript",
+              "value": "typescript"
+            },
+            {
+              "name": "Vue",
+              "value": "vue"
+            },
+            {
+              "name": "React (JSX)",
+              "value": "jsx"
+            },
+            {
+              "name": "React (TSX)",
+              "value": "tsx"
+            },
+            {
+              "name": "Angular",
+              "value": "angular"
+            },
+            {
+              "name": "Svelte",
+              "value": "svelte"
+            },
+            {
+              "name": "HTML",
+              "value": "html"
+            },
+            {
+              "name": "CSS",
+              "value": "css"
+            },
+            {
+              "name": "SCSS",
+              "value": "scss"
+            },
+            {
+              "name": "JSON",
+              "value": "json"
+            },
+            {
+              "name": "Bash / Shell",
+              "value": "bash"
+            },
+            {
+              "name": "Python",
+              "value": "python"
+            },
+            {
+              "name": "Go",
+              "value": "go"
+            },
+            {
+              "name": "Rust",
+              "value": "rust"
+            },
+            {
+              "name": "Java",
+              "value": "java"
+            },
+            {
+              "name": "C",
+              "value": "c"
+            },
+            {
+              "name": "C++",
+              "value": "cpp"
+            },
+            {
+              "name": "C#",
+              "value": "csharp"
+            },
+            {
+              "name": "PHP",
+              "value": "php"
+            },
+            {
+              "name": "Ruby",
+              "value": "ruby"
+            },
+            {
+              "name": "Kotlin",
+              "value": "kotlin"
+            },
+            {
+              "name": "Swift",
+              "value": "swift"
+            },
+            {
+              "name": "SQL",
+              "value": "sql"
+            },
+            {
+              "name": "YAML",
+              "value": "yaml"
+            },
+            {
+              "name": "Markdown",
+              "value": "markdown"
+            },
+            {
+              "name": "GraphQL",
+              "value": "graphql"
+            }
+          ],
+          "description": "Language for syntax highlighting — colours follow the active slide theme. Pick Auto-detect to let highlight.js guess."
+        },
+        "code": {
+          "type": "textarea",
+          "pos": 8,
+          "required": true,
+          "description": "Source code for the right pane. Auto syntax-highlighted by Language and coloured to match the theme. Paste exactly as-is \u2014 indentation is preserved."
         },
         "repo_url": {
           "type": "text",
@@ -1884,7 +2195,7 @@
           "type": "textarea",
           "pos": 2,
           "required": true,
-          "description": "One tech per line, format: Category | Name | Note"
+          "description": "One technology per line, format: Category | Name | style. 'style' is optional \u2014 one of primary, accent, or default. Lines sharing a Category are grouped into one row. Example: 'Frontend | Nuxt | primary'."
         },
         "repo_url": {
           "type": "text",
@@ -2024,6 +2335,7 @@
           "required": true
         },
         "delta": {
+          "description": "Change pill. Start the text with \u2191 or \u2193 to colour it green/red, e.g. '\u2191 12.4%'.",
           "type": "text",
           "pos": 2
         },
