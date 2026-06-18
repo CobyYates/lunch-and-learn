@@ -233,24 +233,94 @@ admin approves their account. Everything runs on the Firebase **client SDK**
   and promote/demote admins. It reads the `users` collection (the client SDK
   can't list Auth accounts directly, so this collection mirrors them).
 
-**Setup**
+### 1. Create the Firebase project + web app
 
-1. In the Firebase console enable **Authentication → Sign-in method →**
-   **Email/Password** and **Google**, and create a **Firestore** database.
-2. Add the web app's config values to `.env` (`NUXT_PUBLIC_FIREBASE_*`). On
-   Cloudflare Pages add the same vars.
-3. Deploy the security rules in `firestore.rules`
-   (`firebase deploy --only firestore:rules`, or paste them in the console).
-   **These rules are what actually enforce access** — the client checks are just
-   UX.
-4. **Bootstrap the first admin**, either:
-   - add their email to both `NUXT_PUBLIC_ADMIN_EMAILS` and the `isAdminEmail()`
-     list in `firestore.rules`, then sign in (their `users` doc is created as an
-     approved admin automatically); **or**
-   - sign in once, then in the Firebase console set that user's `users/{uid}`
-     doc to `role: "admin"`, `status: "approved"`.
+[Firebase console](https://console.firebase.google.com/) → **Add project**. Then
+add a **Web app** (the `</>` icon under *Project Overview*) and copy the
+`firebaseConfig` values it shows. Map them into `.env`:
 
-   Once one admin exists, everyone else is managed from `/admin` — no console needed.
+| `.env` var | `firebaseConfig` key |
+| --- | --- |
+| `NUXT_PUBLIC_FIREBASE_API_KEY` | `apiKey` |
+| `NUXT_PUBLIC_FIREBASE_AUTH_DOMAIN` | `authDomain` |
+| `NUXT_PUBLIC_FIREBASE_PROJECT_ID` | `projectId` |
+| `NUXT_PUBLIC_FIREBASE_STORAGE_BUCKET` | `storageBucket` |
+| `NUXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID` | `messagingSenderId` |
+| `NUXT_PUBLIC_FIREBASE_APP_ID` | `appId` |
+
+These are public by design (they ship in the browser bundle); access is gated by
+the Firestore rules, not by hiding these values.
+
+### 2. Enable Authentication + Firestore
+
+- **Authentication → Get started → Sign-in method**: enable **Email/Password**
+  and **Google**.
+- **Firestore Database → Create database** (production mode is fine — the rules
+  below lock it down). Pick a region.
+
+### 3. Set the admin allowlist
+
+Add the email you'll **sign into the app with** as the bootstrap admin, in two
+places that must stay in sync:
+
+- `.env` (and Cloudflare Pages env): `NUXT_PUBLIC_ADMIN_EMAILS=you@example.com`
+- the `isAdminEmail()` list in `firestore.rules`
+
+The env var flips the **admin UI**; the rules entry is what actually grants
+database access. (Comma-separate multiple emails in the env var.)
+
+### 4. Deploy the security rules
+
+**The rules are the real enforcement — the client checks are only UX.** Nothing
+takes effect until they're deployed. The repo ships `firestore.rules`,
+`firebase.json`, and `.firebaserc`, so:
+
+```bash
+npx firebase-tools login                       # one-time
+npx firebase-tools deploy --only firestore:rules
+```
+
+Or, without the CLI: open **Firebase console → Firestore Database → Rules**,
+paste the contents of `firestore.rules`, and click **Publish**. Re-deploy
+whenever you edit the rules.
+
+> **Project owned by a different Google account?** If the Firebase project lives
+> under a different account than the one you're signed into (e.g. a work account
+> owns the DB but you log into the app with a personal one), the deploy fails
+> with a `403` and the project won't appear in `firebase projects:list`. Deploy
+> as the **owner**:
+> ```bash
+> npx firebase-tools login:add                  # add the owner account
+> npx firebase-tools deploy --only firestore:rules --account owner@example.com
+> ```
+> The app-admin identity is separate — it's whichever email you sign into the
+> *app* with, and that's the one that must be in `NUXT_PUBLIC_ADMIN_EMAILS` +
+> `isAdminEmail()`.
+
+### 5. Bootstrap the first admin, then use it
+
+With your email in both the env allowlist and `isAdminEmail()`, just **sign into
+the app** — your `users/{uid}` doc is created automatically as an approved
+admin. (Alternatively: sign in once, then set that doc's `role: "admin"`,
+`status: "approved"` in the Firestore *Data* tab.)
+
+Then open **`/admin`** to approve/reject/promote accounts, and toggle **Require
+authentication** on any slideshow in Storyblok to gate it. New visitors land as
+`pending` and unlock the moment you approve them — no further rule changes
+needed.
+
+### Troubleshooting
+
+- **"Could not load users: Missing or insufficient permissions" on `/admin`** —
+  the rules aren't live on the project the app uses, or your signed-in email
+  isn't an admin. Check, in order:
+  1. The rules are **published to the project in `NUXT_PUBLIC_FIREBASE_PROJECT_ID`**
+     (a common trap: editing rules in the console while signed into the *wrong*
+     Google account, so they land on a different project — see the note above).
+  2. The email shown in the `/admin` toolbar **exactly** matches an entry in
+     `isAdminEmail()` (watch for Gmail dots and signing in with the wrong
+     account).
+  3. Rule changes can take ~1 minute to propagate — hard-refresh.
 
 ---
 
