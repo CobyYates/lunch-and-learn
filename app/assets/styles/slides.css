@@ -672,6 +672,9 @@
    Scoped to `.slide pre` so it covers both the Code slide (<code class="hljs">)
    and the Code-Demo source pane (<pre class="hljs">). No hljs theme stylesheet
    is imported — only these colour mappings, so every theme stays consistent. */
+.slide pre .hljs {
+  font-size: .7rem;
+}
 .slide pre .hljs-keyword,
 .slide pre .hljs-built_in,
 .slide pre .hljs-literal,

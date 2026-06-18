@@ -21,8 +21,10 @@ const highlighted = computed(() =>
         <h3 v-if="blok.title">{{ blok.title }}</h3>
         <span v-if="blok.language" class="lang">{{ blok.language }}</span>
       </div>
-      <pre><code class="hljs" v-html="highlighted" /></pre>
+      <div class="overflow-y-scroll">
+        <pre><code class="hljs" v-html="highlighted" /></pre>
+      </div>
     </div>
     <SlideMark :url="blok.repo_url" />
-</div>
+  </div>
 </template>
