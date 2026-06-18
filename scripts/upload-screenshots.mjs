@@ -18,6 +18,11 @@
  * Requires:
  *   STORYBLOK_SPACE_ID
  *   STORYBLOK_MANAGEMENT_TOKEN  (Personal access token, space-write scope)
+ *
+ * Usage:
+ *   node scripts/upload-screenshots.mjs                 # upload every PNG
+ *   node scripts/upload-screenshots.mjs slide_tree_code # one component only
+ *   (via npm: npm run storyblok:thumbs -- slide_tree_code)
  */
 
 import { readdir, readFile } from "node:fs/promises";
@@ -55,6 +60,8 @@ function requiredEnv(name) {
 
 const SPACE_ID = requiredEnv("STORYBLOK_SPACE_ID");
 const TOKEN = requiredEnv("STORYBLOK_MANAGEMENT_TOKEN");
+// Optional: only upload a single component's thumbnail, e.g. `… slide_tree_code`.
+const ONLY = process.argv[2] || process.env.ONLY || null;
 
 const sbHeaders = { Authorization: TOKEN, "Content-Type": "application/json" };
 
@@ -144,10 +151,15 @@ async function main() {
 
   const files = (await readdir(SCREENSHOTS))
     .filter((f) => f.toLowerCase().endsWith(".png"))
+    .filter((f) => !ONLY || f === `${ONLY}.png`)
     .sort();
 
   if (!files.length) {
-    console.error(`No PNGs in ${SCREENSHOTS}.`);
+    console.error(
+      ONLY
+        ? `No ${ONLY}.png in ${SCREENSHOTS}. Run \`npm run storyblok:screenshots -- ${ONLY}\` first.`
+        : `No PNGs in ${SCREENSHOTS}.`,
+    );
     process.exit(1);
   }
 

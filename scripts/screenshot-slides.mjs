@@ -7,7 +7,12 @@
  *
  * Usage:
  *   node scripts/screenshot-slides.mjs
- *   THEME=midnight node scripts/screenshot-slides.mjs   # override theme
+ *   THEME=midnight node scripts/screenshot-slides.mjs        # override theme
+ *   node scripts/screenshot-slides.mjs slide_tree_code       # one component only
+ *   (via npm: npm run storyblok:screenshots -- slide_tree_code)
+ *
+ * When a component-name filter is given, only that slide is (re)rendered and
+ * the existing thumbnails are left in place.
  *
  * Idempotent: clears storyblok-thumbnails/ on each run. The folder is
  * gitignored — `npm run storyblok:bootstrap` regenerates it on every fresh
@@ -28,6 +33,8 @@ const OUT_DIR = resolve(ROOT, "storyblok-thumbnails");
 const THEME = process.env.THEME || "paper";
 const TARGET_WIDTH = 1600;
 const TARGET_HEIGHT = 900;
+// Optional: only (re)render a single component, e.g. `… slide_tree_code`.
+const ONLY = process.argv[2] || process.env.ONLY || null;
 
 // Slide caption number → Storyblok component name. The design system uses
 // these numbers in `.slide-caption .num`; matching them here means the file
@@ -105,10 +112,13 @@ async function main() {
 
   ensureChromium();
 
-  await rm(OUT_DIR, { recursive: true, force: true });
+  // Full run clears the folder; a filtered run preserves the other thumbnails.
+  if (!ONLY) await rm(OUT_DIR, { recursive: true, force: true });
   await mkdir(OUT_DIR, { recursive: true });
 
-  console.log(`Rendering slides at ${TARGET_WIDTH}×${TARGET_HEIGHT} in theme="${THEME}"…\n`);
+  console.log(
+    `Rendering ${ONLY ? `only "${ONLY}"` : "slides"} at ${TARGET_WIDTH}×${TARGET_HEIGHT} in theme="${THEME}"…\n`,
+  );
 
   const browser = await chromium.launch();
   const context = await browser.newContext({
@@ -146,6 +156,7 @@ async function main() {
       console.log(`  - slide ${num}: no component mapping, skipping`);
       continue;
     }
+    if (ONLY && componentName !== ONLY) continue;
 
     // Inflate just this card so the slide inside renders 1600×900 with full-
     // scale typography (everything inside a slide is sized in `cqw`, so the
