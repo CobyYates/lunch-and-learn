@@ -24,7 +24,9 @@ service cloud.firestore {
     // rather not hardcode emails in source control.
     function isAdminEmail() {
       return isSignedIn() && request.auth.token.email in [
-        // 'you@example.com',
+        'cobylyates@gmail.com',
+        // add more bootstrap admin emails here (keep in sync with
+        // NUXT_PUBLIC_ADMIN_EMAILS), then redeploy these rules.
       ];
     }
 
