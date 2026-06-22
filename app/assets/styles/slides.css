@@ -1660,11 +1660,11 @@
   font-family: var(--font-display);
   font-weight: var(--display-weight);
   font-style: var(--display-style);
-  font-size: 13cqw;
+  font-size: 10cqw;
   line-height: 0.9;
   letter-spacing: -0.04em;
   color: var(--fg);
-  margin-bottom: 0.5cqw;
+  margin-bottom: 3cqw;
 }
 .layout-definition .term .dot { color: var(--accent); }
 .layout-definition .phonetic {
