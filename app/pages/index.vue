@@ -1,7 +1,11 @@
 <template>
   <div>
-    <v-toolbar color="primary" density="comfortable" flat>
-      <v-toolbar-title>Slideshows</v-toolbar-title>
+    <!--
+      App chrome (Admin / Sign out) is only shown to signed-in users so that
+      anonymous visitors see the pure Storyblok-driven homepage. The Hero
+      section renders its own brand bar + primary action.
+    -->
+    <v-toolbar v-if="isAuthenticated" density="comfortable" color="primary" flat>
       <v-spacer />
       <v-btn
         v-if="isAdmin"
@@ -11,120 +15,28 @@
       >
         Admin
       </v-btn>
-      <v-btn
-        v-if="isAuthenticated"
-        variant="text"
-        prepend-icon="mdi-logout"
-        @click="signOut"
-      >
+      <v-btn variant="text" prepend-icon="mdi-logout" @click="signOut">
         Sign out
       </v-btn>
     </v-toolbar>
 
-    <v-progress-linear v-if="pending" indeterminate color="primary" />
+    <!-- Homepage content is authored in Storyblok as the `home` Page story. -->
+    <StoryblokComponent v-if="story" :blok="(story as any).content" />
 
-    <v-alert v-if="error" type="error" variant="tonal" class="my-4">
-      Failed to load slideshows from Storyblok. Check the browser console for
-      details.
-    </v-alert>
-
-    <v-alert
-      v-else-if="!pending && stories.length === 0"
-      type="info"
-      variant="tonal"
-      class="my-4"
-    >
-      No slideshows found. In Storyblok, create a folder named
-      <strong>slide-shows</strong> and add stories of content-type
-      <strong>slideshow</strong>.
-    </v-alert>
-
-    <v-row v-else class="pa-5">
-      <v-col cols="12" sm="6" md="4">
-        <h1>Available Slide Shows</h1>
-        <v-card v-for="story in stories" :key="story.uuid" height="100%" hover>
-          <v-img
-            v-if="slideshowOf(story).image?.filename"
-            :src="slideshowOf(story).image!.filename"
-            :alt="slideshowOf(story).image?.alt ?? slideshowOf(story).title"
-            height="200"
-            cover
-          />
-          <div
-            v-else
-            class="d-flex align-center justify-center bg-grey-lighten-2"
-            style="height: 200px"
-          >
-            <v-icon size="48" color="grey">mdi-image-outline</v-icon>
-          </div>
-
-          <v-card-title class="text-truncate">
-            {{ slideshowOf(story).title || story.name }}
-          </v-card-title>
-
-          <v-card-subtitle>
-            {{ (slideshowOf(story).Slides ?? []).length }} slides
-          </v-card-subtitle>
-
-          <v-card-text>
-            <div class="d-flex align-center mb-1">
-              <v-icon size="16" class="mr-2">mdi-calendar-plus</v-icon>
-              <span class="text-caption">
-                Created
-                <time
-                  :title="
-                    formatFull(story.first_published_at ?? story.created_at)
-                  "
-                >
-                  {{
-                    formatRelative(story.first_published_at ?? story.created_at)
-                  }}
-                </time>
-              </span>
-            </div>
-            <div class="d-flex align-center">
-              <v-icon size="16" class="mr-2">mdi-calendar-edit</v-icon>
-              <span class="text-caption">
-                Edited
-                <time
-                  :title="formatFull(story.published_at ?? story.updated_at)"
-                >
-                  {{ formatRelative(story.published_at ?? story.updated_at) }}
-                </time>
-              </span>
-            </div>
-          </v-card-text>
-
-          <v-card-actions>
-            <v-btn
-              :to="`/${story.full_slug}`"
-              variant="text"
-              color="primary"
-              append-icon="mdi-arrow-right"
-            >
-              Open
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-col>
-    </v-row>
+    <v-container v-else>
+      <v-alert type="info" variant="tonal" class="mt-6" max-width="640">
+        <v-alert-title>No home page yet</v-alert-title>
+        Run <code>npm run storyblok:stories</code> to seed the <strong>home</strong>
+        page with the Hero, Feature Grid, Slideshow Grid and GitHub sections, then
+        publish it in Storyblok.
+      </v-alert>
+    </v-container>
   </div>
 </template>
 
 <script setup lang="ts">
-const { stories, pending, error } = await useStories({
-  starts_with: "slide-shows/",
-  content_type: "slideshow",
-});
+// `/` maps to the `home` story; renders its `page` sections via StoryblokComponent.
+const story = await useStory("home");
 
 const { isAuthenticated, isAdmin, signOut } = useAuth();
-
-interface SlideshowContent {
-  title?: string;
-  image?: { filename?: string; alt?: string };
-  Slides?: unknown[];
-}
-
-const slideshowOf = (story: { content: Record<string, unknown> }) =>
-  story.content as SlideshowContent;
 </script>

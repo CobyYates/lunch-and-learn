@@ -129,7 +129,13 @@
         "sections": {
           "type": "bloks",
           "pos": 0,
-          "description": "Page sections. Drop in any nestable block — slides, content blocks, or future page-section components."
+          "description": "Page sections. Add Homepage sections (Hero, Feature Grid, Slideshow Grid) or any slide. Restricted to the Homepage and Slides groups so child-item blocks don't clutter the picker.",
+          "restrict_components": true,
+          "restrict_type": "groups",
+          "component_group_whitelist": [
+            "c86f3784-4540-4262-bcd6-a92013f66582",
+            "2f90f7fa-d8b8-46dc-b205-7e2e3ec77d0c"
+          ]
         },
         "title": {
           "type": "text",

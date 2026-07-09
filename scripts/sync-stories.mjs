@@ -68,19 +68,104 @@ async function findBySlug(slug) {
   return stories?.[0] ?? null;
 }
 
+// Collect the UUIDs of every published/draft slideshow story in the folder so
+// the homepage's Slideshow Grid can reference them out of the box. Authors can
+// re-order or trim the list afterwards in the Storyblok editor.
+async function slideshowUuids() {
+  try {
+    const { stories } = await sb(
+      "GET",
+      "/stories?starts_with=slide-shows/&is_folder=false&per_page=100",
+    );
+    return (stories ?? []).map((s) => s.uuid).filter(Boolean);
+  } catch {
+    return [];
+  }
+}
+
+// The prefilled homepage. Mirrors the Storyblok section components 1:1 so the
+// site renders the intended design without any manual authoring. Re-running
+// the script refreshes this content (see `update` handling in main()).
+function buildHomeContent(slideshows) {
+  return {
+    _uid: randomUUID(),
+    component: "page",
+    title: "Build and share slide decks without touching code",
+    sections: [
+      {
+        _uid: randomUUID(),
+        component: "section_hero",
+        eyebrow: "CLOUDFLARE · STORYBLOK · NUXT",
+        title: "Build and share slide decks without touching code",
+        subtitle:
+          "Create presentations visually in Storyblok, publish in one click, and serve them instantly from Cloudflare's edge.",
+      },
+      {
+        _uid: randomUUID(),
+        component: "section_feature_grid",
+        columns: "3",
+        items: [
+          {
+            _uid: randomUUID(),
+            component: "feature_card",
+            icon: "mdi-pencil",
+            title: "Edit it yourself",
+            description:
+              "Update any slide in Storyblok and republish in under a minute.",
+          },
+          {
+            _uid: randomUUID(),
+            component: "feature_card",
+            icon: "mdi-view-grid",
+            title: "30+ slide layouts",
+            description:
+              "Charts, code demos, timelines — pick a type and fill in the fields.",
+          },
+          {
+            _uid: randomUUID(),
+            component: "feature_card",
+            icon: "mdi-lightning-bolt",
+            title: "Always fast",
+            description: "Cached at the edge via KV — loads instantly everywhere.",
+          },
+        ],
+      },
+      {
+        _uid: randomUUID(),
+        component: "section_slideshow_grid",
+        title: "Slideshows",
+        subtitle: "Select a deck to preview or present",
+        slideshows,
+      },
+      {
+        _uid: randomUUID(),
+        component: "section_github",
+        title: "View the source code",
+        description:
+          "Built with Nuxt 4, Storyblok, Vuetify and Cloudflare Pages — open source and free to fork.",
+        repo_label: "CobyYates / lunch-and-learn",
+        url: "https://github.com/CobyYates/lunch-and-learn",
+      },
+    ],
+  };
+}
+
 // Stories the script knows how to create. Order matters — folders need to
 // exist before stories that live inside them.
 const DESIRED = [
   {
     label: "Home",
     slug: "home",
-    create: () => ({
+    // Home is (re)seeded with the full marketing layout every run so the
+    // published design stays in sync with the section components in the repo.
+    update: true,
+    create: (ctx) => ({
       story: {
         name: "Home",
         slug: "home",
         is_folder: false,
         parent_id: 0,
-        content: { _uid: randomUUID(), component: "page", sections: [] },
+        content: buildHomeContent(ctx.slideshows),
       },
     }),
   },
@@ -129,14 +214,29 @@ const DESIRED = [
 async function main() {
   console.log(`Syncing foundational stories in space ${SPACE_ID}…\n`);
 
+  const ctx = { slideshows: await slideshowUuids() };
+
   for (const item of DESIRED) {
     const existing = await findBySlug(item.slug);
     if (existing) {
-      console.log(`  ✓ ${item.label} already exists (id=${existing.id})`);
+      if (item.update) {
+        // Refresh the content with the repo's canonical version, keeping the
+        // story's identity (name/slug/parent) intact.
+        const { story: content } = item.create(ctx);
+        console.log(`  ↻ updating ${item.label} content (id=${existing.id})`);
+        await sb("PUT", `/stories/${existing.id}`, {
+          story: { ...existing, content: content.content },
+          // Publish so the change is live immediately — the site serves the
+          // published version via /api/story.
+          publish: 1,
+        });
+      } else {
+        console.log(`  ✓ ${item.label} already exists (id=${existing.id})`);
+      }
       if (item.afterFound) await item.afterFound(existing);
       continue;
     }
-    const body = item.create();
+    const body = item.create(ctx);
     const { story } = await sb("POST", "/stories", body);
     console.log(`  ＋ created ${item.label} (id=${story.id}, slug="${story.full_slug}")`);
   }

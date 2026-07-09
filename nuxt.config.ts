@@ -44,6 +44,7 @@ export default defineNuxtConfig({
     "@mdi/font/css/materialdesignicons.css",
     "~/assets/styles/main.css",
     "~/assets/styles/slides.css",
+    "~/assets/styles/sections.css",
     "vuetify/styles",
   ],
 

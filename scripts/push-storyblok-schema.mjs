@@ -28,7 +28,14 @@ import { dirname, resolve } from "node:path";
 import process from "node:process";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const SCHEMA_PATH = resolve(__dirname, "..", "storyblok-schema.json");
+const REPO_ROOT = resolve(__dirname, "..");
+// Pushed in order. The base schema carries `theme_options`; additional files
+// (e.g. homepage sections) reuse those theme options and may declare their own
+// `component_groups` by name — see ensureComponentGroups below.
+const SCHEMA_PATHS = [
+  resolve(REPO_ROOT, "storyblok-schema.json"),
+  resolve(REPO_ROOT, "storyblok-homepage-schema.json"),
+];
 const API = "https://mapi.storyblok.com/v1";
 
 // Auto-load .env from the repo root so `npm run storyblok:push` works without
@@ -89,6 +96,24 @@ function hydrateThemeOptions(schema, themeOptions) {
   }
 }
 
+async function ensureComponentGroups(names) {
+  // Resolve a set of group names to their uuids, creating any that don't yet
+  // exist in the space. Returns a Map of name → uuid. Idempotent.
+  const map = new Map();
+  if (names.size === 0) return map;
+  const { component_groups: groups } = await sb("GET", "/component_groups");
+  for (const g of groups ?? []) map.set(g.name, g.uuid);
+  for (const name of names) {
+    if (map.has(name)) continue;
+    console.log(`  ＋ creating group ${name}`);
+    const { component_group } = await sb("POST", "/component_groups", {
+      component_group: { name },
+    });
+    map.set(component_group.name, component_group.uuid);
+  }
+  return map;
+}
+
 async function findComponentByName(name) {
   // Storyblok's GET /components endpoint returns up to 1000 per request; for
   // the scale of this schema (~45 components) that's plenty.
@@ -108,9 +133,36 @@ async function upsertComponent(definition) {
 }
 
 async function main() {
-  const raw = await readFile(SCHEMA_PATH, "utf8");
-  const schema = JSON.parse(raw);
-  hydrateThemeOptions(schema, schema.theme_options);
+  // Merge every schema file: components are concatenated; theme_options come
+  // from whichever file defines them (the base schema).
+  const components = [];
+  const groupNames = new Set();
+  let themeOptions = [];
+  for (const path of SCHEMA_PATHS) {
+    if (!existsSync(path)) continue;
+    const schema = JSON.parse(await readFile(path, "utf8"));
+    if (Array.isArray(schema.theme_options)) themeOptions = schema.theme_options;
+    for (const name of schema.component_groups ?? []) groupNames.add(name);
+    for (const c of schema.components ?? []) {
+      if (c.component_group) groupNames.add(c.component_group);
+      components.push(c);
+    }
+  }
+  hydrateThemeOptions({ components }, themeOptions);
+
+  // Create any named component groups up front, then resolve each component's
+  // `component_group` (a portable name) to the space-specific uuid Storyblok
+  // expects. Components that already use `component_group_uuid` are untouched.
+  const groupMap = await ensureComponentGroups(groupNames);
+  for (const c of components) {
+    if (c.component_group && !c.component_group_uuid) {
+      const uuid = groupMap.get(c.component_group);
+      if (uuid) c.component_group_uuid = uuid;
+      delete c.component_group;
+    }
+  }
+
+  const schema = { components };
 
   console.log(
     `Pushing ${schema.components.length} components to space ${SPACE_ID}…\n`,

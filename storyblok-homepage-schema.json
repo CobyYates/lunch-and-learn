@@ -1,0 +1,144 @@
+{
+  "$comment": "Homepage marketing sections for the slide-design-system. Pushed alongside storyblok-schema.json by scripts/push-storyblok-schema.mjs. These are nestable page sections meant to be dropped into the `page` component's `sections` field (not into a slideshow). Each section is tagged with `component_group: \"Homepage\"` (a name, not a uuid); the push script ensures that component group exists in the space and resolves it to the real uuid before pushing, so this file stays portable across spaces. Kept intentionally lean — one section renders one clear idea. Icons are Material Design Icon names (e.g. `mdi-pencil`); browse them at https://pictogrammers.com/library/mdi/.",
+  "component_groups": [
+    "Homepage"
+  ],
+  "components": [
+    {
+      "name": "feature_card",
+      "display_name": "Feature card",
+      "is_nestable": true,
+      "component_group": "Partials",
+      "schema": {
+        "icon": {
+          "type": "text",
+          "pos": 0,
+          "description": "Material Design Icon name, e.g. `mdi-pencil`, `mdi-view-grid`, `mdi-lightning-bolt`. Browse: https://pictogrammers.com/library/mdi/. Leave blank for the default square mark."
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 2,
+          "translatable": true
+        }
+      }
+    },
+    {
+      "name": "section_hero",
+      "display_name": "Section — Hero",
+      "is_nestable": true,
+      "component_group": "Homepage",
+      "schema": {
+        "eyebrow": {
+          "type": "text",
+          "pos": 0,
+          "translatable": true,
+          "description": "Small uppercase label above the title, e.g. 'CLOUDFLARE · STORYBLOK · NUXT'."
+        },
+        "title": {
+          "type": "text",
+          "pos": 1,
+          "required": true,
+          "translatable": true
+        },
+        "subtitle": {
+          "type": "textarea",
+          "pos": 2,
+          "translatable": true
+        }
+      }
+    },
+    {
+      "name": "section_feature_grid",
+      "display_name": "Section — Feature Grid",
+      "is_nestable": true,
+      "component_group": "Homepage",
+      "schema": {
+        "columns": {
+          "type": "option",
+          "pos": 0,
+          "default_value": "3",
+          "description": "Number of columns on wide screens.",
+          "options": [
+            { "name": "2 columns", "value": "2" },
+            { "name": "3 columns", "value": "3" },
+            { "name": "4 columns", "value": "4" }
+          ]
+        },
+        "items": {
+          "type": "bloks",
+          "pos": 1,
+          "restrict_components": true,
+          "component_whitelist": [
+            "feature_card"
+          ],
+          "maximum": 8
+        }
+      }
+    },
+    {
+      "name": "section_slideshow_grid",
+      "display_name": "Section — Slideshow Grid",
+      "is_nestable": true,
+      "component_group": "Homepage",
+      "schema": {
+        "title": {
+          "type": "text",
+          "pos": 0,
+          "default_value": "Slideshows",
+          "translatable": true
+        },
+        "subtitle": {
+          "type": "text",
+          "pos": 1,
+          "translatable": true,
+          "description": "Sub-line under the title, e.g. 'Select a deck to preview or present'."
+        },
+        "slideshows": {
+          "type": "options",
+          "pos": 2,
+          "source": "internal_stories",
+          "folder_slug": "slide-shows/",
+          "filter_content_type": "slideshow",
+          "description": "Reference the slideshow stories to feature. The order here is the order they appear. Leave empty to show every slideshow automatically."
+        }
+      }
+    },
+    {
+      "name": "section_github",
+      "display_name": "Section — GitHub",
+      "is_nestable": true,
+      "component_group": "Homepage",
+      "schema": {
+        "title": {
+          "type": "text",
+          "pos": 0,
+          "default_value": "View the source code",
+          "translatable": true
+        },
+        "description": {
+          "type": "textarea",
+          "pos": 1,
+          "translatable": true,
+          "description": "Sub-line, e.g. 'Built with Nuxt 4, Storyblok, Vuetify and Cloudflare Pages — open source and free to fork.'"
+        },
+        "repo_label": {
+          "type": "text",
+          "pos": 2,
+          "translatable": true,
+          "description": "Button label, e.g. 'CobyYates / lunch-and-learn'."
+        },
+        "url": {
+          "type": "text",
+          "pos": 3,
+          "description": "Link to the repository."
+        }
+      }
+    }
+  ]
+}
